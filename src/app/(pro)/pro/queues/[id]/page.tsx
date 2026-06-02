@@ -104,7 +104,15 @@ export default function QueueDetailPage() {
             { value: String(servedCount), label: "Servis" },
           ].map(({ value, label }) => (
             <div key={label} className="bg-white rounded-[18px] border border-line shadow-1 p-3 text-center">
-              <p className="text-base font-black text-ink leading-tight">{value}</p>
+              <motion.p
+                key={value}
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25 }}
+                className="text-base font-black text-ink leading-tight"
+              >
+                {value}
+              </motion.p>
               <p className="text-[11px] text-ink-3 mt-0.5">{label}</p>
             </div>
           ))}
