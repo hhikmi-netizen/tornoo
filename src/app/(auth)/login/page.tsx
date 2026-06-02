@@ -131,7 +131,13 @@ export default function LoginPage() {
           className="mt-5 w-full h-14 rounded-[15px] font-extrabold text-white transition-opacity disabled:opacity-50"
           style={{ background: "linear-gradient(135deg,#07984a,#13b45b)" }}
           disabled={!isValid}
-          onClick={() => { window.location.href = "/home"; }}
+          onClick={() => {
+            if (isSignup) {
+              window.location.href = "/register";
+            } else {
+              window.location.href = "/home";
+            }
+          }}
         >
           {isSignup ? "Créer mon compte" : "Se connecter"}
         </button>

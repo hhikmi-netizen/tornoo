@@ -1,24 +1,35 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 import {
   ChevronLeft, Share2, Heart, MapPin, Star, Clock, Phone, Globe, CheckCircle
 } from "lucide-react";
 import { WaitBadge } from "@/components/tornoo/WaitBadge";
+import { useToast } from "@/components/ui/Toast";
 import { api } from "@/services/api";
 import { formatWaitTime } from "@/lib/utils";
+import { MOCK_USER } from "@/lib/mock-data";
 
 export default function EstablishmentPage() {
   const { slug } = useParams<{ slug: string }>();
   const router = useRouter();
+  const { toast } = useToast();
+
+  const [isFav, setIsFav] = useState(false);
 
   const { data: establishment, isLoading } = useQuery({
     queryKey: ["establishment", slug],
     queryFn: () => api.establishments.bySlug(slug),
   });
+
+  useEffect(() => {
+    if (establishment) setIsFav(MOCK_USER.favorites.includes(establishment.id));
+  }, [establishment]);
 
   const { data: queues = [] } = useQuery({
     queryKey: ["queues", establishment?.id],
@@ -76,12 +87,29 @@ export default function EstablishmentPage() {
             <ChevronLeft size={20} className="text-ink" />
           </button>
           <div className="flex gap-2">
-            <button className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow" aria-label="Partager">
+            <button
+              onClick={() => toast("Lien copié !", "success")}
+              className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow"
+              aria-label="Partager"
+            >
               <Share2 size={18} className="text-ink" />
             </button>
-            <button className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow" aria-label="Favori">
-              <Heart size={18} className="text-ink" />
-            </button>
+            <motion.button
+              whileTap={{ scale: 1.3 }}
+              onClick={() => {
+                setIsFav((v) => {
+                  toast(v ? "Retiré des favoris" : "Ajouté aux favoris", v ? "info" : "success");
+                  return !v;
+                });
+              }}
+              className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow"
+              aria-label="Favori"
+            >
+              <Heart
+                size={18}
+                className={isFav ? "text-[#ef2b24] fill-[#ef2b24]" : "text-ink"}
+              />
+            </motion.button>
           </div>
         </div>
 
@@ -208,7 +236,7 @@ export default function EstablishmentPage() {
       {e.waitLevel !== "high" && (
         <div className="fixed bottom-20 left-0 right-0 px-4 max-w-lg mx-auto">
           <Link
-            href={`/my-turn?from=${e.slug}`}
+            href={`/confirm?from=${e.slug}`}
             className="flex items-center justify-center gap-2 h-14 rounded-[15px] font-extrabold text-white w-full"
             style={{ background: e.waitLevel === "low" ? "#07984a" : "#ff9300", boxShadow: "0 4px 20px rgba(7,152,74,.3)" }}
           >

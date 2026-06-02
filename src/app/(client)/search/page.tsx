@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Search, X, SlidersHorizontal } from "lucide-react";
 import { EstablishmentCard } from "@/components/tornoo/EstablishmentCard";
 import { WaitDot } from "@/components/tornoo/WaitBadge";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { api } from "@/services/api";
 
 const CATEGORIES = ["Tout", "Coiffure", "Santé", "Administration", "Bien-être", "Pharmacie"];
@@ -85,11 +86,11 @@ export default function SearchPage() {
             ))}
           </div>
         ) : filtered.length === 0 ? (
-          <div className="text-center py-16">
-            <Search size={40} className="text-line mx-auto mb-3" />
-            <p className="font-bold text-ink-2">Aucun résultat</p>
-            <p className="text-sm text-ink-3 mt-1">Essayez un autre terme ou catégorie</p>
-          </div>
+          <EmptyState
+            type="search"
+            title="Aucun résultat"
+            subtitle="Essayez un autre terme ou une autre catégorie"
+          />
         ) : (
           <div className="space-y-3">
             {filtered.map((e) => (

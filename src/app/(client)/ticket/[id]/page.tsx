@@ -3,16 +3,27 @@
 import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
 import { api } from "@/services/api";
 import { WaitDot } from "@/components/tornoo/WaitBadge";
+import { useToast } from "@/components/ui/Toast";
 
 export default function TicketPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
+  const { toast } = useToast();
 
   const { data: ticket, isLoading } = useQuery({
     queryKey: ["ticket", id],
     queryFn: () => id === "current" ? api.tickets.active() : api.tickets.byId(id),
+  });
+
+  const cancelMutation = useMutation({
+    mutationFn: () => api.tickets.cancel(ticket?.id ?? ""),
+    onSuccess: () => {
+      toast("Vous avez quitté la file", "info");
+      router.replace("/home");
+    },
   });
 
   if (isLoading) return (
@@ -77,8 +88,12 @@ export default function TicketPage() {
         </div>
 
         {/* Leave button */}
-        <button className="w-full h-14 rounded-[15px] bg-[#fde7e6] text-[#ef2b24] font-extrabold border border-[#f6c2bf] text-sm">
-          Quitter la file
+        <button
+          onClick={() => cancelMutation.mutate()}
+          disabled={cancelMutation.isPending}
+          className="w-full h-14 rounded-[15px] bg-[#fde7e6] text-[#ef2b24] font-extrabold border border-[#f6c2bf] text-sm disabled:opacity-60 transition-opacity active:scale-[0.98]"
+        >
+          {cancelMutation.isPending ? "Annulation..." : "Quitter la file"}
         </button>
 
         {/* Useful info */}

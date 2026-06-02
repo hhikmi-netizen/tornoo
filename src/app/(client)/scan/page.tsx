@@ -101,7 +101,7 @@ export default function ScanPage() {
             </span>
           </div>
           <Link
-            href={`/my-turn?from=${e.slug}`}
+            href={`/confirm?from=${e.slug}`}
             className="flex items-center justify-center h-14 rounded-[15px] bg-tornoo-green text-white font-extrabold mt-4 w-full"
           >
             Rejoindre la file

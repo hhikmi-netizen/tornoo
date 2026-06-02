@@ -167,6 +167,7 @@ export const MOCK_TICKET: Ticket = {
   number: "A-052",
   queueId: "q1",
   establishmentId: "1",
+  establishmentSlug: "barber-club-maarif",
   establishmentName: "Barber Club",
   serviceName: "Coupe homme",
   position: 3,

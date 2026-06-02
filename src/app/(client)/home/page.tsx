@@ -1,21 +1,52 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 import { Search, SlidersHorizontal, MapPin, Bell, ChevronRight, History, Ticket, Map } from "lucide-react";
 import { TornooLogo } from "@/components/tornoo/TornooLogo";
 import { EstablishmentCard } from "@/components/tornoo/EstablishmentCard";
+import { CardSkeleton } from "@/components/ui/Skeleton";
+import { useI18n } from "@/i18n/context";
 import { api } from "@/services/api";
 import { MOCK_USER } from "@/lib/mock-data";
+import { WaitDot } from "@/components/tornoo/WaitBadge";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  show: (i: number) => ({ opacity: 1, y: 0, transition: { delay: i * 0.07, duration: 0.35, ease: "easeOut" as const } }),
+};
+
+const CATEGORIES = [
+  { label: "Tout", emoji: "✦" },
+  { label: "Coiffure", emoji: "✂️" },
+  { label: "Santé", emoji: "🏥" },
+  { label: "Admin", emoji: "🏛️" },
+  { label: "Bien-être", emoji: "🌿" },
+  { label: "Pharmacie", emoji: "💊" },
+];
 
 export default function HomePage() {
+  const { t } = useI18n();
+  const [activeCategory, setActiveCategory] = useState("Tout");
+
   const { data: establishments = [], isLoading } = useQuery({
     queryKey: ["establishments"],
     queryFn: () => api.establishments.list(),
   });
 
+  const { data: activeTicket } = useQuery({
+    queryKey: ["ticket", "active"],
+    queryFn: () => api.tickets.active(),
+  });
+
   const favorites = establishments.filter((e) => MOCK_USER.favorites.includes(e.id));
+
+  const filtered = activeCategory === "Tout"
+    ? establishments
+    : establishments.filter((e) => e.category.toLowerCase().includes(activeCategory.toLowerCase()));
 
   return (
     <div className="bg-white min-h-svh">
@@ -24,11 +55,15 @@ export default function HomePage() {
         <div className="flex items-center justify-between max-w-lg mx-auto">
           <TornooLogo compact showTagline={false} />
           <div className="flex items-center gap-2">
-            <Link href="/notifications" className="relative w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center" aria-label="Notifications">
-              <Bell size={20} className="text-ink-2" />
-              <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full bg-tornoo-green border-2 border-white" aria-hidden="true" />
+            <Link
+              href="/notifications"
+              className="relative w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center border border-line"
+              aria-label={t.notifications}
+            >
+              <Bell size={18} className="text-ink-2" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-tornoo-green border-2 border-white" aria-hidden="true" />
             </Link>
-            <Link href="/profile" className="w-10 h-10 rounded-full bg-surface-2 overflow-hidden" aria-label="Profil">
+            <Link href="/profile" className="w-10 h-10 rounded-full bg-surface-2 overflow-hidden border border-line" aria-label={t.profile}>
               <Image
                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
                 alt="Avatar"
@@ -41,30 +76,63 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="px-4 max-w-lg mx-auto space-y-5 pb-6 pt-4">
+      <div className="px-4 max-w-lg mx-auto pb-6 pt-4 space-y-5">
         {/* Search bar */}
-        <Link href="/search" className="flex items-center gap-3 bg-surface-2 rounded-[14px] px-4 h-14 border border-line">
-          <Search size={18} className="text-ink-3 shrink-0" />
-          <span className="text-ink-3 font-medium flex-1 text-sm">Rechercher un établissement, un service...</span>
-          <SlidersHorizontal size={18} className="text-tornoo-green shrink-0" />
-        </Link>
+        <motion.div custom={0} variants={fadeUp} initial="hidden" animate="show">
+          <Link
+            href="/search"
+            className="flex items-center gap-3 bg-surface-2 rounded-[14px] px-4 h-14 border border-line shadow-1"
+          >
+            <Search size={18} className="text-ink-3 shrink-0" />
+            <span className="text-ink-3 font-medium flex-1 text-sm">{t.searchPlaceholder}</span>
+            <SlidersHorizontal size={17} className="text-tornoo-green shrink-0" />
+          </Link>
+        </motion.div>
 
         {/* Location */}
-        <div className="flex items-center gap-3 bg-surface-2 rounded-[14px] px-4 h-12 border border-line">
-          <MapPin size={17} className="text-tornoo-green shrink-0" />
+        <motion.div custom={1} variants={fadeUp} initial="hidden" animate="show"
+          className="flex items-center gap-3 bg-surface-2 rounded-[14px] px-4 h-12 border border-line"
+        >
+          <MapPin size={16} className="text-tornoo-green shrink-0" />
           <div>
-            <p className="text-[11px] text-ink-3 font-medium">Autour de moi</p>
+            <p className="text-[10px] text-ink-3 font-semibold uppercase tracking-wide">{t.aroundMe}</p>
             <p className="font-bold text-sm text-ink leading-none">Casablanca, Maroc</p>
           </div>
-        </div>
+        </motion.div>
+
+        {/* Active ticket banner */}
+        {activeTicket && (
+          <motion.div custom={2} variants={fadeUp} initial="hidden" animate="show">
+            <Link
+              href={`/my-turn?from=${activeTicket.establishmentSlug}`}
+              className="flex items-center gap-3 bg-grad-navy rounded-[18px] px-4 py-3.5 text-white shadow-[0_4px_20px_rgba(6,24,25,.3)]"
+            >
+              <div className="w-10 h-10 rounded-full bg-tornoo-green/20 border border-tornoo-green/40 flex items-center justify-center shrink-0">
+                <WaitDot level="low" size={9} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-black text-sm">{activeTicket.establishmentName}</p>
+                <p className="text-xs text-white/60">
+                  Position #{activeTicket.position} · ~{activeTicket.estimatedWaitMinutes} min
+                </p>
+              </div>
+              <div className="flex flex-col items-end gap-1">
+                <span className="text-xs font-bold text-tornoo-green">En cours</span>
+                <ChevronRight size={14} className="text-white/40" />
+              </div>
+            </Link>
+          </motion.div>
+        )}
 
         {/* Quick links */}
-        <div className="grid grid-cols-4 gap-3">
+        <motion.div custom={activeTicket ? 3 : 2} variants={fadeUp} initial="hidden" animate="show"
+          className="grid grid-cols-4 gap-3"
+        >
           {[
-            { label: "Historique", icon: History, href: "/profile" },
-            { label: "Mes tickets", icon: Ticket, href: "/ticket/current" },
-            { label: "Notifications", icon: Bell, href: "/notifications" },
-            { label: "Carte", icon: Map, href: "/search?view=map" },
+            { label: t.history, icon: History, href: "/profile/history" },
+            { label: t.myTickets, icon: Ticket, href: "/ticket/current" },
+            { label: t.notifications, icon: Bell, href: "/notifications" },
+            { label: "Carte", icon: Map, href: "/search" },
           ].map(({ label, icon: Icon, href }) => (
             <Link
               key={label}
@@ -72,20 +140,20 @@ export default function HomePage() {
               className="flex flex-col items-center gap-2 bg-surface-2 rounded-[18px] p-3 border border-line"
             >
               <div className="w-10 h-10 rounded-full bg-low-bg flex items-center justify-center">
-                <Icon size={18} className="text-tornoo-green" />
+                <Icon size={17} className="text-tornoo-green" />
               </div>
-              <span className="text-[11px] font-bold text-ink-2 text-center leading-tight">{label}</span>
+              <span className="text-[10px] font-bold text-ink-2 text-center leading-tight">{label}</span>
             </Link>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Mes favoris */}
+        {/* Favoris */}
         {favorites.length > 0 && (
-          <section>
+          <motion.section custom={activeTicket ? 4 : 3} variants={fadeUp} initial="hidden" animate="show">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-xl font-black text-ink">Mes favoris</h2>
+              <h2 className="text-xl font-black text-ink">{t.myFavorites}</h2>
               <Link href="/favorites" className="text-sm font-bold text-ink-3 flex items-center gap-0.5">
-                Voir tout <ChevronRight size={14} />
+                {t.seeAll} <ChevronRight size={14} />
               </Link>
             </div>
             <div className="flex gap-3 overflow-x-auto scrollbar-none pb-1 -mx-4 px-4">
@@ -93,31 +161,60 @@ export default function HomePage() {
                 <EstablishmentCard key={e.id} establishment={e} variant="compact" />
               ))}
             </div>
-          </section>
+          </motion.section>
         )}
 
-        {/* Établissements populaires */}
-        <section>
+        {/* Populaires */}
+        <motion.section custom={activeTicket ? 5 : 4} variants={fadeUp} initial="hidden" animate="show">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-xl font-black text-ink">Établissements populaires</h2>
+            <h2 className="text-xl font-black text-ink">{t.popular}</h2>
             <Link href="/search" className="text-sm font-bold text-ink-3 flex items-center gap-0.5">
-              Voir tout <ChevronRight size={14} />
+              {t.seeAll} <ChevronRight size={14} />
             </Link>
           </div>
+
+          {/* Category chips */}
+          <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-4 px-4 pb-3">
+            {CATEGORIES.map(({ label, emoji }) => (
+              <button
+                key={label}
+                onClick={() => setActiveCategory(label)}
+                className={`shrink-0 h-9 px-4 rounded-full text-sm font-bold flex items-center gap-1.5 transition-colors ${
+                  activeCategory === label
+                    ? "bg-tornoo-green text-white shadow-[0_2px_12px_rgba(7,152,74,.3)]"
+                    : "bg-surface-2 text-ink-2 border border-line"
+                }`}
+              >
+                <span className="text-[13px]">{emoji}</span>
+                {label}
+              </button>
+            ))}
+          </div>
+
           {isLoading ? (
             <div className="space-y-3">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="h-32 rounded-[22px] bg-surface-2 animate-pulse" />
-              ))}
+              {[1, 2, 3].map((i) => <CardSkeleton key={i} />)}
+            </div>
+          ) : filtered.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-sm font-medium text-ink-3">Aucun établissement dans cette catégorie</p>
             </div>
           ) : (
             <div className="space-y-3">
-              {establishments.map((e) => (
-                <EstablishmentCard key={e.id} establishment={e} />
+              {filtered.map((e, i) => (
+                <motion.div
+                  key={e.id}
+                  custom={5 + i}
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="show"
+                >
+                  <EstablishmentCard establishment={e} />
+                </motion.div>
               ))}
             </div>
           )}
-        </section>
+        </motion.section>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import { Home, Search, Heart, User, QrCode } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { label: "Accueil", icon: Home, href: "/" },
+  { label: "Accueil", icon: Home, href: "/home" },
   { label: "Rechercher", icon: Search, href: "/search" },
   { label: "", icon: QrCode, href: "/scan", isScan: true },
   { label: "Favoris", icon: Heart, href: "/favorites" },
@@ -39,7 +39,7 @@ export function BottomNav() {
             );
           }
 
-          const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+          const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
           const Icon = item.icon;
 
           return (

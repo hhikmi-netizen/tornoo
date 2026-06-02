@@ -2,8 +2,9 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, Heart } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { EstablishmentCard } from "@/components/tornoo/EstablishmentCard";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { api } from "@/services/api";
 import { MOCK_USER } from "@/lib/mock-data";
 
@@ -29,11 +30,11 @@ export default function FavoritesPage() {
             {[1, 2].map((i) => <div key={i} className="h-32 rounded-[22px] bg-surface-2 animate-pulse" />)}
           </div>
         ) : favorites.length === 0 ? (
-          <div className="flex flex-col items-center py-20 gap-3">
-            <Heart size={48} className="text-line" />
-            <p className="font-bold text-ink-2">Aucun favori</p>
-            <p className="text-sm text-ink-3">Ajoutez des établissements à vos favoris</p>
-          </div>
+          <EmptyState
+            type="favorites"
+            title="Aucun favori"
+            subtitle="Ajoutez des établissements à vos favoris pour les retrouver ici"
+          />
         ) : (
           <div className="space-y-3">
             {favorites.map((e) => (

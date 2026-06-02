@@ -51,6 +51,7 @@ export interface Ticket {
   number: string;
   queueId: string;
   establishmentId: string;
+  establishmentSlug: string;
   establishmentName: string;
   serviceName: string;
   position: number;

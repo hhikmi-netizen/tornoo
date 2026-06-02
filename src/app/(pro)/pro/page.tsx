@@ -1,20 +1,22 @@
 "use client";
 
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
 import { Bell, Settings, BarChart2, Users, ChevronRight, Plus } from "lucide-react";
 import { TornooMark } from "@/components/tornoo/TornooLogo";
 import { WaitBadge, WaitDot } from "@/components/tornoo/WaitBadge";
-import { MOCK_ESTABLISHMENTS, MOCK_QUEUES } from "@/lib/mock-data";
+import { MOCK_ESTABLISHMENTS, MOCK_QUEUES, MOCK_DAILY_STATS } from "@/lib/mock-data";
+import { api } from "@/services/api";
 
 export default function ProDashboardPage() {
   const e = MOCK_ESTABLISHMENTS[0];
   const queues = MOCK_QUEUES.filter((q) => q.establishmentId === e.id);
+  const { data: stats = [] } = useQuery({ queryKey: ["pro-stats"], queryFn: () => api.pro.stats() });
 
-  const SERVICES = [
-    { label: "A", name: "État civil", count: 7 },
-    { label: "B", name: "Légalisation", count: 5 },
-    { label: "C", name: "Autre service", count: 3 },
-  ];
+  const today = stats[stats.length - 1] ?? MOCK_DAILY_STATS[MOCK_DAILY_STATS.length - 1];
+  const totalWaiting = queues.reduce((a, q) => a + q.waitingCount, 0);
+
+  const SERVICES = queues.map((q) => ({ label: q.label, name: q.serviceName, count: q.waitingCount }));
 
   return (
     <div className="min-h-svh">
@@ -82,9 +84,9 @@ export default function ProDashboardPage() {
           <h3 className="font-black text-ink mb-3">Vue d'ensemble aujourd'hui</h3>
           <div className="grid grid-cols-3 gap-3">
             {[
-              { value: "10", label: "Tickets émis" },
-              { value: "67", label: "Servis" },
-              { value: "2", label: "En attente" },
+              { value: String(today?.clientsServed ?? "—"), label: "Servis aujourd'hui" },
+              { value: String(totalWaiting), label: "En attente" },
+              { value: `${Math.round(today?.avgWaitMinutes ?? 0)} min`, label: "Moy. attente" },
             ].map(({ value, label }) => (
               <div key={label} className="bg-surface-2 rounded-[16px] p-3 text-center border border-line">
                 <p className="text-2xl font-black text-ink">{value}</p>

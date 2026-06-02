@@ -24,7 +24,7 @@ export function TurnButton({ establishment: e, className }: TurnButtonProps) {
     if (e.waitLevel === "high") {
       router.push(`/establishment/${e.slug}`);
     } else {
-      router.push(`/my-turn?from=${e.slug}`);
+      router.push(`/confirm?from=${e.slug}`);
     }
   };
 
