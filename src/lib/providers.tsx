@@ -1,7 +1,6 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useState, type ReactNode } from "react";
 import { I18nProvider } from "@/i18n/context";
 import { ToastProvider } from "@/components/ui/Toast";
@@ -23,7 +22,6 @@ export function Providers({ children }: { children: ReactNode }) {
           {children}
         </ToastProvider>
       </I18nProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

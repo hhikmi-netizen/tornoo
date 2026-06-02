@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
-import Image from "next/image";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { motion } from "framer-motion";
 import { ChevronLeft, Share2, Bell, Phone, CheckCircle } from "lucide-react";
 import { api } from "@/services/api";
@@ -160,7 +160,18 @@ export default function MyTurnPage() {
           className="bg-white rounded-[22px] border border-line shadow-1 flex items-center gap-3 p-3"
         >
           <div className="w-20 h-[72px] rounded-2xl overflow-hidden shrink-0">
-            <Image src={establishment.imageUrl} alt={establishment.name} width={80} height={72} className="w-full h-full object-cover" />
+            <ImageWithFallback
+              src={establishment.imageUrl}
+              alt={establishment.name}
+              width={80}
+              height={72}
+              className="w-full h-full object-cover"
+              fallback={
+                <div className="w-full h-full flex items-center justify-center bg-low-bg">
+                  <span className="text-2xl font-black text-tornoo-green">{establishment.name.charAt(0)}</span>
+                </div>
+              }
+            />
           </div>
           <div className="flex-1 min-w-0">
             <h2 className="font-black text-lg text-ink truncate">{establishment.name}</h2>

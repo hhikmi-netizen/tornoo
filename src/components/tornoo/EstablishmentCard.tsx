@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { MapPin, Star, CheckCircle } from "lucide-react";
 import { WaitBadge } from "./WaitBadge";
 import { TurnButton } from "./TurnButton";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { cn } from "@/lib/utils";
 import type { Establishment } from "@/types";
 
@@ -15,6 +15,9 @@ interface EstablishmentCardProps {
 }
 
 export function EstablishmentCard({ establishment: e, variant = "row", className }: EstablishmentCardProps) {
+  const bgColor = e.waitLevel === "low" ? "#e4f6ec" : e.waitLevel === "mod" ? "#fff1de" : "#fde7e6";
+  const fgColor = e.waitLevel === "low" ? "#07984a" : e.waitLevel === "mod" ? "#ff9300" : "#ef2b24";
+
   if (variant === "compact") {
     return (
       <Link
@@ -27,12 +30,17 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
         )}
       >
         <div className="w-16 h-16 rounded-full overflow-hidden bg-surface-2">
-          <Image
+          <ImageWithFallback
             src={e.imageUrl}
             alt={e.name}
             width={64}
             height={64}
             className="w-full h-full object-cover"
+            fallback={
+              <div className="w-full h-full flex items-center justify-center" style={{ background: bgColor }}>
+                <span className="text-2xl font-black" style={{ color: fgColor }}>{e.name.charAt(0)}</span>
+              </div>
+            }
           />
         </div>
         <h3 className="mt-2 font-extrabold text-sm text-ink leading-tight line-clamp-1">{e.name}</h3>
@@ -53,12 +61,17 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
       )}
     >
       <div className="w-24 h-24 rounded-2xl overflow-hidden shrink-0 bg-surface-2">
-        <Image
+        <ImageWithFallback
           src={e.imageUrl}
           alt={e.name}
           width={96}
           height={96}
           className="w-full h-full object-cover"
+          fallback={
+            <div className="w-full h-full flex items-center justify-center" style={{ background: bgColor }}>
+              <span className="text-3xl font-black" style={{ color: fgColor }}>{e.name.charAt(0)}</span>
+            </div>
+          }
         />
       </div>
       <div className="flex-1 min-w-0">

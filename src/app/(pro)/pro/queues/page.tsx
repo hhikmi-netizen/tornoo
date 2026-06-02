@@ -15,9 +15,15 @@ export default function ProQueuesPage() {
     queryFn: () => api.queues.byEstablishment(e.id),
   });
 
+  const ticketsIssued = queues.reduce((a, q) => {
+    const n = parseInt(q.currentTicket.split("-")[1] ?? "0", 10);
+    return a + n;
+  }, 0);
+  const servedTotal = queues.reduce((a, q) => a + q.servedToday, 0);
+
   const stats = [
-    { value: "10", label: "Tickets émis" },
-    { value: "67", label: "Servis" },
+    { value: String(ticketsIssued), label: "Tickets émis" },
+    { value: String(servedTotal), label: "Servis" },
     { value: String(queues.reduce((a, q) => a + q.waitingCount, 0)), label: "En attente" },
   ];
 

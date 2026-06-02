@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import {
   Ticket, History, Bell, Settings, HelpCircle, LogOut, ChevronRight, Globe
 } from "lucide-react";
@@ -39,12 +39,17 @@ export default function ProfilePage() {
         </div>
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-full overflow-hidden bg-surface-2 shrink-0">
-            <Image
+            <ImageWithFallback
               src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
               alt="Avatar"
               width={64}
               height={64}
               className="w-full h-full object-cover"
+              fallback={
+                <div className="w-full h-full flex items-center justify-center bg-low-bg">
+                  <span className="text-xl font-black text-tornoo-green">{MOCK_USER.name.charAt(0)}</span>
+                </div>
+              }
             />
           </div>
           <div>

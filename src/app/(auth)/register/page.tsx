@@ -58,6 +58,7 @@ export default function RegisterPage() {
       <div className="px-5 pt-safe-top pb-10">
         <button onClick={() => router.back()} className="flex items-center gap-1.5 mt-2 text-ink-2 font-bold">
           <ChevronLeft size={20} />
+          <span>Retour</span>
         </button>
 
         <motion.div

@@ -2,8 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
+import { motion } from "framer-motion";
 import { X, Zap } from "lucide-react";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { MOCK_ESTABLISHMENTS } from "@/lib/mock-data";
 import { WaitBadge } from "@/components/tornoo/WaitBadge";
 
@@ -46,21 +47,15 @@ export default function ScanPage() {
           {["top-left", "top-right", "bottom-left", "bottom-right"].map((pos) => (
             <div
               key={pos}
-              className={`absolute w-8 h-8 border-tornoo-green border-4 ${
-                pos.includes("top") ? "top-3" : "bottom-3"
-              } ${pos.includes("left") ? "left-3" : "right-3"} rounded-sm`}
+              className={`absolute w-8 h-8 ${pos.includes("top") ? "top-3" : "bottom-3"} ${pos.includes("left") ? "left-3" : "right-3"}`}
               style={{
-                borderRight: pos.includes("right") ? undefined : "none",
-                borderLeft: pos.includes("left") ? undefined : "none",
-                borderBottom: pos.includes("bottom") ? undefined : "none",
-                borderTop: pos.includes("top") ? undefined : "none",
-                border: "none",
                 borderColor: "#07984a",
                 borderStyle: "solid",
                 borderTopWidth: pos.includes("top") ? 4 : 0,
                 borderBottomWidth: pos.includes("bottom") ? 4 : 0,
                 borderLeftWidth: pos.includes("left") ? 4 : 0,
                 borderRightWidth: pos.includes("right") ? 4 : 0,
+                borderRadius: 4,
               }}
             />
           ))}
@@ -79,6 +74,14 @@ export default function ScanPage() {
               />
             ))}
           </div>
+
+          {/* Scan line */}
+          <motion.div
+            className="absolute left-4 right-4 h-0.5 rounded-full"
+            style={{ background: "linear-gradient(90deg, transparent, #07984a, #07984a, transparent)" }}
+            animate={{ top: ["20%", "80%", "20%"] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+          />
         </div>
       </div>
 
@@ -87,7 +90,18 @@ export default function ScanPage() {
         <div className="bg-white text-ink rounded-[22px] p-5 shadow-pop">
           <div className="flex items-center gap-3">
             <div className="w-16 h-16 rounded-full overflow-hidden">
-              <Image src={e.imageUrl} alt={e.name} width={64} height={64} className="w-full h-full object-cover" />
+              <ImageWithFallback
+                src={e.imageUrl}
+                alt={e.name}
+                width={64}
+                height={64}
+                className="w-full h-full object-cover"
+                fallback={
+                  <div className="w-full h-full flex items-center justify-center bg-high-bg">
+                    <span className="text-xl font-black text-high">{e.name.charAt(0)}</span>
+                  </div>
+                }
+              />
             </div>
             <div className="flex-1">
               <h2 className="text-xl font-black">{e.name}</h2>

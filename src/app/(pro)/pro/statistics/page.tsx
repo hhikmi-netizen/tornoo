@@ -77,19 +77,14 @@ export default function StatisticsPage() {
           <h2 className="font-black text-ink mb-4">Évolution des clients</h2>
           <div className="flex items-end gap-2 h-36">
             {stats.map((d, i) => {
-              const height = (d.clientsServed / maxClients) * 100;
+              const barH = Math.max((d.clientsServed / maxClients) * 108, 6);
               const day = new Date(d.date).toLocaleDateString("fr", { weekday: "short" });
               return (
-                <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                <div key={i} className="flex-1 flex flex-col items-center gap-1.5">
                   <div
-                    className="w-full rounded-t-lg bg-tornoo-green/20 relative overflow-hidden"
-                    style={{ height: `${Math.max(height, 8)}%` }}
-                  >
-                    <div
-                      className="absolute bottom-0 left-0 right-0 bg-tornoo-green rounded-t-lg"
-                      style={{ height: "60%" }}
-                    />
-                  </div>
+                    className="w-full rounded-t-lg bg-tornoo-green"
+                    style={{ height: barH }}
+                  />
                   <span className="text-[10px] text-ink-3">{day}</span>
                 </div>
               );

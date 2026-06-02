@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import {
@@ -63,17 +63,24 @@ export default function EstablishmentPage() {
   }
 
   const e = establishment;
+  const heroBg = e.waitLevel === "low" ? "#e4f6ec" : e.waitLevel === "mod" ? "#fff1de" : "#fde7e6";
+  const heroFg = e.waitLevel === "low" ? "#07984a" : e.waitLevel === "mod" ? "#ff9300" : "#ef2b24";
 
   return (
     <div className="bg-white min-h-svh">
       {/* Hero */}
       <div className="relative h-64">
-        <Image
+        <ImageWithFallback
           src={e.imageUrl}
           alt={e.name}
           fill
           className="object-cover"
           priority
+          fallback={
+            <div className="absolute inset-0 flex items-center justify-center" style={{ background: heroBg }}>
+              <span className="text-[120px] font-black leading-none opacity-20" style={{ color: heroFg }}>{e.name.charAt(0)}</span>
+            </div>
+          }
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
@@ -116,7 +123,18 @@ export default function EstablishmentPage() {
         {/* Bottom info overlay */}
         <div className="absolute bottom-4 left-4 right-4 flex items-end gap-3">
           <div className="w-20 h-20 rounded-2xl overflow-hidden border-4 border-white shrink-0 shadow-lg">
-            <Image src={e.imageUrl} alt="" width={80} height={80} className="w-full h-full object-cover" />
+            <ImageWithFallback
+              src={e.imageUrl}
+              alt=""
+              width={80}
+              height={80}
+              className="w-full h-full object-cover"
+              fallback={
+                <div className="w-full h-full flex items-center justify-center" style={{ background: heroBg }}>
+                  <span className="text-2xl font-black" style={{ color: heroFg }}>{e.name.charAt(0)}</span>
+                </div>
+              }
+            />
           </div>
           <div className="text-white">
             <div className="flex items-center gap-1.5">

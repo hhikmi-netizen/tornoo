@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { ChevronLeft, QrCode, Users, Plus, BarChart2, MapPin, Phone, Mail, Globe } from "lucide-react";
 import { MOCK_ESTABLISHMENTS } from "@/lib/mock-data";
 
@@ -28,7 +28,17 @@ export default function ProProfilePage() {
     <div className="bg-surface-2 min-h-svh">
       {/* Hero */}
       <div className="relative h-72">
-        <Image src={e.imageUrl} alt={e.name} fill className="object-cover" />
+        <ImageWithFallback
+          src={e.imageUrl}
+          alt={e.name}
+          fill
+          className="object-cover"
+          fallback={
+            <div className="absolute inset-0 flex items-center justify-center bg-[#062e24]">
+              <span className="text-[140px] font-black leading-none text-white/10">{e.name.charAt(0)}</span>
+            </div>
+          }
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/20" />
 
         <button
@@ -41,7 +51,18 @@ export default function ProProfilePage() {
         </button>
 
         <div className="absolute bottom-5 left-5 right-5">
-          <Image src={e.imageUrl} alt="" width={96} height={96} className="w-24 h-24 rounded-3xl border-4 border-white object-cover" />
+          <ImageWithFallback
+              src={e.imageUrl}
+              alt=""
+              width={96}
+              height={96}
+              className="w-24 h-24 rounded-3xl border-4 border-white object-cover"
+              fallback={
+                <div className="w-24 h-24 rounded-3xl border-4 border-white flex items-center justify-center bg-[#062e24]">
+                  <span className="text-3xl font-black text-white/50">{e.name.charAt(0)}</span>
+                </div>
+              }
+            />
           <h1 className="text-3xl font-black text-white mt-2 leading-tight">{e.name}</h1>
           <p className="text-white/80 text-sm">{e.category} · {e.city}</p>
           <p className="text-white/70 text-sm mt-0.5">★ {e.rating} ({e.reviewCount} avis) · Ouvert {e.openHours}</p>
@@ -87,13 +108,18 @@ export default function ProProfilePage() {
           <h2 className="text-xl font-black text-ink mb-3">Galerie</h2>
           <div className="flex gap-3 overflow-x-auto scrollbar-none">
             {[1, 2, 3].map((i) => (
-              <Image
+              <ImageWithFallback
                 key={i}
                 src={e.imageUrl}
                 alt=""
                 width={112}
                 height={96}
                 className="w-28 h-24 rounded-[18px] object-cover shrink-0 border border-line"
+                fallback={
+                  <div className="w-28 h-24 rounded-[18px] shrink-0 border border-line flex items-center justify-center bg-surface-2">
+                    <span className="text-2xl font-black text-ink-3">{e.name.charAt(0)}</span>
+                  </div>
+                }
               />
             ))}
             <div className="w-24 h-24 rounded-[18px] border-2 border-dashed border-line flex items-center justify-center shrink-0">

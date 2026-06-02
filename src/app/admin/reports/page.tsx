@@ -71,16 +71,14 @@ export default function AdminReportsPage() {
         <div className="flex items-end gap-3 h-40">
           {MOCK_DAILY_STATS.map((d, i) => {
             const maxVal = Math.max(...MOCK_DAILY_STATS.map((s) => s.clientsServed));
-            const h = (d.clientsServed / maxVal) * 100;
+            const barH = Math.max((d.clientsServed / maxVal) * 120, 6);
             const day = new Date(d.date).toLocaleDateString("fr", { weekday: "short" });
             return (
               <div key={i} className="flex-1 flex flex-col items-center gap-2">
-                <div className="w-full flex-1 flex items-end">
-                  <div
-                    className="w-full rounded-t-lg bg-tornoo-green"
-                    style={{ height: `${h}%`, opacity: 0.7 + (i / MOCK_DAILY_STATS.length) * 0.3 }}
-                  />
-                </div>
+                <div
+                  className="w-full rounded-t-lg bg-tornoo-green"
+                  style={{ height: barH, opacity: 0.7 + (i / MOCK_DAILY_STATS.length) * 0.3 }}
+                />
                 <span className="text-[10px] text-ink-3">{day}</span>
               </div>
             );

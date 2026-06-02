@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Search, SlidersHorizontal, MapPin, Bell, ChevronRight, History, Ticket, Map } from "lucide-react";
@@ -64,12 +64,17 @@ export default function HomePage() {
               <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-tornoo-green border-2 border-white" aria-hidden="true" />
             </Link>
             <Link href="/profile" className="w-10 h-10 rounded-full bg-surface-2 overflow-hidden border border-line" aria-label={t.profile}>
-              <Image
+              <ImageWithFallback
                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
                 alt="Avatar"
                 width={40}
                 height={40}
                 className="w-full h-full object-cover"
+                fallback={
+                  <div className="w-full h-full flex items-center justify-center bg-low-bg">
+                    <span className="text-xs font-black text-tornoo-green">{MOCK_USER.name.charAt(0)}</span>
+                  </div>
+                }
               />
             </Link>
           </div>
