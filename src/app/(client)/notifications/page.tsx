@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, Bell, Ticket, Tag, Info } from "lucide-react";
@@ -35,9 +35,15 @@ export default function NotificationsPage() {
     queryFn: () => api.notifications.list(),
   });
 
-  const [readIds, setReadIds] = useState<Set<string>>(
-    () => new Set(notifications.filter((n) => n.read).map((n) => n.id))
-  );
+  const [readIds, setReadIds] = useState<Set<string>>(new Set());
+  const [seeded, setSeeded] = useState(false);
+
+  useEffect(() => {
+    if (!seeded && notifications.length > 0) {
+      setReadIds(new Set(notifications.filter((n) => n.read).map((n) => n.id)));
+      setSeeded(true);
+    }
+  }, [notifications, seeded]);
 
   const markAllRead = () => setReadIds(new Set(notifications.map((n) => n.id)));
   const markRead = (id: string) => setReadIds((prev) => new Set([...prev, id]));

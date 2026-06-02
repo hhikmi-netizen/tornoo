@@ -140,7 +140,14 @@ export default function OnboardingPage() {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: dir * -80, opacity: 0 }}
             transition={{ duration: 0.32, ease: "easeOut" }}
-            className="flex flex-col items-center"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={(_, info) => {
+              if (info.offset.x < -50 && slide < SLIDES.length - 1) go(slide + 1);
+              else if (info.offset.x > 50 && slide > 0) go(slide - 1);
+            }}
+            className="flex flex-col items-center cursor-grab active:cursor-grabbing"
           >
             <current.illustration />
           </motion.div>
