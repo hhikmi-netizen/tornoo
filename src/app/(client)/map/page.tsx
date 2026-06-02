@@ -60,15 +60,21 @@ function MapBackdrop() {
 /* ── Establishment row in bottom sheet ── */
 
 function SheetRow({ e, onTap }: { e: Establishment; onTap: () => void }) {
+  const bgColor = e.waitLevel === "low" ? "#e4f6ec" : e.waitLevel === "mod" ? "#fff1de" : "#fde7e6";
+  const textColor = e.waitLevel === "low" ? "#07984a" : e.waitLevel === "mod" ? "#ff9300" : "#ef2b24";
   return (
     <button
       onClick={onTap}
       className="w-full flex items-center gap-3 text-left"
     >
       <div
-        className="w-12 h-12 rounded-2xl shrink-0"
-        style={{ background: e.waitLevel === "low" ? "linear-gradient(135deg,#071A2A,#0b3a2c)" : e.waitLevel === "mod" ? "linear-gradient(135deg,#7a4a32,#b06a3a)" : "linear-gradient(135deg,#4a1a1a,#8b3535)" }}
-      />
+        className="w-12 h-12 rounded-2xl shrink-0 flex items-center justify-center"
+        style={{ background: bgColor }}
+      >
+        <span className="text-lg font-black" style={{ color: textColor }}>
+          {e.name.charAt(0)}
+        </span>
+      </div>
       <div className="flex-1 min-w-0">
         <p className="font-bold text-sm text-ink truncate">{e.name}</p>
         <p className="text-xs text-ink-3">{e.category} · {e.city}{e.distance != null ? ` · ${e.distance} km` : ""}</p>
@@ -165,7 +171,7 @@ export default function MapPage() {
       <AnimatePresence>
         {sheetOpen && (
           <motion.div
-            className="absolute left-0 right-0 bottom-0 z-30 bg-white rounded-t-[28px] shadow-[0_-16px_40px_-18px_rgba(20,24,33,.28)]"
+            className="absolute left-0 right-0 bottom-0 z-[60] bg-white rounded-t-[28px] shadow-[0_-16px_40px_-18px_rgba(20,24,33,.28)]"
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
@@ -176,7 +182,7 @@ export default function MapPage() {
               <div className="w-10 h-1.5 rounded-full bg-line" />
             </div>
 
-            <div className="px-4 pb-safe-bottom pb-8">
+            <div className="px-4 pb-8">
               {selectedEstab ? (
                 /* Selected establishment detail */
                 <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>

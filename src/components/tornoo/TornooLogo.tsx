@@ -13,50 +13,14 @@ export function TornooMark({ size = 64, className }: TornooMarkProps) {
       className={cn("relative shrink-0", className)}
       style={{ width: size, height: size }}
     >
-      <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-sm">
-        <defs>
-          <linearGradient id="tornooGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#07984A" />
-            <stop offset="48%" stopColor="#F7C400" />
-            <stop offset="70%" stopColor="#FF9300" />
-            <stop offset="100%" stopColor="#EF2B24" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M21 72a36 36 0 1 1 58-40"
-          stroke="url(#tornooGrad)"
-          strokeWidth="13"
-          fill="none"
-          strokeLinecap="round"
-        />
-        <path
-          d="M80 38a35 35 0 0 1 6 14"
-          stroke="#FF9300"
-          strokeWidth="13"
-          fill="none"
-          strokeLinecap="round"
-        />
-        <path
-          d="M84 62a35 35 0 0 1-7 16"
-          stroke="#EF2B24"
-          strokeWidth="13"
-          fill="none"
-          strokeLinecap="round"
-        />
-        <path
-          d="M35 51l10 10 22-24"
-          stroke="#07984A"
-          strokeWidth="8"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle cx="34" cy="82" r="5" fill="#07984A" />
-        <circle cx="50" cy="82" r="5" fill="#FFB000" />
-        <circle cx="66" cy="82" r="5" fill="#EF2B24" />
-        <path d="M27 94c1-8 5-11 9-11s8 3 9 11" fill="#07984A" />
-        <path d="M43 94c1-8 5-11 9-11s8 3 9 11" fill="#FFB000" />
-        <path d="M59 94c1-8 5-11 9-11s8 3 9 11" fill="#EF2B24" />
+      <svg viewBox="0 0 132 132" className="w-full h-full drop-shadow-sm">
+        <rect width="132" height="132" rx="30" fill="#07984a"/>
+        <g transform="translate(66,66) scale(.62) translate(-100,-100)">
+          <path d="M48 135C31 116 27 88 38 64C51 36 80 22 110 28C119 30 127 33 135 38" stroke="#fff" strokeWidth="24" strokeLinecap="round" fill="none"/>
+          <path d="M143 45C157 56 166 71 169 88" stroke="#fff" strokeWidth="24" strokeLinecap="round" fill="none" opacity=".85"/>
+          <path d="M170 104C168 121 160 137 148 149" stroke="#fff" strokeWidth="24" strokeLinecap="round" fill="none" opacity=".7"/>
+          <path d="M70 93L90 113L132 67" stroke="#fff" strokeWidth="16" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+        </g>
       </svg>
     </div>
   );
