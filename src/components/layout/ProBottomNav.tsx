@@ -48,13 +48,18 @@ export function ProBottomNav() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex flex-col items-center gap-1 min-w-[56px] py-1",
+                "flex flex-col items-center gap-0.5 min-w-[56px] py-1",
                 "text-xs font-bold transition-colors",
                 isActive ? "text-tornoo-green" : "text-white/40"
               )}
               aria-current={isActive ? "page" : undefined}
             >
-              <Icon size={22} weight={isActive ? "fill" : "regular"} />
+              <div className={cn(
+                "w-11 h-7 rounded-full flex items-center justify-center transition-colors",
+                isActive && "bg-white/12"
+              )}>
+                <Icon size={22} weight={isActive ? "fill" : "regular"} />
+              </div>
               <span>{item.label}</span>
             </Link>
           );

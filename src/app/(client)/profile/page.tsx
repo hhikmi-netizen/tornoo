@@ -11,11 +11,11 @@ import { MOCK_USER } from "@/lib/mock-data";
 import type { Lang } from "@/types";
 
 const MENU_ITEMS = [
-  { label: "Mes tickets", icon: Ticket, href: "/ticket/current" },
-  { label: "Historique", icon: ClockCounterClockwise, href: "/profile/history" },
-  { label: "Notifications", icon: Bell, href: "/notifications" },
-  { label: "Paramètres", icon: Gear, href: "/profile/settings" },
-  { label: "Aide", icon: Question, href: "/profile/help" },
+  { label: "Mes tickets",   icon: Ticket,                href: "/ticket/current",    color: "#07984a", bg: "#e4f6ec" },
+  { label: "Historique",    icon: ClockCounterClockwise, href: "/profile/history",   color: "#2563eb", bg: "#eff6ff" },
+  { label: "Notifications", icon: Bell,                  href: "/notifications",     color: "#ff9300", bg: "#fff1de" },
+  { label: "Paramètres",    icon: Gear,                  href: "/profile/settings",  color: "#5b6472", bg: "#f0f2f4" },
+  { label: "Aide",          icon: Question,              href: "/profile/help",      color: "#7c3aed", bg: "#f5f3ff" },
 ];
 
 const LANGUAGES: { code: Lang; label: string }[] = [
@@ -71,8 +71,8 @@ export default function ProfilePage() {
                 href={item.href}
                 className={`flex items-center gap-3 px-4 py-4 hover:bg-surface-2 transition-colors ${i < MENU_ITEMS.length - 1 ? "border-b border-line" : ""}`}
               >
-                <div className="w-9 h-9 rounded-xl bg-low-bg flex items-center justify-center">
-                  <Icon size={17} className="text-tornoo-green" />
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: item.bg }}>
+                  <Icon size={17} weight="duotone" style={{ color: item.color }} />
                 </div>
                 <span className="flex-1 font-bold text-sm text-ink">{item.label}</span>
                 <CaretRight weight="bold" size={16} className="text-ink-4" />

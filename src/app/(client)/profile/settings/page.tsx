@@ -69,9 +69,11 @@ export default function SettingsPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <div className="flex items-center gap-2 mb-3 px-1">
-                <GroupIcon size={15} className="text-ink-3" />
-                <h2 className="text-sm font-black text-ink-2 uppercase tracking-wide">{group.title}</h2>
+              <div className="flex items-center gap-2.5 mb-3 px-1">
+                <div className="w-7 h-7 rounded-lg bg-[#fff1de] flex items-center justify-center">
+                  <GroupIcon size={14} weight="duotone" className="text-[#ff9300]" />
+                </div>
+                <h2 className="text-sm font-black text-ink uppercase tracking-wide">{group.title}</h2>
               </div>
               <div className="bg-white rounded-[22px] border border-line shadow-1 overflow-hidden">
                 {group.items.map((item, idx) => (
@@ -93,9 +95,11 @@ export default function SettingsPage() {
 
         {/* Language */}
         <motion.section initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-          <div className="flex items-center gap-2 mb-3 px-1">
-            <Globe weight="duotone" size={15} className="text-ink-3" />
-            <h2 className="text-sm font-black text-ink-2 uppercase tracking-wide">Langue</h2>
+          <div className="flex items-center gap-2.5 mb-3 px-1">
+            <div className="w-7 h-7 rounded-lg bg-[#eff6ff] flex items-center justify-center">
+              <Globe weight="duotone" size={14} className="text-[#2563eb]" />
+            </div>
+            <h2 className="text-sm font-black text-ink uppercase tracking-wide">Langue</h2>
           </div>
           <div className="bg-white rounded-[22px] border border-line shadow-1 overflow-hidden">
             {LANGS.map(({ code, label, flag }, idx) => (
@@ -122,11 +126,13 @@ export default function SettingsPage() {
         <motion.section initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
           <div className="bg-white rounded-[22px] border border-line shadow-1 overflow-hidden">
             {[
-              { icon: ShieldCheck, label: "Confidentialité" },
-              { icon: DeviceMobile, label: "À propos de l'app" },
-            ].map(({ icon: Icon, label }, idx) => (
+              { icon: ShieldCheck,  label: "Confidentialité",    color: "#07984a", bg: "#e4f6ec" },
+              { icon: DeviceMobile, label: "À propos de l'app", color: "#5b6472", bg: "#f0f2f4" },
+            ].map(({ icon: Icon, label, color, bg }, idx) => (
               <div key={label} className={`flex items-center gap-3 px-4 py-3.5 ${idx === 0 ? "border-b border-line" : ""}`}>
-                <Icon size={17} className="text-ink-3" />
+                <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ background: bg }}>
+                  <Icon size={16} weight="duotone" style={{ color }} />
+                </div>
                 <span className="flex-1 font-bold text-sm text-ink">{label}</span>
                 <CaretLeft weight="bold" size={15} className="text-ink-4 rotate-180" />
               </div>

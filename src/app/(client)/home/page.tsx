@@ -134,18 +134,18 @@ export default function HomePage() {
           className="grid grid-cols-4 gap-3"
         >
           {[
-            { label: t.history, icon: ClockCounterClockwise, href: "/profile/history" },
-            { label: t.myTickets, icon: Ticket, href: "/ticket/current" },
-            { label: t.notifications, icon: Bell, href: "/notifications" },
-            { label: "Carte", icon: MapTrifold, href: "/map" },
-          ].map(({ label, icon: Icon, href }) => (
+            { label: t.history,       icon: ClockCounterClockwise, href: "/profile/history",   color: "#2563eb", bg: "#eff6ff" },
+            { label: t.myTickets,     icon: Ticket,                href: "/ticket/current",    color: "#07984a", bg: "#e4f6ec" },
+            { label: t.notifications, icon: Bell,                  href: "/notifications",     color: "#ff9300", bg: "#fff1de" },
+            { label: "Carte",         icon: MapTrifold,            href: "/map",               color: "#0891b2", bg: "#e0f7fa" },
+          ].map(({ label, icon: Icon, href, color, bg }) => (
             <Link
               key={label}
               href={href}
-              className="flex flex-col items-center gap-2 bg-surface-2 rounded-[18px] p-3 border border-line"
+              className="flex flex-col items-center gap-2 bg-white rounded-[18px] p-3 border border-line shadow-1"
             >
-              <div className="w-10 h-10 rounded-full bg-low-bg flex items-center justify-center">
-                <Icon size={17} className="text-tornoo-green" />
+              <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: bg }}>
+                <Icon size={18} weight="duotone" style={{ color }} />
               </div>
               <span className="text-[10px] font-bold text-ink-2 text-center leading-tight">{label}</span>
             </Link>
