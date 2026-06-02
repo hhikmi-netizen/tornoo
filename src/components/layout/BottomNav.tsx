@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Search, Heart, User, QrCode } from "lucide-react";
+import { Home, Search, Map, Heart, User, QrCode } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   { label: "Accueil", icon: Home, href: "/home" },
-  { label: "Rechercher", icon: Search, href: "/search" },
+  { label: "Recherche", icon: Search, href: "/search" },
   { label: "", icon: QrCode, href: "/scan", isScan: true },
-  { label: "Favoris", icon: Heart, href: "/favorites" },
+  { label: "Carte", icon: Map, href: "/map" },
   { label: "Compte", icon: User, href: "/profile" },
 ];
 

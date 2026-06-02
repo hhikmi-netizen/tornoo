@@ -132,7 +132,7 @@ export default function HomePage() {
             { label: t.history, icon: History, href: "/profile/history" },
             { label: t.myTickets, icon: Ticket, href: "/ticket/current" },
             { label: t.notifications, icon: Bell, href: "/notifications" },
-            { label: "Carte", icon: Map, href: "/search" },
+            { label: "Carte", icon: Map, href: "/map" },
           ].map(({ label, icon: Icon, href }) => (
             <Link
               key={label}

@@ -1,8 +1,15 @@
-<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-  <rect width="32" height="32" rx="7" fill="#07984a"/>
-  <circle cx="16" cy="11" r="4.5" fill="white" fill-opacity="0.3"/>
-  <path d="M11.5 11 L16 18 L20.5 11" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-  <circle cx="11.5" cy="11" r="2.2" fill="white"/>
-  <circle cx="20.5" cy="11" r="2.2" fill="white"/>
-  <circle cx="16" cy="18" r="2.2" fill="white"/>
+<svg width="32" height="32" viewBox="0 0 132 132" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tileGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07984a"/>
+      <stop offset="1" stop-color="#13b45b"/>
+    </linearGradient>
+  </defs>
+  <rect width="132" height="132" rx="30" fill="url(#tileGrad)"/>
+  <g transform="translate(66,66) scale(.62) translate(-100,-100)">
+    <path d="M48 135C31 116 27 88 38 64C51 36 80 22 110 28C119 30 127 33 135 38" stroke="#fff" stroke-width="24" stroke-linecap="round" fill="none"/>
+    <path d="M143 45C157 56 166 71 169 88" stroke="#fff" stroke-width="24" stroke-linecap="round" fill="none" opacity=".85"/>
+    <path d="M170 104C168 121 160 137 148 149" stroke="#fff" stroke-width="24" stroke-linecap="round" fill="none" opacity=".7"/>
+    <path d="M70 93L90 113L132 67" stroke="#fff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
 </svg>

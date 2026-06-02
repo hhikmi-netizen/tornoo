@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { MoreHorizontal } from "lucide-react";
 import { TornooMark } from "@/components/tornoo/TornooLogo";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { api } from "@/services/api";
 import { MOCK_ESTABLISHMENTS } from "@/lib/mock-data";
 
@@ -55,9 +56,16 @@ export default function ProQueuesPage() {
         <h2 className="text-2xl font-black text-ink mb-4">Files d'attente actives</h2>
 
         {queues.length === 0 ? (
-          <div className="text-center py-10 text-ink-3">
-            <p className="font-medium">Aucune file active</p>
-          </div>
+          <EmptyState
+            type="queue-pro"
+            title="Aucune file active"
+            subtitle="Ouvrez une file pour commencer à accueillir vos clients"
+            action={
+              <Link href="/pro/queues/new" className="inline-flex h-12 px-6 rounded-[13px] bg-tornoo-green text-white font-extrabold items-center text-sm">
+                + Ouvrir une file
+              </Link>
+            }
+          />
         ) : (
           <div className="space-y-4">
             {queues.map((q) => (

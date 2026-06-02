@@ -9,7 +9,10 @@ export default function SplashPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const timer = setTimeout(() => router.replace("/home"), 2200);
+    const timer = setTimeout(() => {
+      const seen = typeof window !== "undefined" && localStorage.getItem("tornoo_onboarded");
+      router.replace(seen ? "/home" : "/onboarding");
+    }, 2200);
     return () => clearTimeout(timer);
   }, [router]);
 
