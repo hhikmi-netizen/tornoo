@@ -47,8 +47,11 @@ export default function HistoryPage() {
               transition={{ delay: i * 0.06 }}
               className="bg-white rounded-[20px] border border-line shadow-1 p-4 flex items-center gap-3"
             >
-              <div className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center shrink-0">
-                <Ticket weight="duotone" size={18} className="text-ink-3" />
+              <div
+                className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+                style={{ background: `${s.color}15` }}
+              >
+                <Ticket weight="duotone" size={18} style={{ color: s.color }} />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-black text-ink truncate">{item.establishment.name}</p>
