@@ -57,7 +57,7 @@ export default function HistoryPage() {
               </div>
               <div className="flex flex-col items-end gap-1.5 shrink-0">
                 <span className="flex items-center gap-1 text-xs font-bold" style={{ color: s.color }}>
-                  <StatusIcon size={12} />
+                  <StatusIcon size={12} weight="fill" />
                   {s.label}
                 </span>
                 {item.status === "served" && item.waitMinutes > 0 && (

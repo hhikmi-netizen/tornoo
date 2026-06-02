@@ -91,7 +91,7 @@ export default function HelpPage() {
                 className="w-full flex items-center gap-3 bg-white rounded-[18px] border border-line shadow-1 px-4 py-3.5 text-left"
               >
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${color}18` }}>
-                  <Icon size={18} style={{ color }} />
+                  <Icon size={18} weight="duotone" style={{ color }} />
                 </div>
                 <div className="flex-1">
                   <p className="font-bold text-sm text-ink">{label}</p>

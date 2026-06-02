@@ -74,7 +74,7 @@ export default function AdminProfessionalsPage() {
                     <td className="px-4 py-3.5 text-sm font-bold text-ink">{pro.servedMonth.toLocaleString()}</td>
                     <td className="px-4 py-3.5">
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${status.className}`}>
-                        <StatusIcon size={11} />
+                        <StatusIcon size={11} weight="fill" />
                         {status.label}
                       </span>
                     </td>

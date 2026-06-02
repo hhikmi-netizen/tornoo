@@ -76,7 +76,7 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1.5">
-          <h3 className="text-lg font-black text-ink line-clamp-2 leading-tight">{e.name}</h3>
+          <h3 className="text-lg font-black text-ink line-clamp-2 leading-tight min-w-0 flex-1">{e.name}</h3>
           {e.verified && (
             <CheckCircle size={16} weight="fill" className="text-tornoo-green shrink-0" aria-label="Vérifié" />
           )}
@@ -86,7 +86,7 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
           <WaitBadge minutes={e.waitMinutes} level={e.waitLevel} size="sm" />
         </div>
         <div className="flex items-center gap-1 mt-1">
-          <MapPin size={12} className="text-ink-3" />
+          <MapPin size={12} weight="duotone" className="text-ink-3" />
           <p className="text-xs text-ink-3">
             {e.city}
             {e.distance != null && ` · ${e.distance} km`}

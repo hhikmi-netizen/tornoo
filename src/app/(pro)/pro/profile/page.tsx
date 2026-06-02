@@ -84,7 +84,7 @@ export default function ProProfilePage() {
         <div className="grid grid-cols-4 gap-3">
           {QUICK_ACTIONS.map(({ icon: Icon, label }) => (
             <div key={label} className="bg-white rounded-[18px] p-3 text-center border border-line shadow-1">
-              <Icon size={20} className="mx-auto text-tornoo-green" />
+              <Icon size={20} weight="duotone" className="mx-auto text-tornoo-green" />
               <p className="text-xs font-bold text-ink-2 mt-2">{label}</p>
             </div>
           ))}

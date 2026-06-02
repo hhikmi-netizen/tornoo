@@ -36,7 +36,7 @@ function InputField({
 }) {
   return (
     <div className="flex items-center gap-3 bg-surface-2 rounded-[14px] px-4 h-14 border border-line">
-      <Icon size={19} className="text-ink-3 shrink-0" />
+      <Icon size={19} weight="duotone" className="text-ink-3 shrink-0" />
       <input
         type={type}
         value={value}

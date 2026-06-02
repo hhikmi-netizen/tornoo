@@ -114,7 +114,8 @@ export default function EstablishmentPage() {
             >
               <Heart
                 size={18}
-                className={isFav ? "text-[#ef2b24] fill-[#ef2b24]" : "text-ink"}
+                weight={isFav ? "fill" : "regular"}
+                className={isFav ? "text-[#ef2b24]" : "text-ink"}
               />
             </motion.button>
           </div>
@@ -143,7 +144,7 @@ export default function EstablishmentPage() {
             </div>
             <p className="text-sm text-white/80">{e.category}</p>
             <div className="flex items-center gap-2 mt-1 text-sm text-white/80">
-              <Star weight="fill" size={13} className="text-[#F7C400] fill-[#F7C400]" />
+              <Star weight="fill" size={13} className="text-[#F7C400]" />
               <span className="font-bold">{e.rating}</span>
               <span>({e.reviewCount} avis)</span>
               <span>·</span>
@@ -238,7 +239,7 @@ export default function EstablishmentPage() {
             )}
             {e.website && (
               <div className="flex items-center gap-3 bg-surface-2 rounded-[16px] px-4 py-3 border border-line">
-                <Globe size={16} className="text-tornoo-green" />
+                <Globe size={16} weight="duotone" className="text-tornoo-green" />
                 <span className="font-medium text-ink">{e.website}</span>
               </div>
             )}

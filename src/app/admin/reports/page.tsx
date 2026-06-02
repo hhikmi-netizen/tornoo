@@ -43,7 +43,7 @@ export default function AdminReportsPage() {
         {REPORT_TYPES.map(({ id, icon: Icon, label, desc, color }) => (
           <div key={id} className="bg-white rounded-[22px] border border-line shadow-1 p-5 flex items-center gap-4">
             <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0" style={{ background: `${color}18` }}>
-              <Icon size={22} style={{ color }} />
+              <Icon size={22} weight="duotone" style={{ color }} />
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-black text-ink">{label}</p>

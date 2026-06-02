@@ -102,15 +102,16 @@ export default function NotificationsPage() {
                   transition={{ delay: i * 0.06 }}
                   onClick={() => markRead(n.id)}
                   className={cn(
-                    "w-full text-left flex items-start gap-3 p-4 rounded-[18px] border transition-colors",
-                    isRead ? "bg-white border-line" : "bg-low-bg border-low-rim"
+                    "w-full text-left flex items-start gap-3 p-4 rounded-[18px] border border-line transition-colors",
+                    isRead ? "bg-white" : ""
                   )}
+                  style={!isRead ? { background: `${color}12` } : undefined}
                 >
                   <div
                     className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
                     style={{ background: `${color}18` }}
                   >
-                    <Icon size={18} style={{ color }} />
+                    <Icon size={18} weight="duotone" style={{ color }} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className={cn("font-bold text-sm", isRead ? "text-ink-2" : "text-ink")}>{n.title}</p>
@@ -118,7 +119,7 @@ export default function NotificationsPage() {
                   </div>
                   <div className="flex flex-col items-end gap-1.5 shrink-0">
                     <span className="text-xs text-ink-3">{timeAgo(n.createdAt)}</span>
-                    {!isRead && <span className="w-2 h-2 rounded-full bg-tornoo-green" aria-hidden="true" />}
+                    {!isRead && <span className="w-2 h-2 rounded-full" style={{ background: color }} aria-hidden="true" />}
                   </div>
                 </motion.button>
               );

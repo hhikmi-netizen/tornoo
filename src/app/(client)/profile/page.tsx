@@ -34,7 +34,7 @@ export default function ProfilePage() {
         <div className="flex items-center justify-between mb-6">
           <TornooLogo compact showTagline={false} />
           <Link href="/profile/settings" className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center" aria-label="Paramètres">
-            <Gear size={19} className="text-ink-2" />
+            <Gear size={19} weight="duotone" className="text-ink-2" />
           </Link>
         </div>
         <div className="flex items-center gap-4">

@@ -29,7 +29,7 @@ export default function AdminPage() {
           <div key={label} className="bg-white rounded-[22px] border border-line shadow-1 p-5">
             <div className="flex items-center justify-between mb-3">
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${color}18` }}>
-                <Icon size={20} style={{ color }} />
+                <Icon size={20} weight="duotone" style={{ color }} />
               </div>
               <span className={`flex items-center gap-1 text-xs font-bold ${up ? "text-tornoo-green" : "text-tornoo-red"}`}>
                 {up ? <TrendUp weight="bold" size={12} /> : <TrendDown weight="bold" size={12} />}
@@ -44,9 +44,9 @@ export default function AdminPage() {
 
       {/* Recent professionals */}
       <div className="bg-white rounded-[22px] border border-line shadow-1 overflow-hidden">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-line">
+        <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-line">
           <h2 className="text-xl font-black text-ink">Professionnels récents</h2>
-          <span className="text-sm font-bold text-tornoo-green">Voir tout</span>
+          <span className="text-sm font-bold text-tornoo-green shrink-0">Voir tout</span>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[560px]">

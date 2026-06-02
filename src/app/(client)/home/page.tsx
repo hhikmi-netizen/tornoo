@@ -171,9 +171,9 @@ export default function HomePage() {
 
         {/* Populaires */}
         <motion.section custom={activeTicket ? 5 : 4} variants={fadeUp} initial="hidden" animate="show">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-3 gap-3">
             <h2 className="text-xl font-black text-ink">{t.popular}</h2>
-            <Link href="/search" className="text-sm font-bold text-tornoo-green flex items-center gap-0.5">
+            <Link href="/search" className="text-sm font-bold text-tornoo-green flex items-center gap-0.5 shrink-0">
               {t.seeAll} <CaretRight weight="bold" size={14} />
             </Link>
           </div>
