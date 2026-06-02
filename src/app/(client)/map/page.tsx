@@ -5,12 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, Search, Navigation } from "lucide-react";
+import { CaretLeft, MagnifyingGlass, NavigationArrow } from "@phosphor-icons/react";
 import { WaitBadge } from "@/components/tornoo/WaitBadge";
 import { api } from "@/services/api";
 import type { Establishment, WaitLevel } from "@/types";
 
-/* ── Map pins ── */
+/* ── MapTrifold pins ── */
 
 function MapPin({ level, selected = false }: { level: WaitLevel; selected?: boolean }) {
   const colors = { low: "#07984a", mod: "#ff9300", high: "#ef2b24" };
@@ -108,7 +108,7 @@ export default function MapPage() {
 
   return (
     <div className="fixed inset-0 bg-white overflow-hidden">
-      {/* Map area */}
+      {/* MapTrifold area */}
       <div className="absolute inset-0" onClick={() => setSelected(null)}>
         <MapBackdrop />
       </div>
@@ -120,20 +120,20 @@ export default function MapPage() {
           className="w-12 h-12 rounded-2xl bg-white/95 backdrop-blur-sm shadow-1 flex items-center justify-center border border-line"
           aria-label="Retour"
         >
-          <ChevronLeft size={22} className="text-ink" />
+          <CaretLeft weight="bold" size={22} className="text-ink" />
         </button>
         <Link
           href="/search"
           className="flex items-center gap-2 h-12 px-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-1 border border-line"
         >
-          <Search size={17} className="text-ink-3" />
+          <MagnifyingGlass weight="bold" size={17} className="text-ink-3" />
           <span className="text-sm font-medium text-ink-3 pr-2">Rechercher…</span>
         </Link>
         <button
           className="w-12 h-12 rounded-2xl bg-white/95 backdrop-blur-sm shadow-1 flex items-center justify-center border border-line"
           aria-label="Ma position"
         >
-          <Navigation size={19} className="text-tornoo-green" />
+          <NavigationArrow weight="fill" size={19} className="text-tornoo-green" />
         </button>
       </div>
 

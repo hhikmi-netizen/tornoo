@@ -1,12 +1,12 @@
 "use client";
 
-import { Download, FileText, BarChart2, Users, TrendingUp } from "lucide-react";
+import { DownloadSimple, FileText, ChartBar, Users, TrendUp } from "@phosphor-icons/react";
 import { MOCK_DAILY_STATS } from "@/lib/mock-data";
 
 const REPORT_TYPES = [
-  { id: "usage", icon: BarChart2, label: "Rapport d'utilisation", desc: "Tickets, files, temps d'attente", color: "#07984a" },
+  { id: "usage", icon: ChartBar, label: "Rapport d'utilisation", desc: "Tickets, files, temps d'attente", color: "#07984a" },
   { id: "users", icon: Users, label: "Rapport utilisateurs", desc: "Inscription, activité, rétention", color: "#7c3aed" },
-  { id: "revenue", icon: TrendingUp, label: "Rapport financier", desc: "Abonnements, revenus, conversion", color: "#ff9300" },
+  { id: "revenue", icon: TrendUp, label: "Rapport financier", desc: "Abonnements, revenus, conversion", color: "#ff9300" },
   { id: "logs", icon: FileText, label: "Logs système", desc: "Erreurs, événements, sécurité", color: "#5b6472" },
 ];
 
@@ -53,7 +53,7 @@ export default function AdminReportsPage() {
               className="w-10 h-10 rounded-xl flex items-center justify-center border border-line hover:bg-surface-2 transition-colors shrink-0"
               aria-label={`Télécharger ${label}`}
             >
-              <Download size={16} className="text-ink-2" />
+              <DownloadSimple weight="bold" size={16} className="text-ink-2" />
             </button>
           </div>
         ))}
@@ -64,7 +64,7 @@ export default function AdminReportsPage() {
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-black text-ink">Activité des 7 derniers jours</h2>
           <button className="flex items-center gap-2 h-9 px-4 rounded-xl bg-tornoo-green text-white text-sm font-bold">
-            <Download size={14} />
+            <DownloadSimple weight="bold" size={14} />
             Exporter
           </button>
         </div>

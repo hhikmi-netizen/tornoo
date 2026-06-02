@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle, AlertCircle, Info, X } from "lucide-react";
+import { CheckCircle, WarningCircle, Info, X } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
 type ToastType = "success" | "error" | "info";
@@ -32,7 +32,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 
   const remove = (id: string) => setToasts((prev) => prev.filter((t) => t.id !== id));
 
-  const iconMap = { success: CheckCircle, error: AlertCircle, info: Info };
+  const iconMap = { success: CheckCircle, error: WarningCircle, info: Info };
   const colorMap = {
     success: "bg-white border-low-rim text-tornoo-green",
     error: "bg-white border-high-rim text-high",
@@ -58,10 +58,10 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                   colorMap[t.type]
                 )}
               >
-                <Icon size={18} className="shrink-0" />
+                <Icon size={18} weight="fill" className="shrink-0" />
                 <span className="flex-1 text-sm font-bold text-ink">{t.message}</span>
                 <button onClick={() => remove(t.id)} aria-label="Fermer" className="shrink-0 opacity-40 hover:opacity-80">
-                  <X size={15} />
+                  <X size={15} weight="bold" />
                 </button>
               </motion.div>
             );

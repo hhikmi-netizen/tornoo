@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { MoreHorizontal } from "lucide-react";
+import { DotsThree } from "@phosphor-icons/react";
 import { TornooMark } from "@/components/tornoo/TornooLogo";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { api } from "@/services/api";
@@ -40,7 +40,7 @@ export default function ProQueuesPage() {
             </div>
           </div>
           <button className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center" aria-label="Options">
-            <MoreHorizontal size={20} className="text-white" />
+            <DotsThree weight="bold" size={20} className="text-white" />
           </button>
         </div>
 

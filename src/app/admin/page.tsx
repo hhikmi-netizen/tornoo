@@ -1,11 +1,11 @@
 "use client";
 
-import { Users, Building2, ListIcon, Ticket, TrendingUp, TrendingDown } from "lucide-react";
+import { Users, Buildings, ListBullets, Ticket, TrendUp, TrendDown } from "@phosphor-icons/react";
 
 const KPI = [
   { label: "Utilisateurs totaux", value: "12 847", change: "+8.2%", up: true, icon: Users, color: "#07984a" },
-  { label: "Professionnels", value: "1 203", change: "+4.1%", up: true, icon: Building2, color: "#7c3aed" },
-  { label: "Files actives", value: "847", change: "-2.3%", up: false, icon: ListIcon, color: "#ff9300" },
+  { label: "Professionnels", value: "1 203", change: "+4.1%", up: true, icon: Buildings, color: "#7c3aed" },
+  { label: "Files actives", value: "847", change: "-2.3%", up: false, icon: ListBullets, color: "#ff9300" },
   { label: "Tickets aujourd'hui", value: "4 291", change: "+12.5%", up: true, icon: Ticket, color: "#ef2b24" },
 ];
 
@@ -32,7 +32,7 @@ export default function AdminPage() {
                 <Icon size={20} style={{ color }} />
               </div>
               <span className={`flex items-center gap-1 text-xs font-bold ${up ? "text-tornoo-green" : "text-tornoo-red"}`}>
-                {up ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+                {up ? <TrendUp weight="bold" size={12} /> : <TrendDown weight="bold" size={12} />}
                 {change}
               </span>
             </div>

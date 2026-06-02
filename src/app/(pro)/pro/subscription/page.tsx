@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ChevronLeft, Check, Zap } from "lucide-react";
+import { CaretLeft, Check, Lightning, Star } from "@phosphor-icons/react";
 
 const PLANS = [
   {
@@ -44,7 +44,7 @@ export default function SubscriptionPage() {
     <div className="bg-surface-2 min-h-svh">
       <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm px-4 pt-safe-top pb-3 border-b border-line flex items-center gap-3">
         <button onClick={() => router.back()} className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center" aria-label="Retour">
-          <ChevronLeft size={20} />
+          <CaretLeft weight="bold" size={20} />
         </button>
         <h1 className="flex-1 text-xl font-black text-ink">Abonnement</h1>
       </div>
@@ -52,7 +52,7 @@ export default function SubscriptionPage() {
       <div className="px-4 pt-4 pb-8 max-w-lg mx-auto space-y-4">
         <div className="text-center py-4">
           <div className="w-14 h-14 rounded-2xl bg-tornoo-green mx-auto flex items-center justify-center mb-3">
-            <Zap size={28} className="text-white" />
+            <Lightning weight="fill" size={28} className="text-white" />
           </div>
           <h2 className="text-2xl font-black text-ink">Choisissez votre plan</h2>
           <p className="text-sm text-ink-3 mt-1">Sans engagement · Annulable à tout moment</p>
@@ -67,7 +67,7 @@ export default function SubscriptionPage() {
           >
             {plan.popular && (
               <div className="absolute -top-3 left-5 px-3 py-1 bg-tornoo-green text-white text-xs font-black rounded-full">
-                ⭐ Populaire
+                <Star size={11} weight="fill" className="inline mr-1" />Populaire
               </div>
             )}
             <div className="flex items-start justify-between mb-4">
@@ -87,7 +87,7 @@ export default function SubscriptionPage() {
             <div className="space-y-2 mb-4">
               {plan.features.map((f) => (
                 <div key={f} className="flex items-center gap-2.5">
-                  <Check size={15} style={{ color: plan.color }} className="shrink-0" />
+                  <Check weight="bold" size={15} style={{ color: plan.color }} className="shrink-0" />
                   <span className="text-sm font-medium text-ink-2">{f}</span>
                 </div>
               ))}

@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Ticket, Bell, ChevronRight } from "lucide-react";
+import { Ticket, Bell, CaretRight } from "@phosphor-icons/react";
 import { MOCK_ESTABLISHMENTS, MOCK_TICKET } from "@/lib/mock-data";
 
 export default function ConfirmPage() {
@@ -32,7 +32,7 @@ export default function ConfirmPage() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, type: "spring" }}
           >
-            <Ticket size={60} className="text-tornoo-green" />
+            <Ticket weight="duotone" size={60} className="text-tornoo-green" />
           </motion.div>
         </motion.div>
 
@@ -83,13 +83,13 @@ export default function ConfirmPage() {
         className="bg-white rounded-[22px] border border-line shadow-1 flex items-center gap-3 p-4 mt-4"
       >
         <div className="w-10 h-10 rounded-full bg-low-bg flex items-center justify-center">
-          <Bell size={18} className="text-tornoo-green" />
+          <Bell weight="duotone" size={18} className="text-tornoo-green" />
         </div>
         <div className="flex-1">
           <p className="font-bold text-sm text-ink">Recevoir un rappel</p>
           <p className="text-xs text-ink-3">15 min avant mon tour</p>
         </div>
-        <ChevronRight size={16} className="text-ink-4" />
+        <CaretRight weight="bold" size={16} className="text-ink-4" />
       </motion.div>
 
       {/* CTAs */}

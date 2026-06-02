@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ChevronLeft, ChevronRight, MessageCircle, Mail, Phone, FileText, HelpCircle } from "lucide-react";
+import { CaretLeft, CaretRight, ChatCircle, Envelope, Phone, FileText, Question } from "@phosphor-icons/react";
 
 const FAQ = [
   {
@@ -27,8 +27,8 @@ const FAQ = [
 ];
 
 const CONTACT = [
-  { icon: MessageCircle, label: "Chat en direct", sub: "Réponse en moins de 5 min", color: "#07984a" },
-  { icon: Mail, label: "E-mail support", sub: "support@tornoo.ma", color: "#5b6472" },
+  { icon: ChatCircle, label: "Chat en direct", sub: "Réponse en moins de 5 min", color: "#07984a" },
+  { icon: Envelope, label: "E-mail support", sub: "support@tornoo.ma", color: "#5b6472" },
   { icon: Phone, label: "Téléphone", sub: "+212 5XX-XXXXXX", color: "#ff9300" },
 ];
 
@@ -43,7 +43,7 @@ export default function HelpPage() {
           className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center"
           aria-label="Retour"
         >
-          <ChevronLeft size={20} />
+          <CaretLeft weight="bold" size={20} />
         </button>
         <h1 className="text-xl font-black text-ink">Aide & Support</h1>
       </div>
@@ -51,7 +51,7 @@ export default function HelpPage() {
       <div className="px-4 pt-4 pb-8 max-w-lg mx-auto space-y-5">
         {/* Hero */}
         <div className="bg-tornoo-green rounded-[22px] p-6 text-white text-center">
-          <HelpCircle size={36} className="mx-auto mb-3 opacity-90" />
+          <Question weight="fill" size={36} className="mx-auto mb-3 opacity-90" />
           <h2 className="text-xl font-black">Comment pouvons-nous vous aider ?</h2>
           <p className="text-sm text-white/75 mt-1">Trouvez des réponses ou contactez notre équipe</p>
         </div>
@@ -59,7 +59,7 @@ export default function HelpPage() {
         {/* FAQ */}
         <section>
           <div className="flex items-center gap-2 px-1 mb-3">
-            <FileText size={15} className="text-ink-3" />
+            <FileText weight="duotone" size={15} className="text-ink-3" />
             <h2 className="text-sm font-black text-ink-2 uppercase tracking-wide">Questions fréquentes</h2>
           </div>
           <div className="bg-white rounded-[22px] border border-line shadow-1 overflow-hidden">
@@ -70,7 +70,7 @@ export default function HelpPage() {
               >
                 <summary className="flex items-center justify-between px-4 py-4 cursor-pointer list-none">
                   <span className="font-bold text-sm text-ink pr-4">{item.q}</span>
-                  <ChevronRight size={16} className="text-ink-3 shrink-0 group-open:rotate-90 transition-transform" />
+                  <CaretRight weight="bold" size={16} className="text-ink-3 shrink-0 group-open:rotate-90 transition-transform" />
                 </summary>
                 <p className="px-4 pb-4 text-sm text-ink-3 leading-relaxed">{item.a}</p>
               </details>
@@ -81,7 +81,7 @@ export default function HelpPage() {
         {/* Contact */}
         <section>
           <div className="flex items-center gap-2 px-1 mb-3">
-            <MessageCircle size={15} className="text-ink-3" />
+            <ChatCircle weight="duotone" size={15} className="text-ink-3" />
             <h2 className="text-sm font-black text-ink-2 uppercase tracking-wide">Nous contacter</h2>
           </div>
           <div className="space-y-2">
@@ -97,7 +97,7 @@ export default function HelpPage() {
                   <p className="font-bold text-sm text-ink">{label}</p>
                   <p className="text-xs text-ink-3">{sub}</p>
                 </div>
-                <ChevronRight size={15} className="text-ink-4" />
+                <CaretRight weight="bold" size={15} className="text-ink-4" />
               </button>
             ))}
           </div>

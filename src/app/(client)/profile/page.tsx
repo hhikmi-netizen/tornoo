@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import {
-  Ticket, History, Bell, Settings, HelpCircle, LogOut, ChevronRight, Globe
-} from "lucide-react";
+  Ticket, ClockCounterClockwise, Bell, Gear, Question, SignOut, CaretRight, Globe
+} from "@phosphor-icons/react";
 import { useI18n } from "@/i18n/context";
 import { TornooLogo } from "@/components/tornoo/TornooLogo";
 import { MOCK_USER } from "@/lib/mock-data";
@@ -12,10 +12,10 @@ import type { Lang } from "@/types";
 
 const MENU_ITEMS = [
   { label: "Mes tickets", icon: Ticket, href: "/ticket/current" },
-  { label: "Historique", icon: History, href: "/profile/history" },
+  { label: "Historique", icon: ClockCounterClockwise, href: "/profile/history" },
   { label: "Notifications", icon: Bell, href: "/notifications" },
-  { label: "Paramètres", icon: Settings, href: "/profile/settings" },
-  { label: "Aide", icon: HelpCircle, href: "/profile/help" },
+  { label: "Paramètres", icon: Gear, href: "/profile/settings" },
+  { label: "Aide", icon: Question, href: "/profile/help" },
 ];
 
 const LANGUAGES: { code: Lang; label: string }[] = [
@@ -34,7 +34,7 @@ export default function ProfilePage() {
         <div className="flex items-center justify-between mb-6">
           <TornooLogo compact showTagline={false} />
           <Link href="/profile/settings" className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center" aria-label="Paramètres">
-            <Settings size={19} className="text-ink-2" />
+            <Gear size={19} className="text-ink-2" />
           </Link>
         </div>
         <div className="flex items-center gap-4">
@@ -75,7 +75,7 @@ export default function ProfilePage() {
                   <Icon size={17} className="text-tornoo-green" />
                 </div>
                 <span className="flex-1 font-bold text-sm text-ink">{item.label}</span>
-                <ChevronRight size={16} className="text-ink-4" />
+                <CaretRight weight="bold" size={16} className="text-ink-4" />
               </Link>
             );
           })}
@@ -84,7 +84,7 @@ export default function ProfilePage() {
         {/* Language selector */}
         <div className="bg-white rounded-[22px] border border-line shadow-1 p-4">
           <div className="flex items-center gap-2 mb-3">
-            <Globe size={17} className="text-ink-3" />
+            <Globe weight="duotone" size={17} className="text-ink-3" />
             <h2 className="font-bold text-sm text-ink">Langue</h2>
           </div>
           <div className="flex gap-2">
@@ -113,12 +113,12 @@ export default function ProfilePage() {
             <p className="font-black">Espace professionnel</p>
             <p className="text-sm text-white/60 mt-0.5">Gérez votre établissement</p>
           </div>
-          <ChevronRight size={18} className="text-white/60" />
+          <CaretRight weight="bold" size={18} className="text-white/60" />
         </Link>
 
         {/* Logout */}
         <button className="w-full flex items-center justify-center gap-2 h-12 rounded-[15px] bg-[#fde7e6] text-[#ef2b24] font-bold border border-[#f6c2bf]">
-          <LogOut size={17} />
+          <SignOut weight="bold" size={17} />
           Déconnexion
         </button>
       </div>

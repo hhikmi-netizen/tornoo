@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
+import { CaretLeft } from "@phosphor-icons/react";
 import { EstablishmentCard } from "@/components/tornoo/EstablishmentCard";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { api } from "@/services/api";
@@ -19,7 +19,7 @@ export default function FavoritesPage() {
     <div className="bg-white min-h-svh">
       <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm px-4 pt-safe-top pb-3 border-b border-line flex items-center gap-3">
         <button onClick={() => router.back()} className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center" aria-label="Retour">
-          <ChevronLeft size={20} />
+          <CaretLeft weight="bold" size={20} />
         </button>
         <h1 className="text-xl font-black text-ink">Mes favoris</h1>
       </div>

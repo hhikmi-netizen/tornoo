@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { X } from "@phosphor-icons/react";
 import { type ReactNode, useEffect } from "react";
 
 interface BottomSheetProps {
@@ -55,7 +55,7 @@ export function BottomSheet({ open, onClose, title, children }: BottomSheetProps
                   className="w-8 h-8 rounded-full bg-surface-2 flex items-center justify-center"
                   aria-label="Fermer"
                 >
-                  <X size={15} className="text-ink-2" />
+                  <X size={15} weight="bold" className="text-ink-2" />
                 </button>
               </div>
             )}

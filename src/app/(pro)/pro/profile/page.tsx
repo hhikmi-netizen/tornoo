@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
-import { ChevronLeft, QrCode, Users, Plus, BarChart2, MapPin, Phone, Mail, Globe } from "lucide-react";
+import { CaretLeft, QrCode, Users, Plus, ChartBar, MapPin, Phone, Envelope, Globe, Star } from "@phosphor-icons/react";
 import { MOCK_ESTABLISHMENTS } from "@/lib/mock-data";
 
 export default function ProProfilePage() {
@@ -13,7 +13,7 @@ export default function ProProfilePage() {
     { icon: QrCode, label: "Scanner" },
     { icon: Users, label: "File" },
     { icon: Plus, label: "Ajouter" },
-    { icon: BarChart2, label: "Stats" },
+    { icon: ChartBar, label: "Stats" },
   ];
 
   const INFO = [
@@ -47,7 +47,7 @@ export default function ProProfilePage() {
           aria-label="Retour"
           style={{ top: "max(16px, env(safe-area-inset-top))" }}
         >
-          <ChevronLeft size={20} className="text-white" />
+          <CaretLeft weight="bold" size={20} className="text-white" />
         </button>
 
         <div className="absolute bottom-5 left-5 right-5">
@@ -65,7 +65,7 @@ export default function ProProfilePage() {
             />
           <h1 className="text-3xl font-black text-white mt-2 leading-tight">{e.name}</h1>
           <p className="text-white/80 text-sm">{e.category} · {e.city}</p>
-          <p className="text-white/70 text-sm mt-0.5">★ {e.rating} ({e.reviewCount} avis) · Ouvert {e.openHours}</p>
+          <p className="text-white/70 text-sm mt-0.5 flex items-center gap-1.5"><Star size={13} weight="fill" className="text-[#F7C400]" />{e.rating} ({e.reviewCount} avis) · Ouvert {e.openHours}</p>
         </div>
       </div>
 
@@ -123,7 +123,7 @@ export default function ProProfilePage() {
               />
             ))}
             <div className="w-24 h-24 rounded-[18px] border-2 border-dashed border-line flex items-center justify-center shrink-0">
-              <Plus size={20} className="text-ink-3" />
+              <Plus weight="bold" size={20} className="text-ink-3" />
             </div>
           </div>
         </div>

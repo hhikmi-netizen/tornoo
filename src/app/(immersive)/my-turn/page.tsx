@@ -4,7 +4,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { motion } from "framer-motion";
-import { ChevronLeft, Share2, Bell, Phone, CheckCircle } from "lucide-react";
+import { CaretLeft, ShareNetwork, Bell, Phone, CheckCircle } from "@phosphor-icons/react";
 import { api } from "@/services/api";
 import { MOCK_ESTABLISHMENTS } from "@/lib/mock-data";
 import { WaitDot } from "@/components/tornoo/WaitBadge";
@@ -65,7 +65,7 @@ export default function MyTurnPage() {
           className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center"
           aria-label="Retour"
         >
-          <ChevronLeft size={20} />
+          <CaretLeft weight="bold" size={20} />
         </button>
         <div className="flex-1 text-center">
           <h1 className="font-black text-base text-ink">Tornoo</h1>
@@ -80,14 +80,14 @@ export default function MyTurnPage() {
             className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center"
             aria-label="Partager"
           >
-            <Share2 size={17} className="text-ink-2" />
+            <ShareNetwork weight="bold" size={17} className="text-ink-2" />
           </button>
           <button
             onClick={() => toast("Notifications activées", "success")}
             className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center"
             aria-label="Notifications"
           >
-            <Bell size={17} className="text-ink-2" />
+            <Bell weight="fill" size={17} className="text-ink-2" />
           </button>
         </div>
       </div>
@@ -184,7 +184,7 @@ export default function MyTurnPage() {
               className="w-12 h-12 rounded-full bg-low-bg flex items-center justify-center shrink-0"
               aria-label="Appeler"
             >
-              <Phone size={20} className="text-tornoo-green" />
+              <Phone weight="fill" size={20} className="text-tornoo-green" />
             </a>
           )}
         </motion.div>

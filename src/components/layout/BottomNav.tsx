@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Search, Map, Heart, User, QrCode } from "lucide-react";
+import { House, MagnifyingGlass, MapTrifold, Heart, User, QrCode } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { label: "Accueil", icon: Home, href: "/home" },
-  { label: "Recherche", icon: Search, href: "/search" },
+  { label: "Accueil", icon: House, href: "/home" },
+  { label: "Recherche", icon: MagnifyingGlass, href: "/search" },
   { label: "", icon: QrCode, href: "/scan", isScan: true },
-  { label: "Carte", icon: Map, href: "/map" },
+  { label: "Carte", icon: MapTrifold, href: "/map" },
   { label: "Compte", icon: User, href: "/profile" },
 ];
 
@@ -33,7 +33,7 @@ export function BottomNav() {
                 aria-label="Scanner QR"
               >
                 <div className="w-14 h-14 rounded-full bg-tornoo-green flex items-center justify-center shadow-[0_4px_20px_rgba(7,152,74,.4)]">
-                  <QrCode size={26} className="text-white" />
+                  <QrCode size={26} weight="bold" className="text-white" />
                 </div>
               </Link>
             );
@@ -53,7 +53,7 @@ export function BottomNav() {
               )}
               aria-current={isActive ? "page" : undefined}
             >
-              <Icon size={22} strokeWidth={isActive ? 2.5 : 1.8} />
+              <Icon size={22} weight={isActive ? "fill" : "regular"} />
               <span>{item.label}</span>
             </Link>
           );

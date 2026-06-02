@@ -7,8 +7,8 @@ import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import {
-  ChevronLeft, Share2, Heart, MapPin, Star, Clock, Phone, Globe, CheckCircle
-} from "lucide-react";
+  CaretLeft, ShareNetwork, Heart, MapPin, Star, Clock, Phone, Globe, CheckCircle
+} from "@phosphor-icons/react";
 import { WaitBadge } from "@/components/tornoo/WaitBadge";
 import { useToast } from "@/components/ui/Toast";
 import { api } from "@/services/api";
@@ -91,7 +91,7 @@ export default function EstablishmentPage() {
             className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow"
             aria-label="Retour"
           >
-            <ChevronLeft size={20} className="text-ink" />
+            <CaretLeft weight="bold" size={20} className="text-ink" />
           </button>
           <div className="flex gap-2">
             <button
@@ -99,7 +99,7 @@ export default function EstablishmentPage() {
               className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow"
               aria-label="Partager"
             >
-              <Share2 size={18} className="text-ink" />
+              <ShareNetwork weight="bold" size={18} className="text-ink" />
             </button>
             <motion.button
               whileTap={{ scale: 1.3 }}
@@ -139,15 +139,15 @@ export default function EstablishmentPage() {
           <div className="text-white">
             <div className="flex items-center gap-1.5">
               <h1 className="text-2xl font-black leading-tight">{e.name}</h1>
-              {e.verified && <CheckCircle size={18} className="text-tornoo-green" />}
+              {e.verified && <CheckCircle weight="fill" size={18} className="text-tornoo-green" />}
             </div>
             <p className="text-sm text-white/80">{e.category}</p>
             <div className="flex items-center gap-2 mt-1 text-sm text-white/80">
-              <Star size={13} className="text-[#F7C400] fill-[#F7C400]" />
+              <Star weight="fill" size={13} className="text-[#F7C400] fill-[#F7C400]" />
               <span className="font-bold">{e.rating}</span>
               <span>({e.reviewCount} avis)</span>
               <span>·</span>
-              <MapPin size={13} />
+              <MapPin weight="duotone" size={13} />
               <span>{e.city}</span>
             </div>
           </div>
@@ -179,7 +179,7 @@ export default function EstablishmentPage() {
         {/* Info strip */}
         <div className="bg-surface-2 rounded-[16px] px-4 py-3 flex items-center justify-between border border-line">
           <div className="flex items-center gap-2 text-sm font-medium">
-            <Clock size={15} className="text-ink-3" />
+            <Clock weight="duotone" size={15} className="text-ink-3" />
             <span className="text-ink-2">Ouvert aujourd'hui</span>
           </div>
           <span className="text-sm font-bold text-ink">{e.openHours}</span>
@@ -194,7 +194,7 @@ export default function EstablishmentPage() {
                 <div key={s.id} className="bg-white rounded-[18px] px-4 py-3 flex items-center justify-between border border-line">
                   <span className="font-bold text-ink">{s.name}</span>
                   <div className="flex items-center gap-3 text-sm text-ink-3">
-                    <span className="flex items-center gap-1"><Clock size={13} />{s.durationMinutes} min</span>
+                    <span className="flex items-center gap-1"><Clock weight="duotone" size={13} />{s.durationMinutes} min</span>
                     {s.price && <span className="font-bold text-ink">{s.price} {s.currency}</span>}
                   </div>
                 </div>
@@ -232,7 +232,7 @@ export default function EstablishmentPage() {
           <div className="space-y-2">
             {e.phone && (
               <a href={`tel:${e.phone}`} className="flex items-center gap-3 bg-surface-2 rounded-[16px] px-4 py-3 border border-line">
-                <Phone size={16} className="text-tornoo-green" />
+                <Phone weight="duotone" size={16} className="text-tornoo-green" />
                 <span className="font-medium text-ink">{e.phone}</span>
               </a>
             )}
@@ -243,7 +243,7 @@ export default function EstablishmentPage() {
               </div>
             )}
             <div className="flex items-start gap-3 bg-surface-2 rounded-[16px] px-4 py-3 border border-line">
-              <MapPin size={16} className="text-tornoo-green mt-0.5 shrink-0" />
+              <MapPin weight="duotone" size={16} className="text-tornoo-green mt-0.5 shrink-0" />
               <span className="font-medium text-ink">{e.address}, {e.city}</span>
             </div>
           </div>

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ChevronLeft, Ticket, CheckCircle, XCircle, Clock } from "lucide-react";
+import { CaretLeft, Ticket, CheckCircle, XCircle, Clock } from "@phosphor-icons/react";
 import { MOCK_ESTABLISHMENTS } from "@/lib/mock-data";
 import { WaitBadge } from "@/components/tornoo/WaitBadge";
 
@@ -27,7 +27,7 @@ export default function HistoryPage() {
     <div className="bg-surface-2 min-h-svh">
       <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm px-4 pt-safe-top pb-3 border-b border-line flex items-center gap-3">
         <button onClick={() => router.back()} className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center" aria-label="Retour">
-          <ChevronLeft size={20} />
+          <CaretLeft weight="bold" size={20} />
         </button>
         <h1 className="text-xl font-black text-ink">Historique</h1>
         <span className="ml-auto text-xs font-bold text-ink-3 bg-surface-2 border border-line rounded-full px-3 py-1">
@@ -48,7 +48,7 @@ export default function HistoryPage() {
               className="bg-white rounded-[20px] border border-line shadow-1 p-4 flex items-center gap-3"
             >
               <div className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center shrink-0">
-                <Ticket size={18} className="text-ink-3" />
+                <Ticket weight="duotone" size={18} className="text-ink-3" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-black text-ink truncate">{item.establishment.name}</p>

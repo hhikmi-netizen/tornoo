@@ -1,4 +1,4 @@
-import { type LucideIcon } from "lucide-react";
+import { type Icon as PhosphorIcon } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
 interface StatCardProps {
@@ -6,7 +6,7 @@ interface StatCardProps {
   value: string;
   change?: string;
   up?: boolean;
-  icon?: LucideIcon;
+  icon?: PhosphorIcon;
   color?: string;
   className?: string;
 }

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ChevronLeft, Bell, Globe, Shield, Smartphone, LogOut } from "lucide-react";
+import { CaretLeft, Bell, Globe, ShieldCheck, DeviceMobile, SignOut } from "@phosphor-icons/react";
 import { useI18n } from "@/i18n/context";
 import type { Lang } from "@/types";
 
@@ -54,7 +54,7 @@ export default function SettingsPage() {
     <div className="bg-surface-2 min-h-svh">
       <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm px-4 pt-safe-top pb-3 border-b border-line flex items-center gap-3">
         <button onClick={() => router.back()} className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center" aria-label="Retour">
-          <ChevronLeft size={20} />
+          <CaretLeft weight="bold" size={20} />
         </button>
         <h1 className="text-xl font-black text-ink">Paramètres</h1>
       </div>
@@ -94,7 +94,7 @@ export default function SettingsPage() {
         {/* Language */}
         <motion.section initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
           <div className="flex items-center gap-2 mb-3 px-1">
-            <Globe size={15} className="text-ink-3" />
+            <Globe weight="duotone" size={15} className="text-ink-3" />
             <h2 className="text-sm font-black text-ink-2 uppercase tracking-wide">Langue</h2>
           </div>
           <div className="bg-white rounded-[22px] border border-line shadow-1 overflow-hidden">
@@ -122,13 +122,13 @@ export default function SettingsPage() {
         <motion.section initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
           <div className="bg-white rounded-[22px] border border-line shadow-1 overflow-hidden">
             {[
-              { icon: Shield, label: "Confidentialité" },
-              { icon: Smartphone, label: "À propos de l'app" },
+              { icon: ShieldCheck, label: "Confidentialité" },
+              { icon: DeviceMobile, label: "À propos de l'app" },
             ].map(({ icon: Icon, label }, idx) => (
               <div key={label} className={`flex items-center gap-3 px-4 py-3.5 ${idx === 0 ? "border-b border-line" : ""}`}>
                 <Icon size={17} className="text-ink-3" />
                 <span className="flex-1 font-bold text-sm text-ink">{label}</span>
-                <ChevronLeft size={15} className="text-ink-4 rotate-180" />
+                <CaretLeft weight="bold" size={15} className="text-ink-4 rotate-180" />
               </div>
             ))}
           </div>
@@ -141,7 +141,7 @@ export default function SettingsPage() {
           transition={{ delay: 0.2 }}
           className="w-full flex items-center justify-center gap-2 h-12 rounded-[15px] bg-high-bg text-high font-bold border border-high-rim text-sm"
         >
-          <LogOut size={16} />
+          <SignOut weight="bold" size={16} />
           Déconnexion
         </motion.button>
 

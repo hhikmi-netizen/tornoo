@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, CheckCircle, Clock } from "lucide-react";
+import { CaretLeft, CheckCircle, Clock } from "@phosphor-icons/react";
 import { MOCK_ESTABLISHMENTS, MOCK_QUEUES } from "@/lib/mock-data";
 
 export default function NewQueuePage() {
@@ -27,7 +27,7 @@ export default function NewQueuePage() {
           transition={{ type: "spring", stiffness: 280, damping: 20 }}
           className="w-28 h-28 rounded-full border-[12px] border-tornoo-green bg-white flex items-center justify-center shadow-[0_0_36px_rgba(7,152,74,.25)]"
         >
-          <CheckCircle size={52} className="text-tornoo-green" />
+          <CheckCircle weight="fill" size={52} className="text-tornoo-green" />
         </motion.div>
 
         <motion.h1
@@ -85,7 +85,7 @@ export default function NewQueuePage() {
     <div className="bg-surface-2 min-h-svh">
       <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm px-4 pt-safe-top pb-3 border-b border-line flex items-center gap-3">
         <button onClick={() => router.back()} className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center" aria-label="Retour">
-          <ChevronLeft size={20} />
+          <CaretLeft weight="bold" size={20} />
         </button>
         <h1 className="text-xl font-black text-ink">Nouveau ticket</h1>
       </div>
@@ -104,7 +104,7 @@ export default function NewQueuePage() {
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-low-bg flex items-center justify-center">
-                    <Clock size={17} className="text-tornoo-green" />
+                    <Clock weight="duotone" size={17} className="text-tornoo-green" />
                   </div>
                   <div>
                     <p className="font-bold text-ink">{s.name}</p>
@@ -112,7 +112,7 @@ export default function NewQueuePage() {
                   </div>
                 </div>
                 <div className="w-8 h-8 rounded-xl bg-tornoo-green flex items-center justify-center">
-                  <ChevronLeft size={16} className="text-white rotate-180" />
+                  <CaretLeft weight="bold" size={16} className="text-white rotate-180" />
                 </div>
               </motion.button>
             ))}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, CheckCircle, Clock, XCircle, MoreHorizontal } from "lucide-react";
+import { MagnifyingGlass, CheckCircle, Clock, XCircle, DotsThree } from "@phosphor-icons/react";
 import { MOCK_ESTABLISHMENTS } from "@/lib/mock-data";
 
 const PROFESSIONALS = MOCK_ESTABLISHMENTS.map((e, i) => ({
@@ -34,7 +34,7 @@ export default function AdminProfessionalsPage() {
       </div>
 
       <div className="flex items-center gap-3 bg-white rounded-[14px] px-4 h-12 border border-line shadow-1 mb-4">
-        <Search size={17} className="text-ink-3" />
+        <MagnifyingGlass weight="bold" size={17} className="text-ink-3" />
         <input
           type="search"
           value={query}
@@ -63,7 +63,7 @@ export default function AdminProfessionalsPage() {
                     <td className="px-4 py-3.5">
                       <div className="flex items-center gap-2">
                         <div className="font-bold text-ink">{pro.name}</div>
-                        {pro.verified && <CheckCircle size={13} className="text-tornoo-green shrink-0" />}
+                        {pro.verified && <CheckCircle weight="fill" size={13} className="text-tornoo-green shrink-0" />}
                       </div>
                     </td>
                     <td className="px-4 py-3.5 text-sm text-ink-2">{pro.category}</td>
@@ -80,7 +80,7 @@ export default function AdminProfessionalsPage() {
                     </td>
                     <td className="px-4 py-3.5">
                       <button className="w-8 h-8 rounded-lg hover:bg-surface-2 flex items-center justify-center" aria-label="Options">
-                        <MoreHorizontal size={16} className="text-ink-3" />
+                        <DotsThree weight="bold" size={16} className="text-ink-3" />
                       </button>
                     </td>
                   </tr>

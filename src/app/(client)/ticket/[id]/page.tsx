@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronLeft } from "lucide-react";
+import { CaretLeft } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "@/services/api";
 import { WaitDot } from "@/components/tornoo/WaitBadge";
@@ -43,7 +43,7 @@ export default function TicketPage() {
       {/* Header */}
       <div className="flex items-center gap-3 px-4 pt-safe-top pb-3 bg-white border-b border-line">
         <button onClick={() => router.back()} aria-label="Retour" className="flex items-center gap-1.5 text-ink-2">
-          <ChevronLeft size={20} />
+          <CaretLeft weight="bold" size={20} />
           <span className="font-bold text-sm">Retour</span>
         </button>
         <div className="flex-1" />
@@ -106,7 +106,7 @@ export default function TicketPage() {
           ].map((item) => (
             <div key={item} className="flex items-center justify-between py-3.5 border-b last:border-0 border-line">
               <span className="text-sm font-medium text-ink">{item}</span>
-              <ChevronLeft size={16} className="text-ink-3 rotate-180" />
+              <CaretLeft weight="bold" size={16} className="text-ink-3 rotate-180" />
             </div>
           ))}
         </div>

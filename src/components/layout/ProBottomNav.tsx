@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, BarChart2, User, Plus } from "lucide-react";
+import { SquaresFour, Users, ChartBar, User, Plus } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { label: "Accueil", icon: LayoutDashboard, href: "/pro" },
+  { label: "Accueil", icon: SquaresFour, href: "/pro" },
   { label: "Files", icon: Users, href: "/pro/queues" },
   { label: "", icon: Plus, href: "/pro/queues/new", isAction: true },
-  { label: "Stats", icon: BarChart2, href: "/pro/statistics" },
+  { label: "Stats", icon: ChartBar, href: "/pro/statistics" },
   { label: "Profil", icon: User, href: "/pro/profile" },
 ];
 
@@ -54,7 +54,7 @@ export function ProBottomNav() {
               )}
               aria-current={isActive ? "page" : undefined}
             >
-              <Icon size={22} strokeWidth={isActive ? 2.5 : 1.8} />
+              <Icon size={22} weight={isActive ? "fill" : "regular"} />
               <span>{item.label}</span>
             </Link>
           );

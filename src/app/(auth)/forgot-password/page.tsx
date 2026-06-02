@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, Mail, CheckCircle } from "lucide-react";
+import { CaretLeft, Envelope, CheckCircle } from "@phosphor-icons/react";
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
@@ -17,7 +17,7 @@ export default function ForgotPasswordPage() {
           className="flex items-center gap-1.5 mt-2 text-ink-2 font-bold"
           aria-label="Retour"
         >
-          <ChevronLeft size={20} />
+          <CaretLeft weight="bold" size={20} />
           Retour
         </button>
 
@@ -25,8 +25,8 @@ export default function ForgotPasswordPage() {
         <div className="flex justify-center mt-8 mb-6">
           <div className="w-20 h-20 rounded-[24px] bg-surface flex items-center justify-center border border-line shadow-1">
             {sent
-              ? <CheckCircle size={36} className="text-tornoo-green" />
-              : <Mail size={36} className="text-ink-3" />
+              ? <CheckCircle weight="fill" size={36} className="text-tornoo-green" />
+              : <Envelope weight="duotone" size={36} className="text-ink-3" />
             }
           </div>
         </div>
@@ -41,7 +41,7 @@ export default function ForgotPasswordPage() {
         {!sent ? (
           <>
             <div className="mt-8 flex items-center gap-3 bg-white rounded-[14px] px-4 h-14 border border-line">
-              <Mail size={19} className="text-ink-3 shrink-0" />
+              <Envelope weight="duotone" size={19} className="text-ink-3 shrink-0" />
               <input
                 type="email"
                 value={email}

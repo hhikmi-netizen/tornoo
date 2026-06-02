@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Search, X, SlidersHorizontal } from "lucide-react";
+import { MagnifyingGlass, X, Faders } from "@phosphor-icons/react";
 import { EstablishmentCard } from "@/components/tornoo/EstablishmentCard";
 import { WaitDot } from "@/components/tornoo/WaitBadge";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -29,10 +29,10 @@ export default function SearchPage() {
       <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm px-4 pt-safe-top pb-3 space-y-3 border-b border-line">
         <h1 className="text-2xl font-black text-ink">Rechercher</h1>
 
-        {/* Search input */}
+        {/* MagnifyingGlass input */}
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2 flex-1 bg-surface-2 rounded-[14px] px-4 h-12 border border-line">
-            <Search size={17} className="text-ink-3 shrink-0" />
+            <MagnifyingGlass weight="bold" size={17} className="text-ink-3 shrink-0" />
             <input
               type="search"
               value={query}
@@ -44,12 +44,12 @@ export default function SearchPage() {
             />
             {query && (
               <button onClick={() => setQuery("")} aria-label="Effacer">
-                <X size={16} className="text-ink-3" />
+                <X weight="bold" size={16} className="text-ink-3" />
               </button>
             )}
           </div>
           <button className="w-12 h-12 rounded-[14px] bg-surface-2 border border-line flex items-center justify-center" aria-label="Filtres">
-            <SlidersHorizontal size={18} className="text-ink-2" />
+            <Faders weight="bold" size={18} className="text-ink-2" />
           </button>
         </div>
 

@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, ChevronDown, Download } from "lucide-react";
+import { CaretLeft, CaretDown, DownloadSimple } from "@phosphor-icons/react";
 import { api } from "@/services/api";
 
 export default function StatisticsPage() {
@@ -35,7 +35,7 @@ export default function StatisticsPage() {
       {/* Header */}
       <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm px-4 pt-safe-top pb-3 border-b border-line flex items-center gap-3">
         <button onClick={() => router.back()} className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center" aria-label="Retour">
-          <ChevronLeft size={20} />
+          <CaretLeft weight="bold" size={20} />
         </button>
         <h1 className="flex-1 text-xl font-black text-ink">Statistiques</h1>
         <span className="text-ink-3">•••</span>
@@ -44,7 +44,7 @@ export default function StatisticsPage() {
       <div className="px-4 pb-28 max-w-lg mx-auto space-y-4 pt-4">
         {/* Period selector */}
         <button className="mx-auto flex items-center gap-2 px-5 h-10 rounded-full bg-white border border-line shadow-1 text-sm font-bold text-ink">
-          7 derniers jours <ChevronDown size={16} className="text-ink-3" />
+          7 derniers jours <CaretDown weight="bold" size={16} className="text-ink-3" />
         </button>
 
         {/* KPI cards */}
@@ -138,7 +138,7 @@ export default function StatisticsPage() {
 
         {/* Export */}
         <button className="w-full flex items-center justify-center gap-2 h-14 rounded-[15px] bg-tornoo-green text-white font-extrabold">
-          <Download size={18} />
+          <DownloadSimple weight="bold" size={18} />
           Exporter le rapport
         </button>
       </div>

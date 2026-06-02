@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { X, Zap } from "lucide-react";
+import { X, Lightning } from "@phosphor-icons/react";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { MOCK_ESTABLISHMENTS } from "@/lib/mock-data";
 import { WaitBadge } from "@/components/tornoo/WaitBadge";
@@ -21,13 +21,13 @@ export default function ScanPage() {
           className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center"
           aria-label="Fermer"
         >
-          <X size={22} />
+          <X weight="bold" size={22} />
         </button>
         <button className="px-4 h-10 rounded-full bg-white/10 font-bold text-sm">
           Scanner
         </button>
         <button className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center" aria-label="Flash">
-          <Zap size={20} />
+          <Lightning weight="fill" size={20} />
         </button>
       </div>
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
+import { Eye, EyeSlash, Envelope, Lock, User } from "@phosphor-icons/react";
 import { TornooMark } from "@/components/tornoo/TornooLogo";
 import { CityBackdrop } from "@/components/tornoo/CityBackdrop";
 import { useI18n } from "@/i18n/context";
@@ -95,7 +95,7 @@ export default function LoginPage() {
           {isSignup && (
             <InputField icon={User} value={name} onChange={setName} placeholder="Nom complet" />
           )}
-          <InputField icon={Mail} type="email" value={email} onChange={setEmail} placeholder="Adresse e-mail" />
+          <InputField icon={Envelope} type="email" value={email} onChange={setEmail} placeholder="Adresse e-mail" />
           <InputField
             icon={Lock}
             type={show ? "text" : "password"}
@@ -110,9 +110,9 @@ export default function LoginPage() {
                 className="p-1"
               >
                 {show ? (
-                  <EyeOff size={20} className="text-ink-3" />
+                  <EyeSlash weight="regular" size={20} className="text-ink-3" />
                 ) : (
-                  <Eye size={20} className="text-ink-3" />
+                  <Eye weight="regular" size={20} className="text-ink-3" />
                 )}
               </button>
             }

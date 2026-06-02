@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, SkipForward, Pause, Play, X } from "lucide-react";
+import { CaretLeft, SkipForward, Pause, Play, X, CheckCircle } from "@phosphor-icons/react";
 import { MOCK_QUEUES } from "@/lib/mock-data";
 import { useToast } from "@/components/ui/Toast";
 
@@ -73,7 +73,7 @@ export default function QueueDetailPage() {
           className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center"
           aria-label="Retour"
         >
-          <ChevronLeft size={20} />
+          <CaretLeft size={20} weight="bold" />
         </button>
         <div className="flex-1 min-w-0">
           <h1 className="text-xl font-black text-ink leading-tight">File {queue.label}</h1>
@@ -89,8 +89,8 @@ export default function QueueDetailPage() {
           aria-label={isPaused ? "Reprendre la file" : "Mettre en pause"}
         >
           {isPaused
-            ? <Play size={16} className="text-[#ff9300]" />
-            : <Pause size={16} className="text-ink-2" />
+            ? <Play size={16} weight="fill" className="text-[#ff9300]" />
+            : <Pause size={16} weight="fill" className="text-ink-2" />
           }
         </button>
       </div>
@@ -155,7 +155,7 @@ export default function QueueDetailPage() {
             {isCalling ? (
               <span className="w-4 h-4 rounded-full border-2 border-white/50 border-t-white animate-spin" />
             ) : (
-              <SkipForward size={16} />
+              <SkipForward size={16} weight="bold" />
             )}
             {waitingCount === 0
               ? "File vide"
@@ -206,11 +206,11 @@ export default function QueueDetailPage() {
                     className="w-8 h-8 rounded-full bg-surface-2 flex items-center justify-center"
                     aria-label={`Annuler ${c.ticket}`}
                   >
-                    <X size={14} className="text-ink-3" />
+                    <X size={14} weight="bold" className="text-ink-3" />
                   </button>
                 )}
                 {c.status === "served" && (
-                  <span className="text-xs text-tornoo-green font-bold">✓</span>
+                  <CheckCircle size={16} weight="fill" className="text-tornoo-green" />
                 )}
               </div>
             ))}

@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, Building2, FileBarChart } from "lucide-react";
+import { SquaresFour, Users, Buildings, ChartBar } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { label: "Dashboard", icon: LayoutDashboard, href: "/admin" },
+  { label: "Dashboard", icon: SquaresFour, href: "/admin" },
   { label: "Utilisateurs", icon: Users, href: "/admin/users" },
-  { label: "Professionnels", icon: Building2, href: "/admin/professionals" },
-  { label: "Rapports", icon: FileBarChart, href: "/admin/reports" },
+  { label: "Professionnels", icon: Buildings, href: "/admin/professionals" },
+  { label: "Rapports", icon: ChartBar, href: "/admin/reports" },
 ];
 
 export function AdminNav() {

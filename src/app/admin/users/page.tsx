@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, UserCheck, UserX, MoreHorizontal } from "lucide-react";
+import { MagnifyingGlass, UserCheck, UserMinus, DotsThree } from "@phosphor-icons/react";
 
 const USERS = [
   { id: "u1", name: "Amine Benali", email: "amine@example.com", role: "client", status: "active", joined: "2024-01-12" },
@@ -27,9 +27,9 @@ export default function AdminUsersPage() {
         </span>
       </div>
 
-      {/* Search */}
+      {/* MagnifyingGlass */}
       <div className="flex items-center gap-3 bg-white rounded-[14px] px-4 h-12 border border-line shadow-1 mb-4">
-        <Search size={17} className="text-ink-3" />
+        <MagnifyingGlass weight="bold" size={17} className="text-ink-3" />
         <input
           type="search"
           value={query}
@@ -74,7 +74,7 @@ export default function AdminUsersPage() {
                       user.status === "pending" ? "bg-mod-bg text-tornoo-orange border border-mod-rim" :
                       "bg-surface-2 text-ink-3 border border-line"
                     }`}>
-                      {user.status === "active" ? <UserCheck size={11} /> : <UserX size={11} />}
+                      {user.status === "active" ? <UserCheck weight="fill" size={11} /> : <UserMinus weight="fill" size={11} />}
                       {user.status === "active" ? "Actif" : user.status === "pending" ? "En attente" : "Inactif"}
                     </span>
                   </td>
@@ -83,7 +83,7 @@ export default function AdminUsersPage() {
                   </td>
                   <td className="px-4 py-3.5">
                     <button className="w-8 h-8 rounded-lg hover:bg-surface-2 flex items-center justify-center" aria-label="Options">
-                      <MoreHorizontal size={16} className="text-ink-3" />
+                      <DotsThree weight="bold" size={16} className="text-ink-3" />
                     </button>
                   </td>
                 </tr>

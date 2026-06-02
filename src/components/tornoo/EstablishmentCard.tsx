@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { MapPin, Star, CheckCircle } from "lucide-react";
+import { MapPin, Star, CheckCircle } from "@phosphor-icons/react";
 import { WaitBadge } from "./WaitBadge";
 import { TurnButton } from "./TurnButton";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
@@ -78,7 +78,7 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
         <div className="flex items-center gap-1.5">
           <h3 className="text-lg font-black text-ink line-clamp-2 leading-tight">{e.name}</h3>
           {e.verified && (
-            <CheckCircle size={16} className="text-tornoo-green shrink-0" aria-label="Vérifié" />
+            <CheckCircle size={16} weight="fill" className="text-tornoo-green shrink-0" aria-label="Vérifié" />
           )}
         </div>
         <div className="flex items-center justify-between mt-0.5 gap-2">
@@ -93,7 +93,7 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
           </p>
         </div>
         <div className="flex items-center gap-1 mt-0.5">
-          <Star size={12} className="text-[#F7C400] fill-[#F7C400]" />
+          <Star size={13} weight="fill" className="text-[#F7C400]" />
           <span className="text-xs font-bold text-ink-2">{e.rating}</span>
           <span className="text-xs text-ink-3">({e.reviewCount} avis)</span>
         </div>

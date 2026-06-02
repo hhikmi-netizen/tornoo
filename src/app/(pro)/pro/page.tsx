@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { Bell, Settings, BarChart2, Users, ChevronRight, Plus } from "lucide-react";
+import { Bell, Gear, ChartBar, Users, CaretRight, Plus, Star } from "@phosphor-icons/react";
 import { TornooMark } from "@/components/tornoo/TornooLogo";
 import { WaitBadge, WaitDot } from "@/components/tornoo/WaitBadge";
 import { MOCK_ESTABLISHMENTS, MOCK_QUEUES, MOCK_DAILY_STATS } from "@/lib/mock-data";
@@ -27,15 +27,15 @@ export default function ProDashboardPage() {
             <p className="text-white/60 text-sm">Bonjour,</p>
             <h1 className="text-3xl font-black text-white leading-tight">Admin</h1>
             <Link href="/pro/profile" className="flex items-center gap-1 text-tornoo-green text-sm font-bold mt-0.5">
-              Tornoo Business <ChevronRight size={14} />
+              Tornoo Business <CaretRight weight="bold" size={14} />
             </Link>
           </div>
           <div className="flex gap-2">
             <Link href="/notifications" className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center" aria-label="Notifications">
-              <Bell size={20} className="text-white" />
+              <Bell weight="duotone" size={20} className="text-white" />
             </Link>
             <Link href="/pro/profile" className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center" aria-label="Paramètres">
-              <Settings size={20} className="text-white" />
+              <Gear weight="duotone" size={20} className="text-white" />
             </Link>
           </div>
         </div>
@@ -49,9 +49,9 @@ export default function ProDashboardPage() {
               <h2 className="text-2xl font-black text-ink">{e.name}</h2>
               <p className="text-sm text-ink-3">{e.city}</p>
             </div>
-            <div className="flex items-center gap-1 text-[#F7C400] font-bold text-sm">
-              <span>★</span>
-              <span>{e.rating}</span>
+            <div className="flex items-center gap-1 font-bold text-sm">
+              <Star size={14} weight="fill" className="text-[#F7C400]" />
+              <span className="text-ink-2">{e.rating}</span>
             </div>
           </div>
 
@@ -67,12 +67,12 @@ export default function ProDashboardPage() {
 
           <div className="grid grid-cols-2 gap-3 mt-4">
             <Link href="/pro/statistics" className="bg-surface-2 rounded-[18px] p-4 border border-line">
-              <BarChart2 size={22} className="text-tornoo-green" />
+              <ChartBar weight="duotone" size={22} className="text-tornoo-green" />
               <p className="font-black text-ink mt-2">Statistiques</p>
               <p className="text-xs text-ink-3">Aujourd'hui</p>
             </Link>
             <Link href="/pro/queues" className="bg-surface-2 rounded-[18px] p-4 border border-line">
-              <Users size={22} className="text-tornoo-green" />
+              <Users weight="duotone" size={22} className="text-tornoo-green" />
               <p className="font-black text-ink mt-2">File d'attente</p>
               <p className="text-xs text-ink-3">En temps réel</p>
             </Link>
@@ -127,7 +127,7 @@ export default function ProDashboardPage() {
             href="/pro/queues/new"
             className="mt-3 flex items-center justify-center gap-2 h-14 rounded-[15px] bg-tornoo-green text-white font-extrabold w-full"
           >
-            <Plus size={20} />
+            <Plus weight="bold" size={20} />
             Prendre un ticket
           </Link>
         </div>

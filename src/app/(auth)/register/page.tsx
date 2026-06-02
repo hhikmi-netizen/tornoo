@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ChevronLeft, User, Mail, Lock, Eye, EyeOff, Phone } from "lucide-react";
+import { CaretLeft, User, Envelope, Lock, Eye, EyeSlash, Phone } from "@phosphor-icons/react";
 import { TornooMark } from "@/components/tornoo/TornooLogo";
 import { useToast } from "@/components/ui/Toast";
 
@@ -57,7 +57,7 @@ export default function RegisterPage() {
     <div className="bg-white min-h-svh">
       <div className="px-5 pt-safe-top pb-10">
         <button onClick={() => router.back()} className="flex items-center gap-1.5 mt-2 text-ink-2 font-bold">
-          <ChevronLeft size={20} />
+          <CaretLeft weight="bold" size={20} />
           <span>Retour</span>
         </button>
 
@@ -80,7 +80,7 @@ export default function RegisterPage() {
           className="space-y-3"
         >
           <Field icon={User} value={name} onChange={setName} placeholder="Nom complet" />
-          <Field icon={Mail} type="email" value={email} onChange={setEmail} placeholder="Adresse e-mail" />
+          <Field icon={Envelope} type="email" value={email} onChange={setEmail} placeholder="Adresse e-mail" />
           <Field icon={Phone} type="tel" value={phone} onChange={setPhone} placeholder="Téléphone (optionnel)" />
           <Field
             icon={Lock}
@@ -90,7 +90,7 @@ export default function RegisterPage() {
             placeholder="Mot de passe (6 caractères min.)"
             right={
               <button onClick={() => setShow((s) => !s)} aria-label="Toggle" className="p-1">
-                {show ? <EyeOff size={18} className="text-ink-3" /> : <Eye size={18} className="text-ink-3" />}
+                {show ? <EyeSlash weight="regular" size={18} className="text-ink-3" /> : <Eye weight="regular" size={18} className="text-ink-3" />}
               </button>
             }
           />

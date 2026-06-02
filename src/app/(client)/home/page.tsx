@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { Search, SlidersHorizontal, MapPin, Bell, ChevronRight, History, Ticket, Map } from "lucide-react";
+import { MagnifyingGlass, Faders, MapPin, Bell, CaretRight, ClockCounterClockwise, Ticket, MapTrifold } from "@phosphor-icons/react";
 import { TornooLogo } from "@/components/tornoo/TornooLogo";
 import { EstablishmentCard } from "@/components/tornoo/EstablishmentCard";
 import { CardSkeleton } from "@/components/ui/Skeleton";
@@ -60,7 +60,7 @@ export default function HomePage() {
               className="relative w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center border border-line"
               aria-label={t.notifications}
             >
-              <Bell size={18} className="text-ink-2" />
+              <Bell weight="duotone" size={18} className="text-ink-2" />
               <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-tornoo-green border-2 border-white" aria-hidden="true" />
             </Link>
             <Link href="/profile" className="w-10 h-10 rounded-full bg-surface-2 overflow-hidden border border-line" aria-label={t.profile}>
@@ -82,15 +82,15 @@ export default function HomePage() {
       </div>
 
       <div className="px-4 max-w-lg mx-auto pb-6 pt-4 space-y-5">
-        {/* Search bar */}
+        {/* MagnifyingGlass bar */}
         <motion.div custom={0} variants={fadeUp} initial="hidden" animate="show">
           <Link
             href="/search"
             className="flex items-center gap-3 bg-surface-2 rounded-[14px] px-4 h-14 border border-line shadow-1"
           >
-            <Search size={18} className="text-ink-3 shrink-0" />
+            <MagnifyingGlass weight="bold" size={18} className="text-ink-3 shrink-0" />
             <span className="text-ink-3 font-medium flex-1 text-sm">{t.searchPlaceholder}</span>
-            <SlidersHorizontal size={17} className="text-tornoo-green shrink-0" />
+            <Faders weight="bold" size={17} className="text-tornoo-green shrink-0" />
           </Link>
         </motion.div>
 
@@ -98,7 +98,7 @@ export default function HomePage() {
         <motion.div custom={1} variants={fadeUp} initial="hidden" animate="show"
           className="flex items-center gap-3 bg-surface-2 rounded-[14px] px-4 h-12 border border-line"
         >
-          <MapPin size={16} className="text-tornoo-green shrink-0" />
+          <MapPin weight="duotone" size={16} className="text-tornoo-green shrink-0" />
           <div>
             <p className="text-[10px] text-ink-3 font-semibold uppercase tracking-wide">{t.aroundMe}</p>
             <p className="font-bold text-sm text-ink leading-none">Casablanca, Maroc</p>
@@ -123,7 +123,7 @@ export default function HomePage() {
               </div>
               <div className="flex flex-col items-end gap-1">
                 <span className="text-xs font-bold text-tornoo-green">En cours</span>
-                <ChevronRight size={14} className="text-white/40" />
+                <CaretRight weight="bold" size={14} className="text-white/40" />
               </div>
             </Link>
           </motion.div>
@@ -134,10 +134,10 @@ export default function HomePage() {
           className="grid grid-cols-4 gap-3"
         >
           {[
-            { label: t.history, icon: History, href: "/profile/history" },
+            { label: t.history, icon: ClockCounterClockwise, href: "/profile/history" },
             { label: t.myTickets, icon: Ticket, href: "/ticket/current" },
             { label: t.notifications, icon: Bell, href: "/notifications" },
-            { label: "Carte", icon: Map, href: "/map" },
+            { label: "Carte", icon: MapTrifold, href: "/map" },
           ].map(({ label, icon: Icon, href }) => (
             <Link
               key={label}
@@ -158,7 +158,7 @@ export default function HomePage() {
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-xl font-black text-ink">{t.myFavorites}</h2>
               <Link href="/favorites" className="text-sm font-bold text-tornoo-green flex items-center gap-0.5">
-                {t.seeAll} <ChevronRight size={14} />
+                {t.seeAll} <CaretRight weight="bold" size={14} />
               </Link>
             </div>
             <div className="flex gap-3 overflow-x-auto scrollbar-none pb-1 -mx-4 px-4">
@@ -174,7 +174,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-xl font-black text-ink">{t.popular}</h2>
             <Link href="/search" className="text-sm font-bold text-tornoo-green flex items-center gap-0.5">
-              {t.seeAll} <ChevronRight size={14} />
+              {t.seeAll} <CaretRight weight="bold" size={14} />
             </Link>
           </div>
 

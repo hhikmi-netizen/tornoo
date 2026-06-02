@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, Bell, Ticket, Tag, Info } from "lucide-react";
+import { CaretLeft, Bell, Ticket, Tag, Info } from "@phosphor-icons/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { api } from "@/services/api";
 import type { Notification } from "@/types";
@@ -59,7 +59,7 @@ export default function NotificationsPage() {
           className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center"
           aria-label="Retour"
         >
-          <ChevronLeft size={20} />
+          <CaretLeft weight="bold" size={20} />
         </button>
         <h1 className="flex-1 text-xl font-black text-ink">Notifications</h1>
         <AnimatePresence>
