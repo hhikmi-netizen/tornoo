@@ -35,7 +35,7 @@ export function AdminNav() {
                   : "text-white/60 hover:text-white hover:bg-white/10"
               )}
             >
-              <Icon size={18} />
+              <Icon size={18} weight={isActive(href) ? "fill" : "regular"} />
               {label}
             </Link>
           ))}
@@ -53,7 +53,7 @@ export function AdminNav() {
               isActive(href) ? "text-tornoo-green" : "text-white/50 hover:text-white"
             )}
           >
-            <Icon size={20} />
+            <Icon size={20} weight={isActive(href) ? "fill" : "regular"} />
             <span className="text-[10px]">{label}</span>
           </Link>
         ))}

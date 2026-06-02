@@ -17,7 +17,7 @@ export function StatCard({ label, value, change, up, icon: Icon, color = "#07984
       <div className="flex items-center justify-between mb-2">
         {Icon && (
           <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: `${color}18` }}>
-            <Icon size={17} style={{ color }} />
+            <Icon size={17} weight="duotone" style={{ color }} />
           </div>
         )}
         {change && (
