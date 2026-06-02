@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+@theme {
+  /* Tornoo brand colors */
+  --color-tornoo-green: #07984a;
+  --color-tornoo-green2: #13b45b;
+  --color-tornoo-orange: #ff9300;
+  --color-tornoo-red: #ef2b24;
+  --color-tornoo-yellow: #f7c400;
+  --color-tornoo-navy: #061819;
+  --color-tornoo-navy2: #062e24;
+
+  /* Ink scale */
+  --color-ink: #0b1220;
+  --color-ink-2: #5b6472;
+  --color-ink-3: #97a1ae;
+  --color-ink-4: #c7cdd6;
+
+  /* Surface */
+  --color-line: #eaedf0;
+  --color-surface: #ffffff;
+  --color-surface-2: #f5f8f6;
+
+  /* Wait status */
+  --color-low: #07984a;
+  --color-low-bg: #e4f6ec;
+  --color-low-rim: #b6e6c9;
+  --color-mod: #ff9300;
+  --color-mod-bg: #fff1de;
+  --color-mod-rim: #ffd9a6;
+  --color-high: #ef2b24;
+  --color-high-bg: #fde7e6;
+  --color-high-rim: #f6c2bf;
+
+  /* Typography */
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-arabic: "IBM Plex Sans Arabic", system-ui, sans-serif;
+
+  /* Border radius */
+  --radius-card: 22px;
+  --radius-btn: 15px;
+  --radius-input: 14px;
+  --radius-4xl: 32px;
+  --radius-5xl: 40px;
+
+  /* Shadows */
+  --shadow-1: 0 1px 2px rgba(20,24,33,.05), 0 5px 16px -8px rgba(20,24,33,.12);
+  --shadow-2: 0 2px 6px rgba(20,24,33,.06), 0 18px 40px -16px rgba(20,24,33,.20);
+  --shadow-pop: 0 10px 30px -8px rgba(20,24,33,.28);
+  --shadow-nav: 0 -1px 0 0 #eaedf0, 0 -8px 24px -8px rgba(20,24,33,.08);
+
+  /* Animations */
+  --animate-fade-in: fadeIn 0.5s ease-out;
+  --animate-slide-up: slideUp 0.4s ease-out;
+  --animate-shimmer: shimmer 1.5s infinite;
+  --animate-progress: progress 2s ease-out;
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  @keyframes progress {
+    from { width: 0%; }
+    to { width: 60%; }
+  }
+}
+
+:root {
+  /* CSS vars for easy access in inline styles / components */
+  --brand-g: #07984a;
+  --brand-g2: #13b45b;
+  --brand-o: #ff9300;
+  --grad: linear-gradient(120deg,#07984a 0%,#13b45b 28%,#f7c400 58%,#ff9300 80%,#ef2b24 100%);
+  --grad-navy: linear-gradient(135deg,#062e24 0%,#061819 100%);
+}
+
+@layer base {
+  * { box-sizing: border-box; }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html[dir="rtl"] {
+    font-family: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  }
+
+  body {
+    background: #ffffff;
+    color: #0b1220;
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    min-height: 100svh;
+  }
+}
+
+@layer utilities {
+  .safe-top { padding-top: max(16px, env(safe-area-inset-top)); }
+  .safe-bottom { padding-bottom: max(16px, env(safe-area-inset-bottom)); }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+
+  .status-low {
+    background: var(--color-low-bg, #e4f6ec);
+    color: var(--color-low, #07984a);
+    border: 1px solid var(--color-low-rim, #b6e6c9);
+  }
+  .status-mod {
+    background: var(--color-mod-bg, #fff1de);
+    color: var(--color-mod, #ff9300);
+    border: 1px solid var(--color-mod-rim, #ffd9a6);
+  }
+  .status-high {
+    background: var(--color-high-bg, #fde7e6);
+    color: var(--color-high, #ef2b24);
+    border: 1px solid var(--color-high-rim, #f6c2bf);
+  }
+
+  .bg-grad { background: linear-gradient(120deg,#07984a 0%,#13b45b 28%,#f7c400 58%,#ff9300 80%,#ef2b24 100%); }
+  .bg-grad-navy { background: linear-gradient(135deg,#062e24 0%,#061819 100%); }
+  .bg-grad-green { background: linear-gradient(135deg,#07984a 0%,#13b45b 100%); }
+
+  .text-grad {
+    background: linear-gradient(120deg,#07984a 0%,#13b45b 28%,#f7c400 58%,#ff9300 80%,#ef2b24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
