@@ -104,6 +104,7 @@ export default function LoginPage() {
             placeholder="Mot de passe"
             right={
               <button
+                type="button"
                 onClick={() => setShow((s) => !s)}
                 aria-label={show ? "Masquer le mot de passe" : "Afficher le mot de passe"}
                 className="p-1"
@@ -150,7 +151,7 @@ export default function LoginPage() {
         </div>
 
         {/* Google */}
-        <button className="w-full h-14 rounded-[15px] font-bold bg-white border border-line flex items-center justify-center gap-3 shadow-1">
+        <button type="button" className="w-full h-14 rounded-[15px] font-bold bg-white border border-line flex items-center justify-center gap-3 shadow-1">
           <GoogleG />
           <span className="text-sm">Continuer avec Google</span>
         </button>
@@ -161,6 +162,7 @@ export default function LoginPage() {
             {isSignup ? "Déjà un compte ?" : "Pas encore de compte ?"}
           </span>
           <button
+            type="button"
             onClick={() => setTab(isSignup ? "login" : "signup")}
             className="font-extrabold text-[15px] text-tornoo-green"
           >
@@ -182,6 +184,7 @@ export default function LoginPage() {
             <div key={code} className="flex items-center gap-4">
               {i > 0 && <span className="w-px h-4 bg-line" />}
               <button
+                type="button"
                 onClick={() => setLang(code)}
                 className={`text-sm font-bold transition-colors ${
                   lang === code ? "text-ink" : "text-ink-3"

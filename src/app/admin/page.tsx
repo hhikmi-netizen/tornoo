@@ -49,7 +49,7 @@ export default function AdminPage() {
           <span className="text-sm font-bold text-tornoo-green">Voir tout</span>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full min-w-[560px]">
             <thead className="bg-surface-2 border-b border-line">
               <tr>
                 {["Établissement", "Catégorie", "Ville", "Plan", "Statut"].map((h) => (

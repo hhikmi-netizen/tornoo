@@ -41,7 +41,7 @@ export default function ProDashboardPage() {
         </div>
       </div>
 
-      <div className="px-4 -mt-16 pb-6 space-y-4">
+      <div className="px-4 -mt-16 pb-28 space-y-4">
         {/* Main card */}
         <div className="bg-white rounded-[22px] border border-line shadow-pop p-5">
           <div className="flex items-start justify-between">

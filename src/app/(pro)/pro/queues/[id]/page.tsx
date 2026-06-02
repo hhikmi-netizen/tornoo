@@ -95,7 +95,7 @@ export default function QueueDetailPage() {
         </button>
       </div>
 
-      <div className="px-4 pt-4 pb-8 max-w-lg mx-auto space-y-4">
+      <div className="px-4 pt-4 pb-28 max-w-lg mx-auto space-y-4">
         {/* Stats row */}
         <div className="grid grid-cols-3 gap-2">
           {[

@@ -77,7 +77,7 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-1.5 min-w-0">
-            <h3 className="text-xl font-black text-ink truncate">{e.name}</h3>
+            <h3 className="text-lg font-black text-ink truncate">{e.name}</h3>
             {e.verified && (
               <CheckCircle size={16} className="text-tornoo-green shrink-0" aria-label="Vérifié" />
             )}

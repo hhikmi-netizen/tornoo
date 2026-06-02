@@ -69,7 +69,7 @@
   }
   @keyframes progress {
     from { width: 0%; }
-    to { width: 60%; }
+    to { width: 100%; }
   }
 }
 

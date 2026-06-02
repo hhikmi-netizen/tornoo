@@ -39,7 +39,7 @@ export default function ConfirmPage() {
         <motion.h1
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.2 }}
           className="text-[28px] font-black text-ink text-center mt-8 leading-snug"
         >
           Vous êtes dans<br />la file d'attente !
@@ -47,7 +47,7 @@ export default function ConfirmPage() {
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.65 }}
+          transition={{ delay: 0.3 }}
           className="text-sm text-ink-3 mt-2"
         >
           {establishment.name} · {establishment.category}
@@ -58,7 +58,7 @@ export default function ConfirmPage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.7 }}
+        transition={{ delay: 0.3 }}
         className="bg-white rounded-[22px] border border-line shadow-1 grid grid-cols-3 divide-x divide-line mt-10"
       >
         <div className="p-4 text-center">
@@ -79,7 +79,7 @@ export default function ConfirmPage() {
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.85 }}
+        transition={{ delay: 0.4 }}
         className="bg-white rounded-[22px] border border-line shadow-1 flex items-center gap-3 p-4 mt-4"
       >
         <div className="w-10 h-10 rounded-full bg-low-bg flex items-center justify-center">
@@ -96,7 +96,7 @@ export default function ConfirmPage() {
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.0 }}
+        transition={{ delay: 0.45 }}
         className="mt-6 space-y-3"
       >
         <Link

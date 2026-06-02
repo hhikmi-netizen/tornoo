@@ -29,12 +29,13 @@ export function ProBottomNav() {
               <Link
                 key="action"
                 href={item.href}
-                className="flex flex-col items-center -mt-6"
-                aria-label="Nouvelle action"
+                className="flex flex-col items-center gap-1 -mt-6"
+                aria-label="Nouveau ticket"
               >
                 <div className="w-14 h-14 rounded-full bg-tornoo-green flex items-center justify-center shadow-[0_4px_20px_rgba(7,152,74,.5)]">
                   <Plus size={28} className="text-white" />
                 </div>
+                <span className="text-[10px] font-bold text-tornoo-green">Nouveau</span>
               </Link>
             );
           }

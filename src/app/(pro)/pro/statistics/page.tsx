@@ -41,7 +41,7 @@ export default function StatisticsPage() {
         <span className="text-ink-3">•••</span>
       </div>
 
-      <div className="px-4 pb-8 max-w-lg mx-auto space-y-4 pt-4">
+      <div className="px-4 pb-28 max-w-lg mx-auto space-y-4 pt-4">
         {/* Period selector */}
         <button className="mx-auto flex items-center gap-2 px-5 h-10 rounded-full bg-white border border-line shadow-1 text-sm font-bold text-ink">
           7 derniers jours <ChevronDown size={16} className="text-ink-3" />
@@ -59,10 +59,10 @@ export default function StatisticsPage() {
               <p className="text-xs text-tornoo-green/80 mt-0.5">Clients servis</p>
               <p className="text-xs font-bold text-tornoo-green mt-1">+18%</p>
             </div>
-            <div className="bg-purple-50 rounded-[18px] p-4 border border-purple-200">
-              <p className="text-2xl font-black text-purple-700">{Math.round(totals.avgWait)} min</p>
-              <p className="text-xs text-purple-500/80 mt-0.5">Attente moyenne</p>
-              <p className="text-xs font-bold text-purple-700 mt-1">-5 min</p>
+            <div className="bg-[#e6f0f2] rounded-[18px] p-4 border border-[#c2d8dd]">
+              <p className="text-2xl font-black text-[#0a5c6b]">{Math.round(totals.avgWait)} min</p>
+              <p className="text-xs text-[#0a5c6b]/70 mt-0.5">Attente moyenne</p>
+              <p className="text-xs font-bold text-[#0a5c6b] mt-1">-5 min</p>
             </div>
             <div className="bg-mod-bg rounded-[18px] p-4 border border-mod-rim">
               <p className="text-2xl font-black text-tornoo-orange">{Math.round(totals.revenue / 1000)}k</p>
