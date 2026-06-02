@@ -75,16 +75,16 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
         />
       </div>
       <div className="flex-1 min-w-0">
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex items-center gap-1.5 min-w-0">
-            <h3 className="text-lg font-black text-ink truncate">{e.name}</h3>
-            {e.verified && (
-              <CheckCircle size={16} className="text-tornoo-green shrink-0" aria-label="Vérifié" />
-            )}
-          </div>
+        <div className="flex items-center gap-1.5">
+          <h3 className="text-lg font-black text-ink line-clamp-2 leading-tight">{e.name}</h3>
+          {e.verified && (
+            <CheckCircle size={16} className="text-tornoo-green shrink-0" aria-label="Vérifié" />
+          )}
+        </div>
+        <div className="flex items-center justify-between mt-0.5 gap-2">
+          <p className="text-sm text-ink-3">{e.category}</p>
           <WaitBadge minutes={e.waitMinutes} level={e.waitLevel} size="sm" />
         </div>
-        <p className="text-sm text-ink-3 mt-0.5">{e.category}</p>
         <div className="flex items-center gap-1 mt-1">
           <MapPin size={12} className="text-ink-3" />
           <p className="text-xs text-ink-3">
