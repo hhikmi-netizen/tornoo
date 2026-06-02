@@ -99,8 +99,8 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
         </div>
         <div className="mt-2.5 flex items-center justify-between bg-surface-2 rounded-xl px-3 py-2">
           <div>
-            <p className="text-xs text-ink-3">Attente estimée</p>
-            <p className="text-lg font-black text-ink leading-tight">
+            <p className="text-xs text-ink-3">Attente</p>
+            <p className="text-lg font-black leading-tight" style={{ color: e.waitLevel === "low" ? "#07984a" : e.waitLevel === "mod" ? "#ff9300" : "#ef2b24" }}>
               {e.waitMinutes < 60 ? `${e.waitMinutes} min` : `${Math.floor(e.waitMinutes / 60)}h${e.waitMinutes % 60 || ""}`}
             </p>
           </div>
