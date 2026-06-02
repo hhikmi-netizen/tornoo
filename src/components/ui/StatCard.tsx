@@ -1,4 +1,4 @@
-import { type Icon as PhosphorIcon } from "@phosphor-icons/react";
+import { type Icon as PhosphorIcon, ArrowUp, ArrowDown } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
 interface StatCardProps {
@@ -21,8 +21,9 @@ export function StatCard({ label, value, change, up, icon: Icon, color = "#07984
           </div>
         )}
         {change && (
-          <span className={cn("text-xs font-bold ml-auto", up ? "text-tornoo-green" : "text-tornoo-red")}>
-            {up ? "▲" : "▼"} {change}
+          <span className={cn("flex items-center gap-0.5 text-xs font-bold ml-auto", up ? "text-tornoo-green" : "text-tornoo-red")}>
+            {up ? <ArrowUp weight="bold" size={10} /> : <ArrowDown weight="bold" size={10} />}
+            {change}
           </span>
         )}
       </div>
