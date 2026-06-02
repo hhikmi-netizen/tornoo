@@ -24,7 +24,7 @@ const typeIcon = { turn: Bell, reminder: Ticket, promo: Tag, system: Info };
 const typeColor: Record<Notification["type"], string> = {
   turn: "#07984a",
   reminder: "#ff9300",
-  promo: "#7c3aed",
+  promo: "#f7c400",
   system: "#5b6472",
 };
 

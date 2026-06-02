@@ -84,7 +84,7 @@ export default function ProDashboardPage() {
           <h3 className="font-black text-ink mb-3">Vue d'ensemble aujourd'hui</h3>
           <div className="grid grid-cols-3 gap-3">
             {[
-              { value: String(today?.clientsServed ?? "—"), label: "Servis aujourd'hui" },
+              { value: String(today?.clientsServed ?? "—"), label: "Servis" },
               { value: String(totalWaiting), label: "En attente" },
               { value: `${Math.round(today?.avgWaitMinutes ?? 0)} min`, label: "Moy. attente" },
             ].map(({ value, label }) => (

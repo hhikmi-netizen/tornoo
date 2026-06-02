@@ -62,15 +62,15 @@ export default function ConfirmPage() {
         className="bg-white rounded-[22px] border border-line shadow-1 grid grid-cols-3 divide-x divide-line mt-10"
       >
         <div className="p-4 text-center">
-          <p className="text-xs text-ink-3">Position</p>
+          <p className="text-xs font-semibold text-ink-2">Position</p>
           <p className="text-3xl font-black text-ink mt-1">{MOCK_TICKET.position}</p>
         </div>
         <div className="p-4 text-center">
-          <p className="text-xs text-ink-3">Attente</p>
+          <p className="text-xs font-semibold text-ink-2">Attente</p>
           <p className="text-xl font-black text-ink mt-1">{MOCK_TICKET.estimatedWaitMinutes} min</p>
         </div>
         <div className="p-4 text-center">
-          <p className="text-xs text-ink-3">Arrivée</p>
+          <p className="text-xs font-semibold text-ink-2">Arrivée</p>
           <p className="text-xl font-black text-ink mt-1">{MOCK_TICKET.estimatedTime}</p>
         </div>
       </motion.div>

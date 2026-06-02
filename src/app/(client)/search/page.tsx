@@ -54,20 +54,23 @@ export default function SearchPage() {
         </div>
 
         {/* Category chips */}
-        <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-4 px-4 pb-1">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`shrink-0 h-8 px-4 rounded-full text-sm font-bold transition-colors ${
-                activeCategory === cat
-                  ? "bg-tornoo-green text-white"
-                  : "bg-surface-2 text-ink-2 border border-line"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+        <div className="relative -mx-4">
+          <div className="flex gap-2 overflow-x-auto scrollbar-none px-4 pb-1">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`shrink-0 h-8 px-4 rounded-full text-sm font-bold transition-colors ${
+                  activeCategory === cat
+                    ? "bg-tornoo-green text-white"
+                    : "bg-surface-2 text-ink-2 border border-line"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+          <div className="pointer-events-none absolute right-0 top-0 bottom-1 w-10 bg-gradient-to-l from-white to-transparent" />
         </div>
       </div>
 

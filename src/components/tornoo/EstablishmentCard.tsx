@@ -82,7 +82,7 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
               <CheckCircle size={16} className="text-tornoo-green shrink-0" aria-label="Vérifié" />
             )}
           </div>
-          <WaitBadge minutes={e.waitMinutes} level={e.waitLevel} size="sm" showLabel />
+          <WaitBadge minutes={e.waitMinutes} level={e.waitLevel} size="sm" />
         </div>
         <p className="text-sm text-ink-3 mt-0.5">{e.category}</p>
         <div className="flex items-center gap-1 mt-1">

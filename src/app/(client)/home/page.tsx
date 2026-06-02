@@ -117,7 +117,7 @@ export default function HomePage() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-black text-sm">{activeTicket.establishmentName}</p>
-                <p className="text-xs text-white/60">
+                <p className="text-xs text-white/75">
                   Position #{activeTicket.position} · ~{activeTicket.estimatedWaitMinutes} min
                 </p>
               </div>
@@ -157,7 +157,7 @@ export default function HomePage() {
           <motion.section custom={activeTicket ? 4 : 3} variants={fadeUp} initial="hidden" animate="show">
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-xl font-black text-ink">{t.myFavorites}</h2>
-              <Link href="/favorites" className="text-sm font-bold text-ink-3 flex items-center gap-0.5">
+              <Link href="/favorites" className="text-sm font-bold text-tornoo-green flex items-center gap-0.5">
                 {t.seeAll} <ChevronRight size={14} />
               </Link>
             </div>
@@ -173,27 +173,30 @@ export default function HomePage() {
         <motion.section custom={activeTicket ? 5 : 4} variants={fadeUp} initial="hidden" animate="show">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-xl font-black text-ink">{t.popular}</h2>
-            <Link href="/search" className="text-sm font-bold text-ink-3 flex items-center gap-0.5">
+            <Link href="/search" className="text-sm font-bold text-tornoo-green flex items-center gap-0.5">
               {t.seeAll} <ChevronRight size={14} />
             </Link>
           </div>
 
           {/* Category chips */}
-          <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-4 px-4 pb-3">
-            {CATEGORIES.map(({ label, emoji }) => (
-              <button
-                key={label}
-                onClick={() => setActiveCategory(label)}
-                className={`shrink-0 h-9 px-4 rounded-full text-sm font-bold flex items-center gap-1.5 transition-colors ${
-                  activeCategory === label
-                    ? "bg-tornoo-green text-white shadow-[0_2px_12px_rgba(7,152,74,.3)]"
-                    : "bg-surface-2 text-ink-2 border border-line"
-                }`}
-              >
-                <span className="text-[13px]">{emoji}</span>
-                {label}
-              </button>
-            ))}
+          <div className="relative -mx-4">
+            <div className="flex gap-2 overflow-x-auto scrollbar-none px-4 pb-3">
+              {CATEGORIES.map(({ label, emoji }) => (
+                <button
+                  key={label}
+                  onClick={() => setActiveCategory(label)}
+                  className={`shrink-0 h-9 px-4 rounded-full text-sm font-bold flex items-center gap-1.5 transition-colors ${
+                    activeCategory === label
+                      ? "bg-tornoo-green text-white shadow-[0_2px_12px_rgba(7,152,74,.3)]"
+                      : "bg-surface-2 text-ink-2 border border-line"
+                  }`}
+                >
+                  <span className="text-[13px]">{emoji}</span>
+                  {label}
+                </button>
+              ))}
+            </div>
+            <div className="pointer-events-none absolute right-0 top-0 bottom-3 w-12 bg-gradient-to-l from-white to-transparent" />
           </div>
 
           {isLoading ? (

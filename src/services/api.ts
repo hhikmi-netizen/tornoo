@@ -24,7 +24,7 @@ export const api = {
       );
     },
     bySlug: async (slug: string): Promise<Establishment | null> => {
-      await delay();
+      await delay(150);
       return MOCK_ESTABLISHMENTS.find((e) => e.slug === slug) ?? null;
     },
     favorites: async (ids: string[]): Promise<Establishment[]> => {
