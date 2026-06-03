@@ -59,6 +59,7 @@ const LANGS: { code: Lang; label: string }[] = [
 export default function LoginPage() {
   const { lang, setLang, t } = useI18n();
   const router = useRouter();
+  const [role, setRole] = useState<"client" | "pro">("client");
   const [tab, setTab] = useState<"login" | "signup">("login");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -70,25 +71,31 @@ export default function LoginPage() {
 
   const isSignup = tab === "signup";
   const isValid = email.includes("@") && pw.length >= 4 && (!isSignup || name.trim().length > 1);
+  const destination = role === "pro" ? "/pro" : "/home";
+
+  const saveSession = (userName?: string, userEmail?: string) => {
+    localStorage.setItem("tornoo_auth", "1");
+    localStorage.setItem("tornoo_role", role);
+    if (userName) localStorage.setItem("tornoo_user", JSON.stringify({ name: userName, email: userEmail ?? "" }));
+  };
 
   const handleSubmit = async () => {
     if (!isValid || loading) return;
     setError("");
     setLoading(true);
     await new Promise((r) => setTimeout(r, 900));
-    if (isSignup) {
-      localStorage.setItem("tornoo_user", JSON.stringify({ name, email }));
-    }
-    localStorage.setItem("tornoo_auth", "1");
-    router.replace("/home");
+    saveSession(isSignup ? name : undefined, isSignup ? email : undefined);
+    router.replace(destination);
   };
 
   const handleGoogle = async () => {
     setGoogleLoading(true);
     await new Promise((r) => setTimeout(r, 1400));
-    localStorage.setItem("tornoo_auth", "1");
-    localStorage.setItem("tornoo_user", JSON.stringify({ name: "Amine Benali", email: "amine@gmail.com" }));
-    router.replace("/home");
+    saveSession(
+      role === "pro" ? "Ahmed Benali Pro" : "Amine Benali",
+      role === "pro" ? "ahmed@barberclub.ma" : "amine@gmail.com"
+    );
+    router.replace(destination);
   };
 
   return (
@@ -96,18 +103,15 @@ export default function LoginPage() {
       <CityBackdrop />
 
       <div className="relative z-10 px-6 pb-10 pt-safe-top">
-        {/* Logo — compact, confident */}
+        {/* Logo */}
         <div className="flex items-center justify-between pt-4">
           <TornooMark size={44} />
           <div className="flex items-center gap-3">
             {LANGS.map(({ code, label }, i) => (
               <div key={code} className="flex items-center gap-3">
                 {i > 0 && <span className="w-px h-3 bg-line" />}
-                <button
-                  type="button"
-                  onClick={() => setLang(code)}
-                  className={`text-xs font-bold transition-colors ${lang === code ? "text-ink" : "text-ink-4"}`}
-                >
+                <button type="button" onClick={() => setLang(code)}
+                  className={`text-xs font-bold transition-colors ${lang === code ? "text-ink" : "text-ink-4"}`}>
                   {label}
                 </button>
               </div>
@@ -116,21 +120,46 @@ export default function LoginPage() {
         </div>
 
         {/* Welcome */}
-        <div className="mt-12">
+        <div className="mt-10">
           <p className="section-eyebrow mb-2">Tornoo</p>
           <h1 className="text-[32px] font-black text-ink leading-tight tracking-[-0.02em]">{t.welcome}</h1>
-          <p className="mt-2.5 text-ink-3 font-medium text-[15px] leading-relaxed max-w-[300px]">
-            {t.authSub}
-          </p>
+          <p className="mt-2 text-ink-3 font-medium text-[15px] leading-relaxed max-w-[300px]">{t.authSub}</p>
+        </div>
+
+        {/* Role selector */}
+        <div className="mt-6 grid grid-cols-2 gap-2">
+          {([
+            { id: "client", label: "Je suis client", emoji: "👤", desc: "Rejoignez des files d'attente" },
+            { id: "pro",    label: "Je suis pro",    emoji: "🏢", desc: "Gérez votre établissement" },
+          ] as const).map(({ id, label, emoji, desc }) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => setRole(id)}
+              className={`relative rounded-[16px] p-3.5 text-left transition-all border-2 ${
+                role === id
+                  ? "border-tornoo-green bg-low-bg shadow-[0_0_0_3px_rgba(7,152,74,.1)]"
+                  : "border-line bg-surface-2"
+              }`}
+            >
+              <span className="text-2xl block mb-1">{emoji}</span>
+              <p className={`text-sm font-extrabold ${role === id ? "text-tornoo-green" : "text-ink"}`}>{label}</p>
+              <p className="text-[11px] text-ink-3 mt-0.5 leading-tight">{desc}</p>
+              {role === id && (
+                <span className="absolute top-2 right-2 w-4 h-4 rounded-full bg-tornoo-green flex items-center justify-center">
+                  <svg viewBox="0 0 10 10" className="w-2.5 h-2.5"><path d="M2 5l2.5 2.5L8 3" stroke="white" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </span>
+              )}
+            </button>
+          ))}
         </div>
 
         {/* Tab switcher */}
-        <div className="relative flex bg-surface-2 rounded-[16px] p-1 mt-8 border border-line">
+        <div className="relative flex bg-surface-2 rounded-[16px] p-1 mt-5 border border-line">
           {(["login", "signup"] as const).map((val) => (
             <button key={val} type="button" onClick={() => setTab(val)} className="relative flex-1 h-10 text-sm font-bold">
               {tab === val && (
-                <motion.span
-                  layoutId="auth-tab"
+                <motion.span layoutId="auth-tab"
                   className="absolute inset-0 rounded-[12px] bg-white border border-[#d0d5dd]"
                   style={{ boxShadow: "0 1px 6px rgba(0,0,0,0.14), 0 0 0 0.5px rgba(0,0,0,0.06)" }}
                   transition={{ type: "spring", stiffness: 420, damping: 30 }}
@@ -145,28 +174,16 @@ export default function LoginPage() {
 
         {/* Form */}
         <div className="mt-4 space-y-3">
-          {isSignup && (
-            <InputField icon={User} value={name} onChange={setName} placeholder={t.fullName} />
-          )}
+          {isSignup && <InputField icon={User} value={name} onChange={setName} placeholder={t.fullName} />}
           <InputField icon={Envelope} type="email" value={email} onChange={setEmail} placeholder={t.emailAddr} />
           <InputField
             icon={Lock}
             type={show ? "text" : "password"}
-            value={pw}
-            onChange={setPw}
-            placeholder={t.passwordL}
+            value={pw} onChange={setPw} placeholder={t.passwordL}
             right={
-              <button
-                type="button"
-                onClick={() => setShow((s) => !s)}
-                aria-label={show ? "Masquer le mot de passe" : "Afficher le mot de passe"}
-                className="p-1"
-              >
-                {show ? (
-                  <EyeSlash weight="regular" size={20} className="text-ink-3" />
-                ) : (
-                  <Eye weight="regular" size={20} className="text-ink-3" />
-                )}
+              <button type="button" onClick={() => setShow((s) => !s)}
+                aria-label={show ? "Masquer" : "Afficher"} className="p-1">
+                {show ? <EyeSlash weight="regular" size={20} className="text-ink-3" /> : <Eye weight="regular" size={20} className="text-ink-3" />}
               </button>
             }
           />
@@ -174,16 +191,11 @@ export default function LoginPage() {
 
         {!isSignup && (
           <div className="flex justify-end mt-3">
-            <Link href="/forgot-password" className="text-sm font-bold text-tornoo-green">
-              {t.forgot}
-            </Link>
+            <Link href="/forgot-password" className="text-sm font-bold text-tornoo-green">{t.forgot}</Link>
           </div>
         )}
 
-        {/* Error */}
-        {error && (
-          <p className="mt-2 text-sm text-[#ef2b24] font-medium text-center">{error}</p>
-        )}
+        {error && <p className="mt-2 text-sm text-[#ef2b24] font-medium text-center">{error}</p>}
 
         {/* Primary CTA */}
         <button
@@ -192,12 +204,11 @@ export default function LoginPage() {
           disabled={!isValid || loading}
           onClick={handleSubmit}
         >
-          {loading ? (
-            <span className="w-5 h-5 rounded-full border-2 border-white border-t-transparent animate-spin" />
-          ) : (isSignup ? t.signupBtn : t.loginBtn)}
+          {loading
+            ? <span className="w-5 h-5 rounded-full border-2 border-white border-t-transparent animate-spin" />
+            : (isSignup ? t.signupBtn : t.loginBtn)}
         </button>
 
-        {/* Separator */}
         <div className="flex items-center gap-3 my-5">
           <div className="flex-1 h-px bg-line" />
           <span className="text-[11px] font-extrabold text-ink-4 tracking-widest uppercase">ou</span>
@@ -205,27 +216,13 @@ export default function LoginPage() {
         </div>
 
         {/* Google */}
-        <button
-          type="button"
-          disabled={googleLoading}
-          onClick={handleGoogle}
-          className="w-full h-14 rounded-[15px] font-bold bg-white border border-line flex items-center justify-center gap-3 shadow-1 active:scale-[0.98] transition-transform disabled:opacity-60"
-        >
+        <button type="button" disabled={googleLoading} onClick={handleGoogle}
+          className="w-full h-14 rounded-[15px] font-bold bg-white border border-line flex items-center justify-center gap-3 shadow-1 active:scale-[0.98] transition-transform disabled:opacity-60">
           {googleLoading
             ? <span className="w-5 h-5 rounded-full border-2 border-ink-3 border-t-transparent animate-spin" />
-            : <GoogleG />
-          }
+            : <GoogleG />}
           <span className="text-sm">{googleLoading ? "Connexion en cours…" : t.continueGoogle}</span>
         </button>
-
-
-        {/* Pro link */}
-        <Link
-          href="/pro"
-          className="mt-4 w-full flex items-center justify-center h-11 rounded-[15px] bg-surface-2 border border-line text-sm font-bold text-ink-2 active:scale-[0.98] transition-transform"
-        >
-          {t.proSpace} · {t.proRegister}
-        </Link>
 
         <div className="pb-2" />
       </div>
