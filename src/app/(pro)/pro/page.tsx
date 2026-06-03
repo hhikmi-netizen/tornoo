@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { Bell, Gear, ChartBar, Users, CaretRight, Plus, Star } from "@phosphor-icons/react";
+import { Bell, Gear, ChartBar, Users, CaretRight, Plus, Star, Wrench, CalendarBlank } from "@phosphor-icons/react";
 import { TornooMark } from "@/components/tornoo/TornooLogo";
 import { WaitBadge, WaitDot } from "@/components/tornoo/WaitBadge";
 import { MOCK_ESTABLISHMENTS, MOCK_QUEUES, MOCK_DAILY_STATS } from "@/lib/mock-data";
@@ -100,6 +100,30 @@ export default function ProDashboardPage() {
               <p className="text-xs text-[#0369a1]/70 mt-0.5">{t.avgWait}</p>
             </div>
           </div>
+        </div>
+
+        {/* Quick management links */}
+        <div className="grid grid-cols-2 gap-3">
+          <Link href="/pro/services" className="bg-white rounded-[20px] border border-line shadow-1 p-4 flex items-center gap-3 active:scale-[0.97] transition-transform">
+            <div className="w-10 h-10 rounded-xl bg-[#f5f3ff] flex items-center justify-center shrink-0">
+              <Wrench weight="duotone" size={20} className="text-[#7c3aed]" />
+            </div>
+            <div>
+              <p className="font-black text-sm text-ink">Services</p>
+              <p className="text-xs text-ink-3">Ajouter / modifier</p>
+            </div>
+            <CaretRight size={14} className="text-ink-4 ml-auto" />
+          </Link>
+          <Link href="/pro/schedule" className="bg-white rounded-[20px] border border-line shadow-1 p-4 flex items-center gap-3 active:scale-[0.97] transition-transform">
+            <div className="w-10 h-10 rounded-xl bg-[#eff6ff] flex items-center justify-center shrink-0">
+              <CalendarBlank weight="duotone" size={20} className="text-[#2563eb]" />
+            </div>
+            <div>
+              <p className="font-black text-sm text-ink">Horaires</p>
+              <p className="text-xs text-ink-3">Agenda semaine</p>
+            </div>
+            <CaretRight size={14} className="text-ink-4 ml-auto" />
+          </Link>
         </div>
 
         {/* Services / queues */}

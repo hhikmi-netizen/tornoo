@@ -223,7 +223,7 @@ export default function ProProfilePage() {
           <div className="grid grid-cols-4 gap-3">
             {[
               { icon: PencilSimple, label: "Modifier profil", href: "/pro/establishment", color: "#07984a", bg: "#e4f6ec" },
-              { icon: Clock, label: "Horaires", href: "/pro/establishment", color: "#2563eb", bg: "#eff6ff" },
+              { icon: Clock, label: "Horaires", href: "/pro/schedule", color: "#2563eb", bg: "#eff6ff" },
               { icon: Wrench, label: "Services", href: "/pro/services", color: "#7c3aed", bg: "#f5f3ff" },
               { icon: Users, label: "Équipe", href: "/pro/queues", color: "#ff9300", bg: "#fff1de" },
             ].map(({ icon: Icon, label, href, color, bg }) => (
