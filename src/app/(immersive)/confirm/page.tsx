@@ -5,9 +5,11 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Ticket, Bell, CaretRight } from "@phosphor-icons/react";
 import { MOCK_ESTABLISHMENTS, MOCK_TICKET } from "@/lib/mock-data";
+import { useI18n } from "@/i18n/context";
 
 export default function ConfirmPage() {
   const searchParams = useSearchParams();
+  const { t } = useI18n();
   const slug = searchParams.get("from");
   const establishment = slug
     ? MOCK_ESTABLISHMENTS.find((e) => e.slug === slug) ?? MOCK_ESTABLISHMENTS[0]
@@ -16,7 +18,7 @@ export default function ConfirmPage() {
   return (
     <div className="min-h-svh bg-gradient-to-b from-low-bg to-white flex flex-col px-6">
       <div className="flex justify-end pt-safe-top pb-4">
-        <Link href="/home" className="text-sm font-bold text-high">Annuler</Link>
+        <Link href="/home" className="text-sm font-bold text-high">{t.cancel}</Link>
       </div>
 
       {/* Animated check */}
@@ -42,7 +44,7 @@ export default function ConfirmPage() {
           transition={{ delay: 0.2 }}
           className="text-[28px] font-black text-ink text-center mt-8 leading-snug"
         >
-          Vous êtes dans<br />la file d'attente !
+          {t.inQueue.split("\n")[0]}<br />{t.inQueue.split("\n")[1]}
         </motion.h1>
         <motion.p
           initial={{ opacity: 0 }}
@@ -62,15 +64,15 @@ export default function ConfirmPage() {
         className="bg-white rounded-[22px] border border-line shadow-1 grid grid-cols-3 divide-x divide-line mt-10"
       >
         <div className="p-4 text-center">
-          <p className="text-xs font-semibold text-ink-2">Position</p>
+          <p className="text-xs font-semibold text-ink-2">{t.yourPosition}</p>
           <p className="text-3xl font-black text-ink mt-1">{MOCK_TICKET.position}</p>
         </div>
         <div className="p-4 text-center">
-          <p className="text-xs font-semibold text-ink-2">Attente</p>
+          <p className="text-xs font-semibold text-ink-2">{t.min}</p>
           <p className="text-xl font-black text-ink mt-1">{MOCK_TICKET.estimatedWaitMinutes} min</p>
         </div>
         <div className="p-4 text-center">
-          <p className="text-xs font-semibold text-ink-2">Arrivée</p>
+          <p className="text-xs font-semibold text-ink-2">{t.arrival}</p>
           <p className="text-xl font-black text-ink mt-1">{MOCK_TICKET.estimatedTime}</p>
         </div>
       </motion.div>
@@ -86,8 +88,8 @@ export default function ConfirmPage() {
           <Bell weight="duotone" size={18} className="text-tornoo-green" />
         </div>
         <div className="flex-1">
-          <p className="font-bold text-sm text-ink">Recevoir un rappel</p>
-          <p className="text-xs text-ink-3">15 min avant mon tour</p>
+          <p className="font-bold text-sm text-ink">{t.setReminder}</p>
+          <p className="text-xs text-ink-3">{t.reminderSub}</p>
         </div>
         <CaretRight weight="bold" size={16} className="text-ink-4" />
       </motion.div>
@@ -103,13 +105,13 @@ export default function ConfirmPage() {
           href={`/my-turn${slug ? `?from=${slug}` : ""}`}
           className="flex items-center justify-center h-14 rounded-[15px] bg-tornoo-green text-white font-extrabold w-full shadow-[0_4px_20px_rgba(7,152,74,.3)]"
         >
-          Voir mon ticket
+          {t.viewTicket}
         </Link>
         <Link
           href="/home"
           className="flex items-center justify-center h-12 rounded-[15px] bg-surface-2 text-ink-2 font-bold border border-line w-full text-sm"
         >
-          Retour à l'accueil
+          {t.backHome}
         </Link>
       </motion.div>
     </div>
