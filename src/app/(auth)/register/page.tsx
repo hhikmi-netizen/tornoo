@@ -51,7 +51,7 @@ export default function RegisterPage() {
   const isValid = name.trim().length > 1 && email.includes("@") && pw.length >= 6;
 
   const handleSubmit = () => {
-    toast("Compte créé avec succès !", "success");
+    toast(t.welcome, "success");
     setTimeout(() => router.replace("/home"), 800);
   };
 
@@ -69,7 +69,7 @@ export default function RegisterPage() {
           className="flex flex-col items-center mt-8 mb-8"
         >
           <TornooMark size={64} />
-          <h1 className="text-3xl font-black text-ink mt-4">Créer un compte</h1>
+          <h1 className="text-3xl font-black text-ink mt-4">{t.createAccount}</h1>
           <p className="text-sm text-ink-3 mt-1 text-center">
             Rejoignez Tornoo et prenez votre tour à distance
           </p>
@@ -81,8 +81,8 @@ export default function RegisterPage() {
           transition={{ delay: 0.1 }}
           className="space-y-3"
         >
-          <Field icon={User} value={name} onChange={setName} placeholder="Nom complet" />
-          <Field icon={Envelope} type="email" value={email} onChange={setEmail} placeholder="Adresse e-mail" />
+          <Field icon={User} value={name} onChange={setName} placeholder={t.fullName} />
+          <Field icon={Envelope} type="email" value={email} onChange={setEmail} placeholder={t.emailAddr} />
           <Field icon={Phone} type="tel" value={phone} onChange={setPhone} placeholder="Téléphone (optionnel)" />
           <Field
             icon={Lock}
@@ -110,7 +110,7 @@ export default function RegisterPage() {
             disabled={!isValid}
             onClick={handleSubmit}
           >
-            Créer mon compte
+            {t.signupBtn}
           </button>
 
           <p className="text-xs text-ink-3 text-center leading-relaxed px-4">
