@@ -25,20 +25,21 @@ function ServiceModal({
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-end justify-center"
+      className="fixed inset-0 z-[70] flex items-end justify-center"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
       <motion.div
-        className="relative w-full max-w-lg bg-white rounded-t-[28px] px-5 pt-5 pb-safe-bottom pb-8"
+        className="relative w-full max-w-lg bg-white rounded-t-[28px] flex flex-col max-h-[85vh]"
         initial={{ y: "100%" }}
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
         transition={{ type: "spring", stiffness: 340, damping: 32 }}
       >
-        <div className="flex items-center justify-between mb-5">
+        {/* Fixed header */}
+        <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-line shrink-0">
           <h2 className="text-xl font-black text-ink">
             {initial.name ? "Modifier le service" : "Nouveau service"}
           </h2>
@@ -47,7 +48,8 @@ function ServiceModal({
           </button>
         </div>
 
-        <div className="space-y-3">
+        {/* Scrollable fields */}
+        <div className="overflow-y-auto flex-1 px-5 py-4 space-y-3">
           <div>
             <label className="text-xs font-bold text-ink-3 uppercase tracking-wide mb-1.5 block">Nom du service</label>
             <input
@@ -102,15 +104,18 @@ function ServiceModal({
           )}
         </div>
 
+        {/* Fixed footer button */}
+        <div className="px-5 pt-3 pb-8 border-t border-line shrink-0">
         <button
           disabled={!valid}
           onClick={() => onSave(form)}
-          className="mt-5 w-full h-[52px] rounded-[14px] font-extrabold text-white flex items-center justify-center gap-2 disabled:opacity-40 active:scale-[0.98] transition-all"
+          className="w-full h-[52px] rounded-[14px] font-extrabold text-white flex items-center justify-center gap-2 disabled:opacity-40 active:scale-[0.98] transition-all"
           style={{ background: "linear-gradient(135deg,#07984a,#13b45b)" }}
         >
           <Check weight="bold" size={18} />
           {initial.name ? "Enregistrer" : "Ajouter le service"}
         </button>
+        </div>
       </motion.div>
     </motion.div>
   );
