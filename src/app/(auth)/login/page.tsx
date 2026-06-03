@@ -218,14 +218,22 @@ export default function LoginPage() {
 
         {/* Create account link — only on login tab */}
         {!isSignup && (
-          <div className="text-center mt-5">
-            <p className="text-sm text-ink-3">Vous n'avez pas de compte ?</p>
-            <button
-              onClick={() => setTab("signup")}
-              className="mt-0.5 text-sm font-extrabold text-[#07984a] active:opacity-70"
-            >
-              Créer mon compte
-            </button>
+          <div className="text-center mt-5 space-y-3">
+            <div>
+              <p className="text-sm text-ink-3">Vous n'avez pas de compte ?</p>
+              <button
+                onClick={() => setTab("signup")}
+                className="mt-0.5 text-sm font-extrabold text-[#07984a] active:opacity-70"
+              >
+                Créer mon compte
+              </button>
+            </div>
+            <div className="border-t border-line/50 pt-3">
+              <p className="text-xs text-ink-4">Vous êtes un professionnel ?</p>
+              <Link href="/pro-register" className="text-sm font-extrabold text-[#FF9300] active:opacity-70">
+                Créer mon compte professionnel
+              </Link>
+            </div>
           </div>
         )}
 
