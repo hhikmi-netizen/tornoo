@@ -32,9 +32,10 @@ function Confetti() {
 
 interface Props {
   establishmentId?: string;
+  subtitle?: string;
 }
 
-export function QRCodeDisplayPage({ establishmentId }: Props) {
+export function QRCodeDisplayPage({ establishmentId, subtitle = "Présentez ce code à l'établissement" }: Props) {
   const router = useRouter();
   const { toast } = useToast();
   const { qrCode, isLoading, shareQrCode, printQrCode } = useEstablishmentQRCode(establishmentId);
@@ -76,7 +77,7 @@ export function QRCodeDisplayPage({ establishmentId }: Props) {
             <CheckCircle weight="fill" size={30} className="text-[#009B5A]" />
           </div>
           <h1 className="text-2xl font-black text-[#071A2A]">Mon QR Code</h1>
-          <p className="text-sm text-[#667085] mt-1">Présentez ce code à l&apos;établissement</p>
+          <p className="text-sm text-[#667085] mt-1">{subtitle}</p>
         </motion.div>
 
         {/* QR Card */}

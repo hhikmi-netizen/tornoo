@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Eye, EyeSlash, Envelope, Lock, User } from "@phosphor-icons/react";
+import { Eye, EyeSlash, Envelope, Lock, User, Buildings } from "@phosphor-icons/react";
 import { TornooMark } from "@/components/tornoo/TornooLogo";
 import { CityBackdrop } from "@/components/tornoo/CityBackdrop";
 import { useI18n } from "@/i18n/context";
@@ -99,15 +99,17 @@ export default function LoginPage() {
           <TornooMark size={88} href="/" />
           <div className="font-black text-[38px] tracking-[-0.04em] text-[#0b1220] mt-3 leading-none">Tornoo</div>
           <div className="mt-1.5 text-sm font-bold">
-            <span className="text-[#07984A]">L'attente</span>{" "}
-            <span className="text-[#FF9300]">en temps réel</span>
+            <span className="text-[#009B5A]">L'attente</span>{" "}
+            <span className="text-[#8BC53F]">en</span>{" "}
+            <span className="text-[#FF8A00]">temps</span>{" "}
+            <span className="text-[#EF2B24]">réel</span>
           </div>
         </div>
 
         {/* Welcome text */}
         <div className="text-center mb-6">
           <h1 className="text-[26px] font-black text-ink tracking-tight">
-            {isSignup ? "Créer mon compte" : "Bienvenue ! 👋"}
+            {isSignup ? "Créer mon compte" : "Bienvenue !"}
           </h1>
           <p className="mt-1.5 text-ink-3 font-medium text-[14px] leading-relaxed max-w-[290px] mx-auto">
             {isSignup
@@ -145,14 +147,14 @@ export default function LoginPage() {
             >
               <div className="grid grid-cols-2 gap-2">
                 {([
-                  { id: "client", label: "Je suis client",  emoji: "👤", desc: "Rejoindre une file" },
-                  { id: "pro",    label: "Je suis pro",     emoji: "🏢", desc: "Gérer mon établissement" },
-                ] as const).map(({ id, label, emoji, desc }) => (
+                  { id: "client", label: "Je suis client",  Icon: User,      desc: "Rejoindre une file" },
+                  { id: "pro",    label: "Je suis pro",     Icon: Buildings, desc: "Gérer mon établissement" },
+                ] as const).map(({ id, label, Icon, desc }) => (
                   <button key={id} type="button" onClick={() => setRole(id)}
                     className={`relative rounded-[14px] p-3 text-left transition-all border-2 ${
                       role === id ? "border-[#07984a] bg-[#f0faf4]" : "border-line bg-surface-2"
                     }`}>
-                    <span className="text-xl block mb-1">{emoji}</span>
+                    <Icon size={20} weight="duotone" className={`block mb-1.5 ${role === id ? "text-[#07984a]" : "text-ink-3"}`} />
                     <p className={`text-xs font-extrabold ${role === id ? "text-[#07984a]" : "text-ink"}`}>{label}</p>
                     <p className="text-[10px] text-ink-3 mt-0.5 leading-tight">{desc}</p>
                     {role === id && (

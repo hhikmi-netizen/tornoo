@@ -117,7 +117,7 @@ export default function ProSchedulePage() {
       </div>
 
       {/* Week summary pills */}
-      <div className="px-4 pt-4 flex gap-2 overflow-x-auto pb-1">
+      <div className="px-4 pt-4 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
         {DAY_SHORT.map((label, i) => (
           <button
             key={label}
