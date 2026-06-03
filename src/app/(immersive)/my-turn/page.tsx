@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useRef, Suspense } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { haptic } from "@/lib/haptic";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   CaretLeft,
   ShareNetwork,
@@ -16,6 +16,8 @@ import {
   X,
   ClockCounterClockwise,
   Star,
+  Warning,
+  Lightbulb,
 } from "@phosphor-icons/react";
 import { gsap } from "@/lib/gsap";
 import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
@@ -72,6 +74,83 @@ function PositionRing({ position, total }: PositionRingProps) {
   );
 }
 
+// ─── Wait time update banner ─────────────────────────────────────────────────
+
+interface WaitUpdateBannerProps {
+  from: number;
+  to: number;
+  onDismiss: () => void;
+}
+
+function WaitUpdateBanner({ from, to, onDismiss }: WaitUpdateBannerProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -16, scale: 0.97 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -12, scale: 0.97 }}
+      transition={{ type: "spring", stiffness: 300, damping: 28 }}
+      className="mx-4 mt-3 rounded-[18px] overflow-hidden border border-[#FF9800]/30 shadow-lg"
+      style={{ background: "linear-gradient(135deg,#FFF8EC,#FFF3DC)" }}
+    >
+      <div className="flex items-start gap-3 p-4">
+        <div className="w-9 h-9 rounded-xl bg-[#FF9800]/15 flex items-center justify-center shrink-0 mt-0.5">
+          <Warning weight="fill" size={18} className="text-[#FF9800]" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-black text-[#071A2A]">Mise à jour</p>
+          <p className="text-sm font-medium text-[#071A2A] mt-0.5">
+            L&apos;attente est passée de{" "}
+            <span className="font-black">{from} à {to} minutes.</span>
+          </p>
+          <p className="text-xs text-[#71645A] mt-1 leading-snug">
+            Un service précédent a pris plus de temps que prévu.
+          </p>
+        </div>
+        <button
+          onClick={onDismiss}
+          className="w-7 h-7 rounded-full bg-[#FF9800]/15 flex items-center justify-center shrink-0"
+          aria-label="Fermer"
+        >
+          <X weight="bold" size={13} className="text-[#FF9800]" />
+        </button>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Smart advice card ────────────────────────────────────────────────────────
+
+function SmartAdviceCard() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.95 }}
+      className="rounded-[22px] overflow-hidden"
+      style={{ background: "linear-gradient(135deg,#062E24,#071A2A)" }}
+    >
+      <div className="p-5">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="w-7 h-7 rounded-lg bg-[#009B5A]/25 flex items-center justify-center">
+            <Lightbulb weight="fill" size={15} className="text-[#4ADE80]" />
+          </div>
+          <p className="text-[#4ADE80] font-black text-sm">Conseil</p>
+        </div>
+        <p className="text-white font-bold text-base leading-snug">
+          Profitez-en pour faire vos courses.
+        </p>
+        <p className="text-white/60 text-sm mt-1.5 leading-relaxed">
+          Nous vous préviendrons avant votre tour. Vous avez encore un peu de temps.
+        </p>
+        <div className="mt-3 flex items-center gap-2">
+          <Bell weight="fill" size={14} className="text-[#009B5A]" />
+          <span className="text-xs text-[#009B5A] font-bold">Alerte automatique activée</span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 // ─── Main content ────────────────────────────────────────────────────────────
 
 function MyTurnContent() {
@@ -100,8 +179,23 @@ function MyTurnContent() {
 
   const position = ticket?.position ?? 3;
   const total = 5;
-  const waitMins = ticket?.estimatedWaitMinutes ?? 7;
+  const baseWait = ticket?.estimatedWaitMinutes ?? 7;
   const arrivalTime = ticket?.estimatedTime ?? "14:32";
+
+  const [waitMins, setWaitMins] = useState(baseWait);
+  const [prevWait, setPrevWait] = useState<number | null>(null);
+  const [showUpdateBanner, setShowUpdateBanner] = useState(false);
+
+  // Simulate a real-time wait increase after 4 s
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const next = baseWait + 5;
+      setPrevWait(baseWait);
+      setWaitMins(next);
+      setShowUpdateBanner(true);
+    }, 4000);
+    return () => clearTimeout(t);
+  }, [baseWait]);
 
   // Queue timeline rows — always exactly 5 rows matching mockup
   const timelineRows = [
@@ -178,6 +272,17 @@ function MyTurnContent() {
           </button>
         </div>
       </div>
+
+      {/* Wait time update banner — slides in when delay detected */}
+      <AnimatePresence>
+        {showUpdateBanner && prevWait !== null && (
+          <WaitUpdateBanner
+            from={prevWait}
+            to={waitMins}
+            onDismiss={() => setShowUpdateBanner(false)}
+          />
+        )}
+      </AnimatePresence>
 
       <div className="px-4 pb-8 max-w-lg mx-auto space-y-4 pt-4">
 
@@ -407,16 +512,8 @@ function MyTurnContent() {
           ))}
         </motion.div>
 
-        {/* Tip */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.9 }}
-          className="p-5 rounded-[22px] bg-grad-navy text-white"
-        >
-          <p className="font-black text-tornoo-green text-sm">{t.tornooTip}</p>
-          <p className="text-sm mt-1.5 text-white/75 leading-relaxed">{t.tornooTipText}</p>
-        </motion.div>
+        {/* Smart advice */}
+        <SmartAdviceCard />
       </div>
     </div>
   );
