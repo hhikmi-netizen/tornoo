@@ -11,16 +11,6 @@ import { WaitDot } from "@/components/tornoo/WaitBadge";
 import { useToast } from "@/components/ui/Toast";
 import { useI18n } from "@/i18n/context";
 
-function buildTimeline(position: number) {
-  const rows = [];
-  for (let i = 1; i <= Math.min(position + 1, 5); i++) {
-    if (i < position) rows.push({ label: `Client #${i}`, sub: "Servi", done: true, current: false, badge: null });
-    else if (i === position) rows.push({ label: "Vous", sub: `Position #${position}`, done: false, current: true, badge: null });
-    else rows.push({ label: `Client suivant`, sub: "En attente", done: false, current: false, badge: null });
-  }
-  return rows;
-}
-
 export default function MyTurnPage() {
   const router = useRouter();
   const { t } = useI18n();
@@ -40,7 +30,7 @@ export default function MyTurnPage() {
   const cancelMutation = useMutation({
     mutationFn: () => api.tickets.cancel(ticket?.id ?? ""),
     onSuccess: () => {
-      toast("Vous avez quitté la file d'attente", "info");
+      toast(t.leaveQueue, "info");
       router.replace("/home");
     },
   });
@@ -50,7 +40,15 @@ export default function MyTurnPage() {
   const arrivalTime = ticket?.estimatedTime ?? "14:32";
   const ringPct = Math.max(0.12, 1 - Math.min(position / 10, 0.88));
   const CIRCUMFERENCE = 314;
-  const timeline = buildTimeline(position);
+  const timeline = (() => {
+    const rows = [];
+    for (let i = 1; i <= Math.min(position + 1, 5); i++) {
+      if (i < position) rows.push({ label: `Client #${i}`, sub: t.statusServed, done: true, current: false });
+      else if (i === position) rows.push({ label: "Vous", sub: `#${position}`, done: false, current: true });
+      else rows.push({ label: "›", sub: t.statusWaiting, done: false, current: false });
+    }
+    return rows;
+  })();
 
   const handleAlert = (label: string) => {
     toast(`Alerte programmée : ${label}`, "success");
