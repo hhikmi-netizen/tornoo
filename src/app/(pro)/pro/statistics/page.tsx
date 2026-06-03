@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { CaretLeft, CaretDown, DownloadSimple } from "@phosphor-icons/react";
@@ -8,6 +8,7 @@ import { api } from "@/services/api";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 import { useI18n } from "@/i18n/context";
+import { useToast } from "@/components/ui/Toast";
 
 const PEAK_HOURS = [
   { range: "09h - 12h", pct: 34, color: "#ff9300" },
@@ -19,6 +20,9 @@ const PEAK_HOURS = [
 export default function StatisticsPage() {
   const router  = useRouter();
   const { t }   = useI18n();
+  const { toast } = useToast();
+
+  const [isExporting, setIsExporting] = useState(false);
 
   const barsRef      = useRef<HTMLDivElement>(null);
   const linePathRef  = useRef<SVGPathElement>(null);
@@ -276,8 +280,24 @@ export default function StatisticsPage() {
         </div>
 
         {/* Export */}
-        <button className="w-full flex items-center justify-center gap-2 h-14 rounded-[15px] bg-tornoo-green text-white font-extrabold active:scale-[0.98] transition-transform">
-          <DownloadSimple weight="bold" size={18} />
+        <button
+          disabled={isExporting}
+          onClick={async () => {
+            setIsExporting(true);
+            await new Promise((r) => setTimeout(r, 2000));
+            setIsExporting(false);
+            toast("Rapport exporté avec succès", "success");
+          }}
+          className="w-full flex items-center justify-center gap-2 h-14 rounded-[15px] bg-tornoo-green text-white font-extrabold active:scale-[0.98] transition-transform disabled:opacity-70 disabled:scale-100"
+        >
+          {isExporting ? (
+            <svg className="animate-spin" width={18} height={18} viewBox="0 0 24 24" fill="none">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+            </svg>
+          ) : (
+            <DownloadSimple weight="bold" size={18} />
+          )}
           {t.exportReport}
         </button>
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import {
   CaretLeft, ShareNetwork, Heart, MapPin, Star, Clock, Phone, Globe, CheckCircle
 } from "@phosphor-icons/react";
-import { WaitBadge } from "@/components/tornoo/WaitBadge";
+import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { useToast } from "@/components/ui/Toast";
 import { api } from "@/services/api";
 import { formatWaitTime } from "@/lib/utils";
@@ -23,6 +23,9 @@ export default function EstablishmentPage() {
   const { toast } = useToast();
 
   const [isFav, setIsFav] = useState(false);
+
+  const heroRef = useRef<HTMLDivElement>(null);
+  const imgWrapRef = useRef<HTMLDivElement>(null);
 
   const { data: establishment, isLoading } = useQuery({
     queryKey: ["establishment", slug],
@@ -38,6 +41,25 @@ export default function EstablishmentPage() {
     queryFn: () => api.queues.byEstablishment(establishment!.id),
     enabled: !!establishment,
   });
+
+  /* ── Hero parallax ──────────────────────────────── */
+  useEffect(() => {
+    if (!heroRef.current || !imgWrapRef.current) return;
+    const tween = gsap.to(imgWrapRef.current, {
+      yPercent: 20,
+      ease: "none",
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: "top top",
+        end: "+=300",
+        scrub: true,
+      },
+    });
+    return () => {
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    };
+  }, []);
 
   if (isLoading) {
     return (
@@ -71,19 +93,21 @@ export default function EstablishmentPage() {
   return (
     <div className="bg-white min-h-svh">
       {/* Hero */}
-      <div className="relative h-[300px]">
-        <ImageWithFallback
-          src={e.imageUrl}
-          alt={e.name}
-          fill
-          className="object-cover"
-          priority
-          fallback={
-            <div className="absolute inset-0 flex items-center justify-center" style={{ background: heroBg }}>
-              <span className="text-[120px] font-black leading-none opacity-20" style={{ color: heroFg }}>{e.name.charAt(0)}</span>
-            </div>
-          }
-        />
+      <div ref={heroRef} className="relative h-[300px] overflow-hidden">
+        <div ref={imgWrapRef} className="absolute inset-[-15%] w-full">
+          <ImageWithFallback
+            src={e.imageUrl}
+            alt={e.name}
+            fill
+            className="object-cover"
+            priority
+            fallback={
+              <div className="absolute inset-0 flex items-center justify-center" style={{ background: heroBg }}>
+                <span className="text-[120px] font-black leading-none opacity-20" style={{ color: heroFg }}>{e.name.charAt(0)}</span>
+              </div>
+            }
+          />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
         {/* Back/share/heart */}
@@ -168,7 +192,11 @@ export default function EstablishmentPage() {
             <div className="text-4xl font-black mt-1" style={{ color: e.waitLevel === "low" ? "#07984a" : e.waitLevel === "mod" ? "#ff9300" : "#ef2b24" }}>
               {formatWaitTime(e.waitMinutes)}
             </div>
-            <WaitBadge minutes={e.waitMinutes} level={e.waitLevel} showLabel className="mt-1.5" />
+            <span className="mt-1.5 inline-flex items-center gap-1.5 h-7 px-3 rounded-full text-xs font-black border"
+              style={{ background: heroBg, color: heroFg, borderColor: heroFg + "40" }}>
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: heroFg }} />
+              {e.waitLevel === "low" ? "Peu d'attente" : e.waitLevel === "mod" ? "Attente modérée" : "Forte attente"}
+            </span>
           </div>
           <svg viewBox="0 0 100 100" className="w-24 h-24 -rotate-90">
             <circle cx="50" cy="50" r="42" fill="none" stroke="#eaedf0" strokeWidth="14" />
@@ -229,7 +257,10 @@ export default function EstablishmentPage() {
         {/* Queues */}
         {queues.length > 0 && (
           <section>
-            <h2 className="text-xl font-black text-ink mb-3">{t.queues}</h2>
+            <div className="mb-3">
+              <p className="section-eyebrow mb-0.5">{t.available}</p>
+              <h2 className="text-xl font-black text-ink leading-none">{t.queues}</h2>
+            </div>
             <div className="space-y-2">
               {queues.map((q) => (
                 <div key={q.id} className="bg-white rounded-[18px] px-4 py-3 flex items-center justify-between border border-line">
@@ -242,7 +273,10 @@ export default function EstablishmentPage() {
                       <p className="text-xs text-ink-3">{q.waitingCount} personnes · ~{q.estimatedWaitMinutes} min</p>
                     </div>
                   </div>
-                  <WaitBadge minutes={q.estimatedWaitMinutes} size="sm" />
+                  <span className="inline-flex items-center gap-1 h-6 px-2.5 rounded-full text-xs font-black"
+                    style={{ background: "#e4f6ec", color: "#07984a" }}>
+                    ~{q.estimatedWaitMinutes} min
+                  </span>
                 </div>
               ))}
             </div>

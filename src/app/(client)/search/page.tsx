@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { MagnifyingGlass, X, Faders } from "@phosphor-icons/react";
 import { EstablishmentCard } from "@/components/tornoo/EstablishmentCard";
 import { WaitDot } from "@/components/tornoo/WaitBadge";
@@ -20,11 +20,151 @@ const CATEGORIES = [
   { code: "Pharmacie",      label: { fr: "Pharmacie",      ar: "صيدلية",            en: "Pharmacy" } },
 ];
 
+function FilterSheet({
+  open, onClose,
+  waitFilters, setWaitFilters,
+  openNow, setOpenNow,
+  minRating, setMinRating,
+}: {
+  open: boolean;
+  onClose: () => void;
+  waitFilters: string[];
+  setWaitFilters: React.Dispatch<React.SetStateAction<string[]>>;
+  openNow: boolean;
+  setOpenNow: React.Dispatch<React.SetStateAction<boolean>>;
+  minRating: number;
+  setMinRating: React.Dispatch<React.SetStateAction<number>>;
+}) {
+  const toggleWait = (level: string) => {
+    setWaitFilters(prev => prev.includes(level) ? prev.filter(l => l !== level) : [...prev, level]);
+  };
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/30 z-40 backdrop-blur-sm"
+          />
+          {/* Sheet */}
+          <motion.div
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ type: "spring", stiffness: 360, damping: 32 }}
+            className="fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-[28px] px-5 pb-safe-bottom"
+            style={{ boxShadow: "0 -8px 40px -8px rgba(20,24,33,.18)" }}
+          >
+            {/* Handle */}
+            <div className="flex justify-center pt-3 pb-4">
+              <div className="w-9 h-1 rounded-full bg-line" />
+            </div>
+
+            <div className="flex items-center justify-between mb-5">
+              <h2 className="text-xl font-black text-ink">Filtres</h2>
+              <button onClick={() => { setWaitFilters([]); setOpenNow(false); setMinRating(0); }}
+                className="text-sm font-bold text-tornoo-green">Réinitialiser</button>
+            </div>
+
+            {/* Wait level */}
+            <div className="mb-5">
+              <p className="section-eyebrow mb-3">Temps d&apos;attente</p>
+              <div className="flex gap-2">
+                {[
+                  { level: "low",  label: "Faible",   bg: "#e4f6ec", color: "#07984a" },
+                  { level: "mod",  label: "Modéré",   bg: "#fff1de", color: "#ff9300" },
+                  { level: "high", label: "Élevé",    bg: "#fde7e6", color: "#ef2b24" },
+                ].map(({ level, label, bg, color }) => {
+                  const isActive = waitFilters.includes(level);
+                  return (
+                    <button
+                      key={level}
+                      onClick={() => toggleWait(level)}
+                      className="flex-1 h-12 rounded-[14px] text-sm font-bold border-2 transition-all active:scale-95"
+                      style={{
+                        background: isActive ? bg : "white",
+                        borderColor: isActive ? color : "#eaedf0",
+                        color: isActive ? color : "#5b6472",
+                      }}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Open now */}
+            <div className="flex items-center justify-between mb-5 p-4 bg-surface-2 rounded-[16px] border border-line">
+              <div>
+                <p className="font-bold text-ink text-sm">Ouvert maintenant</p>
+                <p className="text-xs text-ink-3 mt-0.5">Afficher uniquement les établissements ouverts</p>
+              </div>
+              <button
+                onClick={() => setOpenNow(prev => !prev)}
+                className="w-11 h-6 rounded-full transition-colors relative shrink-0"
+                style={{ background: openNow ? "#07984a" : "#c7cdd6" }}
+              >
+                <motion.span
+                  animate={{ x: openNow ? 20 : 2 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  className="absolute top-[2px] w-5 h-5 rounded-full bg-white shadow-sm block"
+                />
+              </button>
+            </div>
+
+            {/* Rating */}
+            <div className="mb-6">
+              <p className="section-eyebrow mb-3">Note minimale</p>
+              <div className="flex gap-2">
+                {[0, 3.5, 4, 4.5].map((rating) => (
+                  <button
+                    key={rating}
+                    onClick={() => setMinRating(rating)}
+                    className="flex-1 h-11 rounded-[12px] text-sm font-bold border-2 transition-all active:scale-95"
+                    style={{
+                      background: minRating === rating ? "#0b1220" : "white",
+                      borderColor: minRating === rating ? "#0b1220" : "#eaedf0",
+                      color: minRating === rating ? "white" : "#5b6472",
+                    }}
+                  >
+                    {rating === 0 ? "Tout" : `${rating}+★`}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Apply */}
+            <button
+              onClick={onClose}
+              className="w-full h-14 rounded-[15px] bg-tornoo-green text-white font-extrabold mb-3 active:scale-[0.98] transition-transform"
+              style={{ boxShadow: "0 4px 20px rgba(7,152,74,.3)" }}
+            >
+              Voir les résultats
+            </button>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
 export default function SearchPage() {
   const { t, lang } = useI18n();
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("Tout");
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [waitFilters, setWaitFilters] = useState<string[]>([]);
+  const [openNowFilter, setOpenNowFilter] = useState(false);
+  const [minRating, setMinRating] = useState(0);
+
+  const activeFilterCount = waitFilters.length + (openNowFilter ? 1 : 0) + (minRating > 0 ? 1 : 0);
 
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedQuery(query), 280);
@@ -36,9 +176,11 @@ export default function SearchPage() {
     queryFn: () => api.establishments.list(debouncedQuery || undefined),
   });
 
-  const filtered = activeCategory === "Tout"
-    ? establishments
-    : establishments.filter((e) => e.category.toLowerCase().includes(activeCategory.toLowerCase()));
+  const filtered = establishments
+    .filter((e) => activeCategory === "Tout" || e.category.toLowerCase().includes(activeCategory.toLowerCase()))
+    .filter((e) => waitFilters.length === 0 || waitFilters.includes(e.waitLevel))
+    .filter((e) => !openNowFilter || e.isOpen)
+    .filter((e) => e.rating >= minRating);
 
   const resultsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -79,8 +221,18 @@ export default function SearchPage() {
               </button>
             )}
           </div>
-          <button className="w-12 h-12 rounded-[14px] bg-surface-2 border border-line flex items-center justify-center" aria-label="Filtres">
-            <Faders weight="bold" size={18} className="text-ink-2" />
+          <button
+            onClick={() => setFilterOpen(true)}
+            className="relative w-12 h-12 rounded-[14px] bg-surface-2 border border-line flex items-center justify-center active:scale-95 transition-transform"
+            aria-label="Filtres"
+            style={activeFilterCount > 0 ? { borderColor: "#07984a", background: "#e4f6ec" } : undefined}
+          >
+            <Faders weight="bold" size={18} className={activeFilterCount > 0 ? "text-tornoo-green" : "text-ink-2"} />
+            {activeFilterCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-tornoo-green text-white text-[9px] font-black flex items-center justify-center">
+                {activeFilterCount}
+              </span>
+            )}
           </button>
         </div>
 
@@ -144,6 +296,17 @@ export default function SearchPage() {
           </div>
         )}
       </div>
+
+      <FilterSheet
+        open={filterOpen}
+        onClose={() => setFilterOpen(false)}
+        waitFilters={waitFilters}
+        setWaitFilters={setWaitFilters}
+        openNow={openNowFilter}
+        setOpenNow={setOpenNowFilter}
+        minRating={minRating}
+        setMinRating={setMinRating}
+      />
     </div>
   );
 }

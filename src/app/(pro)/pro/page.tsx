@@ -69,10 +69,11 @@ export default function ProDashboardPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-3 mt-4">
-            <Link href="/pro/statistics" className="bg-surface-2 rounded-[18px] p-4 border border-line">
-              <ChartBar weight="duotone" size={22} className="text-tornoo-green" />
-              <p className="font-black text-ink mt-2">{t.statistics}</p>
-              <p className="text-xs text-ink-3">{t.today}</p>
+            <Link href="/pro/analytics" className="bg-grad-navy rounded-[18px] p-4 border border-white/10 relative overflow-hidden">
+              <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 80% 20%, rgba(7,152,74,0.18) 0%, transparent 65%)" }} />
+              <ChartBar weight="duotone" size={22} className="text-tornoo-green relative" />
+              <p className="font-black text-white mt-2 relative">{t.statistics}</p>
+              <p className="text-xs text-white/50 relative">Analytics avancé</p>
             </Link>
             <Link href="/pro/queues" className="bg-surface-2 rounded-[18px] p-4 border border-line">
               <Users weight="duotone" size={22} className="text-tornoo-green" />
