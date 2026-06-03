@@ -36,7 +36,7 @@ export default function SettingsPage() {
   const { lang, setLang } = useI18n();
   const [notifTurn, setNotifTurn] = useState(true);
   const [notifPromo, setNotifPromo] = useState(false);
-  const [notifSms, setNotifSms] = useState(true);
+  const [notifWhatsapp, setNotifWhatsapp] = useState(true);
 
   const SETTINGS_GROUPS = [
     {
@@ -45,7 +45,7 @@ export default function SettingsPage() {
       items: [
         { label: "Mon tour approche", sub: "Alerte avant votre passage", value: notifTurn, onChange: setNotifTurn },
         { label: "Offres et promotions", sub: "Promos des établissements", value: notifPromo, onChange: setNotifPromo },
-        { label: "SMS", sub: "Rappels par SMS", value: notifSms, onChange: setNotifSms },
+        { label: "WhatsApp", sub: "Rappels par WhatsApp", value: notifWhatsapp, onChange: setNotifWhatsapp },
       ],
     },
   ];

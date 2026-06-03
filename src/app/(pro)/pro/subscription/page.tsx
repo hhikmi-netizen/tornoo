@@ -22,7 +22,7 @@ const PLANS = [
     price: "299 DH",
     period: "/mois",
     color: "#07984a",
-    features: ["3 files d'attente", "Tickets illimités", "Statistiques avancées", "Notifications SMS"],
+    features: ["3 files d'attente", "Tickets illimités", "Statistiques avancées", "Notifications WhatsApp"],
     cta: "Choisir Starter",
     current: false,
     popular: true,

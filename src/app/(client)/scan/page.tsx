@@ -94,7 +94,7 @@ export default function ScanPage() {
   const e = scanned;
 
   return (
-    <div className="fixed inset-0 bg-[#061819] text-white flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-[60] bg-[#061819] text-white flex flex-col overflow-hidden">
       {/* Controls */}
       <div className="flex justify-between items-center px-6 pt-safe-top pb-4 relative z-10">
         <button
