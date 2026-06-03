@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, Suspense } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
@@ -14,7 +14,7 @@ import { WaitDot } from "@/components/tornoo/WaitBadge";
 import { useToast } from "@/components/ui/Toast";
 import { useI18n } from "@/i18n/context";
 
-export default function MyTurnPage() {
+function MyTurnContent() {
   const router = useRouter();
   const { t } = useI18n();
   const { toast } = useToast();
@@ -311,5 +311,13 @@ export default function MyTurnPage() {
         </motion.div>
       </div>
     </div>
+  );
+}
+
+export default function MyTurnPage() {
+  return (
+    <Suspense>
+      <MyTurnContent />
+    </Suspense>
   );
 }

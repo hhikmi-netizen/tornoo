@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -10,7 +10,7 @@ import { useI18n } from "@/i18n/context";
 import { gsap } from "@/lib/gsap";
 import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 
-export default function ConfirmPage() {
+function ConfirmContent() {
   const searchParams = useSearchParams();
   const { t } = useI18n();
   const ringRef = useRef<HTMLDivElement>(null);
@@ -134,5 +134,13 @@ export default function ConfirmPage() {
         </Link>
       </motion.div>
     </div>
+  );
+}
+
+export default function ConfirmPage() {
+  return (
+    <Suspense>
+      <ConfirmContent />
+    </Suspense>
   );
 }
