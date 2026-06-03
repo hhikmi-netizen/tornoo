@@ -244,10 +244,13 @@ export default function OnboardingPage() {
   return (
     <div className="bg-white min-h-svh flex flex-col overflow-hidden">
       {/* Skip */}
-      <div className="flex justify-end pt-safe-top px-6 pb-2">
+      <div className="flex items-center justify-between pt-safe-top px-6 pb-2">
+        <div className="w-8 h-8 rounded-full flex items-center justify-center">
+          <span className="font-black text-ink text-base">T</span>
+        </div>
         <button
           onClick={() => { localStorage.setItem("tornoo_onboarded", "1"); router.replace("/login"); }}
-          className="text-sm font-bold text-ink-3 active:opacity-60 transition-opacity"
+          className="h-8 px-4 rounded-full bg-surface-2 border border-line text-xs font-extrabold text-ink-2 active:opacity-60 transition-opacity"
         >
           Passer
         </button>
@@ -287,10 +290,10 @@ export default function OnboardingPage() {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.28 }}
           >
-            <h1 className="text-[30px] font-black text-ink leading-tight whitespace-pre-line">
+            <h1 className="text-[34px] font-black text-ink leading-[1.15] tracking-[-0.025em] whitespace-pre-line">
               {current.title}
             </h1>
-            <p className="mt-3 text-sm text-ink-3 leading-relaxed max-w-[300px]">
+            <p className="mt-3.5 text-[15px] text-ink-3 leading-relaxed max-w-[300px]">
               {current.sub}
             </p>
           </motion.div>

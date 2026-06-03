@@ -33,30 +33,48 @@ export default function ProfilePage() {
       <div className="bg-white px-4 pt-safe-top pb-6 border-b border-line">
         <div className="flex items-center justify-between mb-6">
           <TornooLogo compact showTagline={false} />
-          <Link href="/profile/settings" className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center" aria-label="Paramètres">
+          <Link href="/profile/settings" className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center border border-line" aria-label="Paramètres">
             <Gear size={19} weight="duotone" className="text-ink-2" />
           </Link>
         </div>
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full overflow-hidden bg-surface-2 shrink-0">
-            <ImageWithFallback
-              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
-              alt="Avatar"
-              width={64}
-              height={64}
-              className="w-full h-full object-cover"
-              fallback={
-                <div className="w-full h-full flex items-center justify-center bg-low-bg">
-                  <span className="text-xl font-black text-tornoo-green">{MOCK_USER.name.charAt(0)}</span>
-                </div>
-              }
-            />
+          {/* Gradient ring avatar */}
+          <div
+            className="w-[70px] h-[70px] rounded-full p-[2.5px] shrink-0"
+            style={{ background: "linear-gradient(135deg,#07984a,#13b45b 40%,#f7c400 70%,#ff9300)" }}
+          >
+            <div className="w-full h-full rounded-full overflow-hidden bg-surface-2 border-2 border-white">
+              <ImageWithFallback
+                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
+                alt="Avatar"
+                width={66}
+                height={66}
+                className="w-full h-full object-cover"
+                fallback={
+                  <div className="w-full h-full flex items-center justify-center bg-low-bg">
+                    <span className="text-xl font-black text-tornoo-green">{MOCK_USER.name.charAt(0)}</span>
+                  </div>
+                }
+              />
+            </div>
           </div>
-          <div>
+          <div className="flex-1 min-w-0">
             <h1 className="text-xl font-black text-ink">{MOCK_USER.name}</h1>
             <p className="text-sm text-ink-3">{MOCK_USER.email}</p>
-            <p className="text-xs text-ink-3 mt-0.5">{MOCK_USER.phone}</p>
           </div>
+        </div>
+        {/* Mini stats */}
+        <div className="flex gap-6 mt-5 pt-5 border-t border-line">
+          {[
+            { value: "24", label: t.visits },
+            { value: "3",  label: t.myTickets },
+            { value: "2",  label: t.myFavorites },
+          ].map(({ value, label }) => (
+            <div key={label} className="text-center">
+              <p className="text-2xl font-black text-ink leading-none">{value}</p>
+              <p className="text-xs text-ink-3 mt-1 leading-tight">{label}</p>
+            </div>
+          ))}
         </div>
       </div>
 

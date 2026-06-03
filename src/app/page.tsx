@@ -23,12 +23,19 @@ export default function SplashPage() {
       <div className="relative z-10 flex flex-col items-center animate-fade-in">
         <TornooMark size={120} />
         <div className="mt-6 text-center">
-          <div className="font-black text-[52px] leading-none tracking-[-0.045em] text-ink">
+          <div
+            className="font-black text-[56px] leading-none tracking-[-0.05em]"
+            style={{
+              background: "linear-gradient(120deg,#07984a 0%,#13b45b 30%,#f7c400 60%,#ff9300 80%,#ef2b24 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
             Tornoo
           </div>
-          <div className="mt-2 font-bold text-[17px]">
-            <span className="text-tornoo-green">L'attente</span>{" "}
-            <span className="text-tornoo-orange">en temps réel</span>
+          <div className="mt-2.5 font-semibold text-[16px] text-ink-3 tracking-[-0.01em]">
+            L'attente en temps réel
           </div>
         </div>
       </div>

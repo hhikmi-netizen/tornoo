@@ -83,16 +83,16 @@ export default function ConfirmPage() {
         className="bg-white rounded-[22px] border border-line shadow-1 grid grid-cols-3 divide-x divide-line mt-10"
       >
         <div className="p-4 text-center">
-          <p className="text-xs font-semibold text-ink-2">{t.yourPosition}</p>
-          <AnimatedNumber value={MOCK_TICKET.position} delay={0.5} duration={0.8} className="text-3xl font-black text-ink mt-1 block" />
+          <p className="section-eyebrow mb-1">{t.yourPosition}</p>
+          <AnimatedNumber value={MOCK_TICKET.position} delay={0.5} duration={0.8} className="text-3xl font-black text-ink block" />
         </div>
         <div className="p-4 text-center">
-          <p className="text-xs font-semibold text-ink-2">{t.min}</p>
-          <AnimatedNumber value={MOCK_TICKET.estimatedWaitMinutes} delay={0.6} duration={1.0} suffix=" min" className="text-xl font-black text-ink mt-1 block" />
+          <p className="section-eyebrow mb-1">{t.estimatedWait}</p>
+          <AnimatedNumber value={MOCK_TICKET.estimatedWaitMinutes} delay={0.6} duration={1.0} suffix=" min" className="text-2xl font-black text-tornoo-green block" />
         </div>
         <div className="p-4 text-center">
-          <p className="text-xs font-semibold text-ink-2">{t.arrival}</p>
-          <p className="text-xl font-black text-ink mt-1">{MOCK_TICKET.estimatedTime}</p>
+          <p className="section-eyebrow mb-1">{t.arrival}</p>
+          <p className="text-2xl font-black text-ink">{MOCK_TICKET.estimatedTime}</p>
         </div>
       </motion.div>
 

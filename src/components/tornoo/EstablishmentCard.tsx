@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { MapPin, Star, CheckCircle } from "@phosphor-icons/react";
-import { WaitBadge } from "./WaitBadge";
 import { TurnButton } from "./TurnButton";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { cn } from "@/lib/utils";
@@ -89,10 +88,7 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
             <CheckCircle size={16} weight="fill" className="text-tornoo-green shrink-0" aria-label="Vérifié" />
           )}
         </div>
-        <div className="flex items-center justify-between mt-0.5 gap-2">
-          <p className="text-sm text-ink-3">{e.category}</p>
-          <WaitBadge minutes={e.waitMinutes} level={e.waitLevel} size="sm" />
-        </div>
+        <p className="text-sm text-ink-3 mt-0.5">{e.category}</p>
         <div className="flex items-center gap-1 mt-1">
           <MapPin size={12} weight="duotone" className="text-ink-3" />
           <p className="text-xs text-ink-3">

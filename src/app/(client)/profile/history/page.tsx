@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { CaretLeft, Ticket, CheckCircle, XCircle, Clock } from "@phosphor-icons/react";
 import { MOCK_ESTABLISHMENTS } from "@/lib/mock-data";
-import { WaitBadge } from "@/components/tornoo/WaitBadge";
 import { useI18n } from "@/i18n/context";
 
 const HISTORY = [
@@ -66,7 +65,13 @@ export default function HistoryPage() {
                   {s.label}
                 </span>
                 {item.status === "served" && item.waitMinutes > 0 && (
-                  <WaitBadge minutes={item.waitMinutes} size="sm" />
+                  <span
+                    className="inline-flex items-center gap-1 h-6 px-2.5 rounded-full text-xs font-black"
+                    style={{ background: "#e4f6ec", color: "#07984a" }}
+                  >
+                    <span className="w-1 h-1 rounded-full bg-tornoo-green" />
+                    {item.waitMinutes} min
+                  </span>
                 )}
               </div>
             </motion.div>

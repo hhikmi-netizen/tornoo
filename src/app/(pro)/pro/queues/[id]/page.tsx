@@ -125,24 +125,35 @@ export default function QueueDetailPage() {
 
         {/* Current ticket hero */}
         <motion.div
-          className={`rounded-[22px] p-6 text-center ${
+          className={`rounded-[22px] p-6 text-center relative overflow-hidden ${
             isPaused
               ? "bg-surface-2 border-2 border-dashed border-line"
               : "bg-tornoo-green"
           }`}
+          style={!isPaused ? { boxShadow: "0 8px 32px -8px rgba(7,152,74,.45)" } : undefined}
         >
+          {/* Subtle radial glow */}
+          {!isPaused && (
+            <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.12) 0%, transparent 65%)" }} />
+          )}
           <AnimatePresence mode="wait">
             <motion.div
               key={currentTicket}
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.1 }}
+              initial={{ opacity: 0, scale: 0.85, y: -6 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 1.12, y: 6 }}
               transition={{ type: "spring", stiffness: 400, damping: 26 }}
+              className="relative"
             >
-              <p className={`text-xs font-bold tracking-widest uppercase ${isPaused ? "text-ink-3" : "text-white/70"}`}>
-                {isPaused ? t.queuePaused : t.currentTicketLabel}
-              </p>
-              <p className={`text-6xl font-black mt-1 ${isPaused ? "text-ink-3" : "text-white"}`}>
+              <div className="flex items-center justify-center gap-2 mb-1">
+                {!isPaused && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/60 animate-breathe" />
+                )}
+                <p className={`text-[11px] font-bold tracking-[0.12em] uppercase ${isPaused ? "text-ink-3" : "text-white/70"}`}>
+                  {isPaused ? t.queuePaused : t.currentTicketLabel}
+                </p>
+              </div>
+              <p className={`text-[64px] font-black leading-none tracking-[-0.02em] ${isPaused ? "text-ink-3" : "text-white"}`}>
                 {currentTicket}
               </p>
             </motion.div>
@@ -151,14 +162,14 @@ export default function QueueDetailPage() {
           <button
             onClick={callNext}
             disabled={isCalling || waitingCount === 0 || isPaused}
-            className={`mt-5 inline-flex items-center gap-2 h-11 px-6 rounded-[12px] font-bold text-sm transition-all active:scale-95 disabled:opacity-50 ${
+            className={`relative mt-5 inline-flex items-center gap-2 h-12 px-7 rounded-[13px] font-extrabold text-sm transition-all active:scale-95 disabled:opacity-40 ${
               isPaused
                 ? "bg-line text-ink-3"
-                : "bg-white/20 text-white hover:bg-white/30"
+                : "bg-white text-tornoo-green shadow-[0_4px_16px_rgba(0,0,0,0.12)]"
             }`}
           >
             {isCalling ? (
-              <span className="w-4 h-4 rounded-full border-2 border-white/50 border-t-white animate-spin" />
+              <span className="w-4 h-4 rounded-full border-2 border-tornoo-green/40 border-t-tornoo-green animate-spin" />
             ) : (
               <SkipForward size={16} weight="bold" />
             )}

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Eye, EyeSlash, Envelope, Lock, User } from "@phosphor-icons/react";
 import { TornooMark } from "@/components/tornoo/TornooLogo";
 import { CityBackdrop } from "@/components/tornoo/CityBackdrop";
@@ -98,8 +99,26 @@ export default function LoginPage() {
           </p>
         </div>
 
+        {/* Tab switcher */}
+        <div className="relative flex bg-surface-2 rounded-[16px] p-1 mt-8 border border-line">
+          {(["login", "signup"] as const).map((val) => (
+            <button key={val} type="button" onClick={() => setTab(val)} className="relative flex-1 h-10 text-sm font-bold">
+              {tab === val && (
+                <motion.span
+                  layoutId="auth-tab"
+                  className="absolute inset-0 rounded-[12px] bg-white border border-line shadow-1"
+                  transition={{ type: "spring", stiffness: 420, damping: 30 }}
+                />
+              )}
+              <span className={`relative z-10 transition-colors ${tab === val ? "text-ink font-extrabold" : "text-ink-3"}`}>
+                {val === "login" ? t.loginTab : t.signupBtn}
+              </span>
+            </button>
+          ))}
+        </div>
+
         {/* Form */}
-        <div className="mt-8 space-y-3">
+        <div className="mt-4 space-y-3">
           {isSignup && (
             <InputField icon={User} value={name} onChange={setName} placeholder={t.fullName} />
           )}
@@ -164,19 +183,6 @@ export default function LoginPage() {
           <span className="text-sm">{t.continueGoogle}</span>
         </button>
 
-        {/* Toggle signup/login */}
-        <div className="flex flex-col items-center mt-6 gap-1.5">
-          <span className="text-xs font-semibold text-ink-3">
-            {isSignup ? t.noAccount : t.noAccount}
-          </span>
-          <button
-            type="button"
-            onClick={() => setTab(isSignup ? "login" : "signup")}
-            className="font-extrabold text-[15px] text-tornoo-green"
-          >
-            {isSignup ? t.loginTab : t.createAccount}
-          </button>
-        </div>
 
         {/* Pro link */}
         <Link

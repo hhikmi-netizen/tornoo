@@ -5,7 +5,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { motion } from "framer-motion";
-import { CaretLeft, ShareNetwork, Bell, Phone, CheckCircle } from "@phosphor-icons/react";
+import { CaretLeft, ShareNetwork, Bell, Phone, CheckCircle, NavigationArrow, X, ClockCounterClockwise } from "@phosphor-icons/react";
 import { gsap } from "@/lib/gsap";
 import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 import { api } from "@/services/api";
@@ -157,14 +157,12 @@ export default function MyTurnPage() {
           className="bg-white rounded-[22px] border border-line shadow-1 grid grid-cols-2 divide-x divide-line"
         >
           <div className="p-4">
-            <p className="text-xs text-ink-3 font-medium">{t.estimatedWait}</p>
-            <AnimatedNumber value={waitMins} duration={1.0} delay={0.4} suffix=" min" className="text-3xl font-black text-tornoo-green mt-1 block" />
-            <p className="text-xs text-ink-3 mt-0.5">{t.mins}</p>
+            <p className="section-eyebrow mb-1">{t.estimatedWait}</p>
+            <AnimatedNumber value={waitMins} duration={1.0} delay={0.4} suffix=" min" className="text-3xl font-black text-tornoo-green block" />
           </div>
           <div className="p-4">
-            <p className="text-xs text-ink-3 font-medium">{t.expectedTime}</p>
-            <p className="text-3xl font-black text-ink mt-1">{arrivalTime}</p>
-            <p className="text-xs text-ink-3 mt-0.5">{t.today}</p>
+            <p className="section-eyebrow mb-1">{t.expectedTime}</p>
+            <p className="text-3xl font-black text-ink">{arrivalTime}</p>
           </div>
         </motion.div>
 
@@ -282,20 +280,20 @@ export default function MyTurnPage() {
           className="grid grid-cols-2 gap-2"
         >
           {[
-            { label: t.onMyWay, danger: false },
-            { label: t.arrived, icon: CheckCircle, danger: false },
-            { label: t.delayTurn, danger: false },
-            { label: t.leaveQueue, danger: true },
-          ].map(({ label, danger }) => (
+            { label: t.onMyWay,   Icon: NavigationArrow,      color: "#2563eb", bg: "#eff6ff", rim: "#dbeafe", danger: false },
+            { label: t.arrived,   Icon: CheckCircle,          color: "#07984a", bg: "#e4f6ec", rim: "#b6e6c9", danger: false },
+            { label: t.delayTurn, Icon: ClockCounterClockwise, color: "#ff9300", bg: "#fff1de", rim: "#ffd9a6", danger: false },
+            { label: t.leaveQueue,Icon: X,                    color: "#ef2b24", bg: "#fde7e6", rim: "#f6c2bf", danger: true },
+          ].map(({ label, Icon, color, bg, rim, danger }) => (
             <button
               key={label}
               onClick={danger ? () => cancelMutation.mutate() : () => toast(label, "success")}
-              className={`min-h-[68px] rounded-[18px] p-3 flex items-center justify-center text-sm font-bold text-center leading-tight border transition-all active:scale-95 ${
-                danger
-                  ? "bg-high-bg text-high border-high-rim"
-                  : "bg-surface-2 text-ink-2 border-line"
-              }`}
+              className="min-h-[76px] rounded-[18px] p-3 flex flex-col items-center justify-center gap-1.5 text-xs font-bold text-center leading-tight border transition-all active:scale-95"
+              style={{ background: bg, borderColor: rim, color }}
             >
+              {cancelMutation.isPending && danger
+                ? <span className="w-4 h-4 rounded-full border-2 border-current border-t-transparent animate-spin" />
+                : <Icon weight="duotone" size={22} />}
               {cancelMutation.isPending && danger ? "..." : label}
             </button>
           ))}
