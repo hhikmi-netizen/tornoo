@@ -53,33 +53,49 @@ export default function NotificationsPage() {
   const unreadCount = notifications.filter((n) => !readIds.has(n.id)).length;
 
   return (
-    <div className="bg-white min-h-svh">
-      {/* Header */}
-      <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm px-4 pt-safe-top pb-3 border-b border-line flex items-center gap-3">
-        <button
-          onClick={() => router.back()}
-          className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center"
-          aria-label="Retour"
-        >
-          <CaretLeft weight="bold" size={20} />
-        </button>
-        <h1 className="flex-1 text-xl font-black text-ink">{t.notifications}</h1>
-        <AnimatePresence>
-          {unreadCount > 0 && (
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              onClick={markAllRead}
-              className="text-sm font-bold text-tornoo-green"
-            >
-              {t.markAll}
-            </motion.button>
-          )}
-        </AnimatePresence>
+    <div className="bg-surface-2 min-h-svh">
+      {/* Dark navy header */}
+      <div className="bg-grad-navy px-5 pt-safe-top pb-20 rounded-b-[38px]">
+        <div className="flex items-center justify-between mt-2">
+          <button
+            onClick={() => router.back()}
+            className="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center active:bg-white/20 transition-colors"
+            aria-label="Retour"
+          >
+            <CaretLeft weight="bold" size={20} className="text-white" />
+          </button>
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl font-black text-white">{t.notifications}</h1>
+            <AnimatePresence>
+              {unreadCount > 0 && (
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  className="w-6 h-6 rounded-full bg-tornoo-green flex items-center justify-center text-white text-xs font-black"
+                >
+                  {unreadCount}
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </div>
+          <AnimatePresence>
+            {unreadCount > 0 ? (
+              <motion.button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={markAllRead}
+                className="text-sm font-bold text-tornoo-green"
+              >
+                {t.markAll}
+              </motion.button>
+            ) : <div className="w-10" />}
+          </AnimatePresence>
+        </div>
       </div>
 
-      <div className="px-4 pb-6 max-w-lg mx-auto">
+      <div className="px-4 -mt-12 pb-6 max-w-lg mx-auto">
         {isLoading ? (
           <div className="space-y-3 pt-4">
             {[1, 2, 3].map((i) => <NotifSkeleton key={i} />)}

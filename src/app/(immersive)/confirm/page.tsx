@@ -11,14 +11,47 @@ import { useI18n } from "@/i18n/context";
 import { gsap } from "@/lib/gsap";
 import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 
+const CONFETTI_COLORS = ["#07984a", "#13b45b", "#f7c400", "#ff9300", "#ef2b24", "#3b82f6", "#a855f7"];
+
+function burst(container: HTMLElement) {
+  const count = 48;
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement("div");
+    const size = 6 + Math.random() * 8;
+    const color = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+    const isRect = Math.random() > 0.5;
+    el.style.cssText = `position:absolute;pointer-events:none;width:${size}px;height:${isRect ? size * 0.45 : size}px;background:${color};border-radius:${isRect ? "2px" : "50%"};left:50%;top:50%;z-index:9999;`;
+    container.appendChild(el);
+    const angle = (i / count) * 360 + Math.random() * 10;
+    const distance = 80 + Math.random() * 120;
+    const rad = (angle * Math.PI) / 180;
+    gsap.fromTo(el,
+      { x: 0, y: 0, rotation: 0, opacity: 1, scale: 1 },
+      {
+        x: Math.cos(rad) * distance,
+        y: Math.sin(rad) * distance - 40,
+        rotation: Math.random() * 720 - 360,
+        opacity: 0,
+        scale: 0.3,
+        duration: 1.1 + Math.random() * 0.6,
+        ease: "power2.out",
+        delay: Math.random() * 0.12,
+        onComplete: () => el.remove(),
+      }
+    );
+  }
+}
+
 function ConfirmContent() {
   const searchParams = useSearchParams();
   const { t } = useI18n();
   const ringRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const slug = searchParams.get("from");
 
   useEffect(() => {
     const ring = ringRef.current;
+    const container = containerRef.current;
     if (!ring) return;
     gsap.to(ring, {
       boxShadow: "0 0 60px rgba(7,152,74,.45), 0 0 120px rgba(7,152,74,.18)",
@@ -28,6 +61,9 @@ function ConfirmContent() {
       yoyo: true,
       delay: 0.5,
     });
+    if (container) {
+      gsap.delayedCall(0.5, () => burst(container));
+    }
     return () => { gsap.killTweensOf(ring); };
   }, []);
   const establishment = slug
@@ -35,7 +71,7 @@ function ConfirmContent() {
     : MOCK_ESTABLISHMENTS[0];
 
   return (
-    <div className="min-h-svh bg-gradient-to-b from-low-bg to-white flex flex-col px-6">
+    <div ref={containerRef} className="relative min-h-svh bg-gradient-to-b from-low-bg to-white flex flex-col px-6 overflow-hidden">
       <div className="flex justify-end pt-safe-top pb-4">
         <Link href="/home" className="text-sm font-bold text-high">{t.cancel}</Link>
       </div>
