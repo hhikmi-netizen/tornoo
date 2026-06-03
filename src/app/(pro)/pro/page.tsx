@@ -7,8 +7,10 @@ import { TornooMark } from "@/components/tornoo/TornooLogo";
 import { WaitBadge, WaitDot } from "@/components/tornoo/WaitBadge";
 import { MOCK_ESTABLISHMENTS, MOCK_QUEUES, MOCK_DAILY_STATS } from "@/lib/mock-data";
 import { api } from "@/services/api";
+import { useI18n } from "@/i18n/context";
 
 export default function ProDashboardPage() {
+  const { t } = useI18n();
   const e = MOCK_ESTABLISHMENTS[0];
   const queues = MOCK_QUEUES.filter((q) => q.establishmentId === e.id);
   const { data: stats = [] } = useQuery({ queryKey: ["pro-stats"], queryFn: () => api.pro.stats() });
@@ -24,10 +26,10 @@ export default function ProDashboardPage() {
       <div className="bg-grad-navy px-5 pt-safe-top pb-24 rounded-b-[38px]">
         <div className="flex items-center justify-between mt-2">
           <div>
-            <p className="text-white/60 text-sm">Bonjour,</p>
+            <p className="text-white/60 text-sm">{t.proGreeting}</p>
             <h1 className="text-3xl font-black text-white leading-tight">Admin</h1>
             <Link href="/pro/profile" className="flex items-center gap-1 text-tornoo-green text-sm font-bold mt-0.5">
-              Tornoo Business <CaretRight weight="bold" size={14} />
+              {t.proBusiness} <CaretRight weight="bold" size={14} />
             </Link>
           </div>
           <div className="flex gap-2">
@@ -58,35 +60,35 @@ export default function ProDashboardPage() {
           <div className="flex gap-2 mt-3">
             <span className="flex items-center gap-1.5 px-3 py-1.5 bg-low-bg text-tornoo-green rounded-full text-xs font-bold border border-low-rim">
               <WaitDot level="low" size={7} />
-              Établissement ouvert
+              {t.openStatus}
             </span>
             <Link href="/pro/profile" className="px-3 py-1.5 rounded-xl border border-line text-xs font-bold text-ink-2">
-              Voir profil
+              {t.viewProfile}
             </Link>
           </div>
 
           <div className="grid grid-cols-2 gap-3 mt-4">
             <Link href="/pro/statistics" className="bg-surface-2 rounded-[18px] p-4 border border-line">
               <ChartBar weight="duotone" size={22} className="text-tornoo-green" />
-              <p className="font-black text-ink mt-2">Statistiques</p>
-              <p className="text-xs text-ink-3">Aujourd'hui</p>
+              <p className="font-black text-ink mt-2">{t.statistics}</p>
+              <p className="text-xs text-ink-3">{t.today}</p>
             </Link>
             <Link href="/pro/queues" className="bg-surface-2 rounded-[18px] p-4 border border-line">
               <Users weight="duotone" size={22} className="text-tornoo-green" />
-              <p className="font-black text-ink mt-2">File d'attente</p>
-              <p className="text-xs text-ink-3">En temps réel</p>
+              <p className="font-black text-ink mt-2">{t.queuePro}</p>
+              <p className="text-xs text-ink-3">{t.realtimeQueue}</p>
             </Link>
           </div>
         </div>
 
         {/* Today stats */}
         <div className="bg-white rounded-[22px] border border-line shadow-1 p-5">
-          <h3 className="font-black text-ink mb-3">Vue d'ensemble aujourd'hui</h3>
+          <h3 className="font-black text-ink mb-3">{t.todayStats}</h3>
           <div className="grid grid-cols-3 gap-3">
             {[
-              { value: String(today?.clientsServed ?? "—"), label: "Servis" },
-              { value: String(totalWaiting), label: "En attente" },
-              { value: `${Math.round(today?.avgWaitMinutes ?? 0)} min`, label: "Moy. attente" },
+              { value: String(today?.clientsServed ?? "—"), label: t.served },
+              { value: String(totalWaiting), label: t.waiting },
+              { value: `${Math.round(today?.avgWaitMinutes ?? 0)} min`, label: t.avgWait },
             ].map(({ value, label }) => (
               <div key={label} className="bg-surface-2 rounded-[16px] p-3 text-center border border-line">
                 <p className="text-2xl font-black text-ink">{value}</p>
@@ -98,7 +100,7 @@ export default function ProDashboardPage() {
 
         {/* Services / queues */}
         <div className="bg-white rounded-[22px] border border-line shadow-1 p-5">
-          <h3 className="font-black text-ink mb-3">Quel service ?</h3>
+          <h3 className="font-black text-ink mb-3">{t.whichService}</h3>
           <div className="space-y-2">
             {SERVICES.map((s, i) => (
               <div
@@ -119,7 +121,7 @@ export default function ProDashboardPage() {
           </div>
 
           <div className="mt-3 flex items-center justify-between bg-low-bg rounded-[14px] px-4 py-3 border border-low-rim">
-            <span className="font-bold text-sm text-ink">Temps d'attente estimé</span>
+            <span className="font-bold text-sm text-ink">{t.estimatedWaitPro}</span>
             <WaitBadge minutes={28} size="sm" />
           </div>
 
@@ -128,7 +130,7 @@ export default function ProDashboardPage() {
             className="mt-3 flex items-center justify-center gap-2 h-14 rounded-[15px] bg-tornoo-green text-white font-extrabold w-full"
           >
             <Plus weight="bold" size={20} />
-            Prendre un ticket
+            {t.takeTicket}
           </Link>
         </div>
       </div>

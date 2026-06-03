@@ -7,8 +7,10 @@ import { TornooMark } from "@/components/tornoo/TornooLogo";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { api } from "@/services/api";
 import { MOCK_ESTABLISHMENTS } from "@/lib/mock-data";
+import { useI18n } from "@/i18n/context";
 
 export default function ProQueuesPage() {
+  const { t } = useI18n();
   const e = MOCK_ESTABLISHMENTS[0];
   const { data: queues = [] } = useQuery({
     queryKey: ["queues", e.id],
@@ -22,9 +24,9 @@ export default function ProQueuesPage() {
   const servedTotal = queues.reduce((a, q) => a + q.servedToday, 0);
 
   const stats = [
-    { value: String(ticketsIssued), label: "Tickets émis" },
-    { value: String(servedTotal), label: "Servis" },
-    { value: String(queues.reduce((a, q) => a + q.waitingCount, 0)), label: "En attente" },
+    { value: String(ticketsIssued), label: t.ticketsIssued },
+    { value: String(servedTotal), label: t.served },
+    { value: String(queues.reduce((a, q) => a + q.waitingCount, 0)), label: t.waiting },
   ];
 
   return (
@@ -45,7 +47,7 @@ export default function ProQueuesPage() {
         </div>
 
         <div className="mt-6">
-          <p className="text-white font-black text-sm">Vue d'ensemble aujourd'hui</p>
+          <p className="text-white font-black text-sm">{t.todayStats}</p>
           <div className="grid grid-cols-3 gap-3 mt-3">
             {stats.map(({ value, label }) => (
               <div key={label} className="p-3 rounded-2xl bg-white/10 text-center">
@@ -59,7 +61,7 @@ export default function ProQueuesPage() {
 
       {/* White content */}
       <div className="bg-white rounded-t-[38px] -mt-4 px-5 py-6 min-h-[60vh]">
-        <h2 className="text-2xl font-black text-ink mb-4">Files d'attente actives</h2>
+        <h2 className="text-2xl font-black text-ink mb-4">{t.activeQueues}</h2>
 
         {queues.length === 0 ? (
           <EmptyState
@@ -83,14 +85,14 @@ export default function ProQueuesPage() {
                   <div className="flex-1 min-w-0">
                     <h3 className="text-xl font-black text-ink">{q.serviceName}</h3>
                     <p className="text-sm text-ink-3">En cours · {q.waitingCount} personnes</p>
-                    <p className="mt-3 text-xs font-bold text-ink-3 uppercase tracking-wide">Numéro en cours</p>
+                    <p className="mt-3 text-xs font-bold text-ink-3 uppercase tracking-wide">{t.currentNo}</p>
                     <div className="flex items-center justify-between mt-1">
                       <span className="text-2xl font-black text-tornoo-green">{q.currentTicket}</span>
                       <Link
                         href={`/pro/queues/${q.id}`}
                         className="h-11 px-4 rounded-[13px] bg-ink text-white font-bold text-sm flex items-center"
                       >
-                        Gérer la file ›
+                        {t.manageQueue} ›
                       </Link>
                     </div>
                   </div>
@@ -104,7 +106,7 @@ export default function ProQueuesPage() {
           href="/pro/queues/new"
           className="mt-4 flex items-center justify-center h-14 rounded-[15px] border-2 border-dashed border-tornoo-green text-tornoo-green font-black w-full"
         >
-          + Ouvrir une nouvelle file
+          {t.openNewQueue}
         </Link>
       </div>
     </div>

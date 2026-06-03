@@ -6,10 +6,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CaretLeft, SkipForward, Pause, Play, X, CheckCircle } from "@phosphor-icons/react";
 import { MOCK_QUEUES } from "@/lib/mock-data";
 import { useToast } from "@/components/ui/Toast";
+import { useI18n } from "@/i18n/context";
 
 export default function QueueDetailPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
+  const { t } = useI18n();
   const { toast } = useToast();
 
   const queue = MOCK_QUEUES.find((q) => q.id === id) ?? MOCK_QUEUES[0];
@@ -168,9 +170,9 @@ export default function QueueDetailPage() {
         {/* Client list */}
         <div className="bg-white rounded-[22px] border border-line shadow-1 overflow-hidden">
           <div className="px-4 pt-4 pb-2 flex items-center justify-between">
-            <h3 className="font-black text-ink">Tickets</h3>
+            <h3 className="font-black text-ink">{t.tickets}</h3>
             <span className="text-xs text-ink-3 bg-surface-2 border border-line rounded-full px-2.5 py-0.5">
-              {waitingCount} en attente
+              {waitingCount} {t.waiting}
             </span>
           </div>
           <div>

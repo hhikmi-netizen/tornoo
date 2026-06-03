@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { CaretLeft, CheckCircle, Clock } from "@phosphor-icons/react";
 import { MOCK_ESTABLISHMENTS, MOCK_QUEUES } from "@/lib/mock-data";
+import { useI18n } from "@/i18n/context";
 
 export default function NewQueuePage() {
   const router = useRouter();
+  const { t } = useI18n();
   const services = MOCK_ESTABLISHMENTS[0].services;
   const [issued, setIssued] = useState<{ serviceName: string; ticketNum: string } | null>(null);
 
@@ -36,7 +38,7 @@ export default function NewQueuePage() {
           transition={{ delay: 0.35 }}
           className="text-[28px] font-black text-ink text-center mt-8 leading-snug"
         >
-          Ticket émis !
+          {t.ticketIssued}
         </motion.h1>
 
         <motion.p
@@ -54,7 +56,7 @@ export default function NewQueuePage() {
           transition={{ delay: 0.6 }}
           className="bg-white rounded-[22px] border border-line shadow-1 px-10 py-6 mt-8 text-center"
         >
-          <p className="text-xs font-bold text-ink-3 tracking-widest uppercase">Numéro attribué</p>
+          <p className="text-xs font-bold text-ink-3 tracking-widest uppercase">{t.assignedNumber}</p>
           <p className="text-6xl font-black mt-2 text-tornoo-green leading-none">{issued.ticketNum}</p>
         </motion.div>
 
@@ -68,13 +70,13 @@ export default function NewQueuePage() {
             onClick={() => router.replace("/pro/queues")}
             className="w-full h-14 rounded-[15px] bg-tornoo-green text-white font-extrabold shadow-[0_4px_20px_rgba(7,152,74,.3)]"
           >
-            Voir la file d'attente
+            {t.viewQueue}
           </button>
           <button
             onClick={() => setIssued(null)}
             className="w-full h-12 rounded-[15px] bg-surface-2 text-ink-2 font-bold border border-line text-sm"
           >
-            Émettre un autre ticket
+            {t.issueAnother}
           </button>
         </motion.div>
       </div>
@@ -87,10 +89,10 @@ export default function NewQueuePage() {
         <button onClick={() => router.back()} className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center" aria-label="Retour">
           <CaretLeft weight="bold" size={20} />
         </button>
-        <h1 className="text-xl font-black text-ink">Nouveau ticket</h1>
+        <h1 className="text-xl font-black text-ink">{t.newTicket}</h1>
       </div>
       <div className="px-4 pt-4 pb-8 max-w-lg mx-auto space-y-4">
-        <p className="text-sm text-ink-3">Sélectionnez un service pour émettre un ticket</p>
+        <p className="text-sm text-ink-3">{t.selectService}</p>
         <AnimatePresence>
           <div className="space-y-2">
             {services.map((s, i) => (
