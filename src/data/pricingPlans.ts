@@ -1,0 +1,97 @@
+import type { PricingPlan } from "@/types/pricing";
+
+export const PRICING_PLANS: PricingPlan[] = [
+  {
+    id: "free",
+    name: "Gratuit",
+    price: 0,
+    currency: "MAD",
+    period: "mois",
+    description: "Idéal pour commencer et gérer votre activité simplement.",
+    accentColor: "#009B5A",
+    iconBg: "#009B5A",
+    ctaLabel: "Commencer gratuitement",
+    features: [
+      { label: "1 file d'attente", included: true },
+      { label: "QR Code de votre établissement", included: true },
+      { label: "50 tickets / mois", included: true },
+      { label: "Notifications", included: false },
+      { label: "Statistiques", included: false },
+      { label: "Profil enrichi", included: false },
+      { label: "Multi-employés", included: false },
+      { label: "Multi-services", included: false },
+      { label: "Statistiques avancées", included: false },
+      { label: "WhatsApp", included: false },
+    ],
+  },
+  {
+    id: "pro",
+    name: "Pro",
+    price: 99,
+    currency: "MAD",
+    period: "mois",
+    description: "Pour les professionnels qui veulent aller plus loin.",
+    popular: true,
+    accentColor: "#009B5A",
+    iconBg: "#009B5A",
+    ctaLabel: "Choisir Pro",
+    features: [
+      { label: "Files d'attente illimitées", included: true },
+      { label: "QR Code personnalisé", included: true },
+      { label: "Tickets illimités", included: true },
+      { label: "Notifications (push, SMS)", included: true },
+      { label: "Statistiques de base", included: true },
+      { label: "Profil professionnel enrichi", included: true },
+      { label: "Multi-employés", included: false },
+      { label: "Multi-services", included: false },
+      { label: "Statistiques avancées", included: false },
+      { label: "WhatsApp", included: false },
+    ],
+  },
+  {
+    id: "premium",
+    name: "Premium",
+    price: 199,
+    currency: "MAD",
+    period: "mois",
+    description: "La solution complète pour les entreprises exigeantes.",
+    accentColor: "#2563EB",
+    iconBg: "#2563EB",
+    ctaLabel: "Choisir Premium",
+    features: [
+      { label: "Files d'attente illimitées", included: true },
+      { label: "QR Code personnalisé", included: true },
+      { label: "Tickets illimités", included: true },
+      { label: "Notifications (push, SMS, email)", included: true },
+      { label: "Statistiques avancées", included: true },
+      { label: "Profil professionnel enrichi", included: true },
+      { label: "Multi-employés", included: true },
+      { label: "Multi-services", included: true },
+      { label: "WhatsApp Business", included: true },
+      { label: "Support prioritaire", included: true },
+    ],
+  },
+];
+
+export const PRICING_FAQ = [
+  {
+    q: "Puis-je commencer gratuitement ?",
+    a: "Oui. Le plan Gratuit est disponible sans carte bancaire. Vous pouvez commencer à gérer votre file d'attente immédiatement.",
+  },
+  {
+    q: "Puis-je changer de plan ?",
+    a: "Absolument. Vous pouvez passer à un plan supérieur ou inférieur à tout moment depuis votre tableau de bord.",
+  },
+  {
+    q: "Les notifications WhatsApp sont-elles incluses ?",
+    a: "Les notifications WhatsApp Business sont disponibles dans le plan Premium uniquement.",
+  },
+  {
+    q: "Puis-je utiliser Tornoo sans carte bancaire ?",
+    a: "Oui, le plan Gratuit ne nécessite aucun moyen de paiement. Les plans payants acceptent carte bancaire et virement.",
+  },
+  {
+    q: "Le plan gratuit est-il limité ?",
+    a: "Le plan Gratuit permet de gérer 1 file d'attente et 50 tickets par mois. Idéal pour tester et démarrer.",
+  },
+];
