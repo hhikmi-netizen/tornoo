@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import type { Establishment } from "@/types";
+import { useI18n } from "@/i18n/context";
 
 interface TurnButtonProps {
   establishment: Establishment;
@@ -17,6 +18,7 @@ const levelStyle = {
 
 export function TurnButton({ establishment: e, className }: TurnButtonProps) {
   const router = useRouter();
+  const { t } = useI18n();
 
   const handleClick = (ev: React.MouseEvent) => {
     ev.preventDefault();
@@ -32,13 +34,13 @@ export function TurnButton({ establishment: e, className }: TurnButtonProps) {
     <button
       onClick={handleClick}
       className={cn(
-        "h-10 px-4 rounded-[15px] text-sm font-extrabold shrink-0",
+        "h-10 px-4 rounded-[15px] text-sm font-extrabold shrink-0 active:scale-[0.96] transition-transform",
         levelStyle[e.waitLevel],
         className
       )}
-      aria-label={e.waitLevel === "high" ? "Voir les détails" : "Prendre mon tour"}
+      aria-label={e.waitLevel === "high" ? t.seeDetails : t.takeTurn}
     >
-      {e.waitLevel === "high" ? "Voir détails" : "Prendre mon tour"}
+      {e.waitLevel === "high" ? t.seeDetails : t.takeTurn}
     </button>
   );
 }
