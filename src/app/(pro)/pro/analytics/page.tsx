@@ -53,14 +53,14 @@ function Sparkline({ values, color = "#07984a" }: { values: number[]; color?: st
   );
 }
 
-/* ── KPI Card ── */
-function KpiCard({
+/* ── KPI Card (compact, no sparkline) ── */
+function KpiCardCompact({
   label, value, suffix = "", prefix = "", trend, trendLabel, color, bg, border,
-  sparkValues, icon: Icon, delay = 0, decimals = 0,
+  icon: Icon, delay = 0, decimals = 0,
 }: {
   label: string; value: number; suffix?: string; prefix?: string;
   trend?: number; trendLabel?: string; color: string; bg: string; border: string;
-  sparkValues?: number[]; icon: React.ElementType; delay?: number; decimals?: number;
+  icon: React.ElementType; delay?: number; decimals?: number;
 }) {
   const isUp = (trend ?? 0) >= 0;
   return (
@@ -68,17 +68,14 @@ function KpiCard({
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.45, ease: "easeOut" }}
-      className="bg-white rounded-[22px] border p-5 shadow-1 flex flex-col gap-3"
+      className="bg-white rounded-[22px] border p-4 shadow-1 flex flex-col gap-2 flex-1"
       style={{ borderColor: border }}
     >
-      <div className="flex items-start justify-between">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: bg }}>
-          <Icon weight="duotone" size={20} style={{ color }} />
-        </div>
-        {sparkValues && <Sparkline values={sparkValues} color={color} />}
+      <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: bg }}>
+        <Icon weight="duotone" size={16} style={{ color }} />
       </div>
       <div>
-        <p className="section-eyebrow mb-1">{label}</p>
+        <p className="section-eyebrow mb-0.5 leading-tight">{label}</p>
         <AnimatedNumber
           value={value}
           duration={1.4}
@@ -86,15 +83,15 @@ function KpiCard({
           prefix={prefix}
           suffix={suffix}
           decimals={decimals}
-          className="text-3xl font-black text-ink block"
+          className="text-xl font-black text-ink block leading-tight"
         />
       </div>
       {trend !== undefined && (
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1">
           {isUp
-            ? <TrendUp weight="fill" size={14} className="text-tornoo-green" />
-            : <TrendDown weight="fill" size={14} className="text-[#ef2b24]" />}
-          <span className={`text-xs font-bold ${isUp ? "text-tornoo-green" : "text-[#ef2b24]"}`}>
+            ? <TrendUp weight="fill" size={12} className="text-tornoo-green" />
+            : <TrendDown weight="fill" size={12} className="text-[#ef2b24]" />}
+          <span className={`text-[10px] font-bold leading-none ${isUp ? "text-tornoo-green" : "text-[#ef2b24]"}`}>
             {isUp ? "+" : ""}{trend}% {trendLabel}
           </span>
         </div>
@@ -223,11 +220,52 @@ function ActivityItem({ type, ticket, time, i }: { type: "served" | "joined" | "
   );
 }
 
-/* ── Period pill ── */
+/* ── Peak hours row ── */
+function PeakHourRow({ label, pct, color }: { label: string; pct: number; color: string }) {
+  const barRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!barRef.current) return;
+    gsap.from(barRef.current, {
+      scaleX: 0,
+      transformOrigin: "left center",
+      duration: 0.7,
+      ease: "power3.out",
+    });
+  }, []);
+
+  return (
+    <div className="flex items-center gap-3">
+      <span className="w-20 text-sm font-bold text-ink shrink-0">{label}</span>
+      <div className="flex-1 h-2 bg-surface-2 rounded-full overflow-hidden">
+        <div
+          ref={barRef}
+          className="h-full rounded-full"
+          style={{ width: `${pct}%`, background: color }}
+        />
+      </div>
+      <span className="text-xs font-bold text-ink-2 w-8 text-right shrink-0">{pct}%</span>
+    </div>
+  );
+}
+
+/* ── Review avatar ── */
+function ReviewAvatar({ name, bg }: { name: string; bg: string }) {
+  const initials = name.split(" ").map((p) => p[0]).join("").toUpperCase().slice(0, 2);
+  return (
+    <div
+      className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-sm font-black text-white"
+      style={{ background: bg }}
+    >
+      {initials}
+    </div>
+  );
+}
+
+/* ── Period selector (dropdown style) ── */
 const PERIODS = [
-  { key: "7j", label: "7 jours" },
-  { key: "30j", label: "30 jours" },
-  { key: "3m", label: "3 mois" },
+  { key: "7j",  label: "7 derniers jours" },
+  { key: "30j", label: "30 derniers jours" },
+  { key: "3m",  label: "3 derniers mois" },
 ];
 
 export default function AnalyticsPage() {
@@ -237,6 +275,18 @@ export default function AnalyticsPage() {
   const [periodOpen, setPeriodOpen] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setPeriodOpen(false);
+      }
+    }
+    if (periodOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [periodOpen]);
 
   const { data: stats = [] } = useQuery({
     queryKey: ["pro-stats"],
@@ -253,7 +303,6 @@ export default function AnalyticsPage() {
   );
 
   const revenueData = stats.map((d) => ({ date: d.date, revenue: d.revenue ?? 0, clients: d.clientsServed }));
-  const clientValues = stats.map((d) => d.clientsServed);
 
   const SERVICES = [
     { name: "Coupe homme",   pct: 34, value: Math.round(totals.clients * 0.34) },
@@ -261,6 +310,28 @@ export default function AnalyticsPage() {
     { name: "Barbe",         pct: 18, value: Math.round(totals.clients * 0.18) },
     { name: "Coloration",    pct: 12, value: Math.round(totals.clients * 0.12) },
     { name: "Autre",         pct: 8,  value: Math.round(totals.clients * 0.08) },
+  ];
+
+  const PEAK_HOURS = [
+    { label: "09h – 12h", pct: 34, color: "#ff9300" },
+    { label: "12h – 15h", pct: 48, color: "#ef2b24" },
+    { label: "15h – 18h", pct: 12, color: "#f7c400" },
+    { label: "18h – 21h", pct: 6,  color: "#07984a" },
+  ];
+
+  const REVIEWS = [
+    {
+      name: "Youssef M.", bg: "#2563eb", date: "aujourd'hui", stars: 5,
+      body: "Excellent service et équipe très professionnelle !",
+    },
+    {
+      name: "Karim E.", bg: "#07984a", date: "hier", stars: 5,
+      body: "Ambiance top et attente hyper rapide.",
+    },
+    {
+      name: "Sara L.", bg: "#7c3aed", date: "il y a 2j", stars: 5,
+      body: "Je recommande vivement 👍",
+    },
   ];
 
   const ACTIVITY = [
@@ -271,6 +342,8 @@ export default function AnalyticsPage() {
     { type: "joined"    as const, ticket: "A-017", time: "Il y a 15 min" },
     { type: "served"    as const, ticket: "A-012", time: "Il y a 18 min" },
   ];
+
+  const selectedPeriodLabel = PERIODS.find((p) => p.key === period)?.label ?? "7 derniers jours";
 
   const handleExport = async () => {
     setIsExporting(true);
@@ -310,26 +383,51 @@ export default function AnalyticsPage() {
           </button>
         </div>
 
-        {/* Period picker */}
+        {/* Period dropdown + live badge */}
         <div className="flex items-center gap-2">
-          <div className="flex gap-1 p-1 bg-white/10 rounded-[12px]">
-            {PERIODS.map(({ key, label }) => (
-              <button
-                key={key}
-                onClick={() => setPeriod(key)}
-                className="relative h-7 px-3.5 rounded-[10px] text-xs font-bold transition-colors"
+          {/* Dropdown trigger */}
+          <div ref={dropdownRef} className="relative">
+            <button
+              onClick={() => setPeriodOpen((o) => !o)}
+              className="flex items-center gap-2 h-9 px-4 rounded-full bg-white/10 text-white text-sm font-bold active:bg-white/20 transition-colors"
+            >
+              <span>{selectedPeriodLabel}</span>
+              <motion.span
+                animate={{ rotate: periodOpen ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
+                className="inline-flex"
               >
-                {period === key && (
-                  <motion.span
-                    layoutId="period-pill"
-                    className="absolute inset-0 rounded-[10px] bg-white"
-                    transition={{ type: "spring", stiffness: 420, damping: 30 }}
-                  />
-                )}
-                <span className={`relative z-10 ${period === key ? "text-ink" : "text-white/60"}`}>{label}</span>
-              </button>
-            ))}
+                <CaretDown weight="bold" size={12} />
+              </motion.span>
+            </button>
+
+            <AnimatePresence>
+              {periodOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -6, scale: 0.97 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute left-0 top-full mt-2 bg-white rounded-[14px] shadow-2 border border-line overflow-hidden z-50 min-w-[180px]"
+                >
+                  {PERIODS.map(({ key, label }) => (
+                    <button
+                      key={key}
+                      onClick={() => { setPeriod(key); setPeriodOpen(false); }}
+                      className={`w-full text-left px-4 py-3 text-sm font-bold transition-colors
+                        ${period === key
+                          ? "text-tornoo-green bg-low-bg"
+                          : "text-ink hover:bg-surface-2"
+                        }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
+
           <div className="flex items-center gap-1 h-9 px-3 rounded-full bg-white/10">
             <span className="w-1.5 h-1.5 rounded-full bg-tornoo-green animate-breathe" />
             <span className="text-xs font-bold text-white/80">En direct</span>
@@ -337,7 +435,7 @@ export default function AnalyticsPage() {
         </div>
       </div>
 
-      <div className="px-4 pb-24 pt-4 max-w-lg mx-auto space-y-4">
+      <div className="px-4 pb-6 pt-4 max-w-lg mx-auto space-y-4">
         {/* Hero metric */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -346,7 +444,7 @@ export default function AnalyticsPage() {
           className="bg-white rounded-[24px] border border-line shadow-1 p-5"
         >
           <div className="flex items-start justify-between mb-1">
-            <p className="section-eyebrow">Revenus · {PERIODS.find((p) => p.key === period)?.label}</p>
+            <p className="section-eyebrow">Revenus · {selectedPeriodLabel}</p>
             <span className="flex items-center gap-1 text-xs font-bold text-tornoo-green">
               <TrendUp weight="fill" size={12} /> +22%
             </span>
@@ -363,60 +461,62 @@ export default function AnalyticsPage() {
           {revenueData.length >= 2 && <RevenueChart data={revenueData} />}
         </motion.div>
 
-        {/* KPI grid */}
-        <div className="grid grid-cols-2 gap-3">
-          <KpiCard
+        {/* KPI row — 3 columns */}
+        <div className="flex gap-3">
+          <KpiCardCompact
             label="Clients servis"
             value={totals.clients}
             trend={18}
-            trendLabel="vs sem. préc."
+            trendLabel="vs préc."
             color="#07984a"
             bg="#e4f6ec"
             border="#b6e6c9"
-            sparkValues={clientValues}
             icon={Users}
             delay={0.1}
           />
-          <KpiCard
-            label="Attente moyenne"
+          <KpiCardCompact
+            label="Attente moy."
             value={Math.round(totals.avgWait)}
             suffix=" min"
             trend={-5}
-            trendLabel="min de moins"
+            trendLabel="min"
             color="#2563eb"
             bg="#eff6ff"
             border="#dbeafe"
-            sparkValues={stats.map((d) => d.avgWaitMinutes)}
             icon={Clock}
             delay={0.2}
           />
-          <KpiCard
-            label="Ticket moyen"
-            value={totals.clients > 0 ? Math.round(totals.revenue / totals.clients) : 0}
-            suffix=" DH"
-            trend={8}
-            trendLabel="vs sem. préc."
+          <KpiCardCompact
+            label="Revenus DH"
+            value={Math.round(totals.revenue)}
+            trend={22}
+            trendLabel="vs préc."
             color="#ff9300"
             bg="#fff1de"
             border="#ffd9a6"
-            sparkValues={stats.map((d) => (d.revenue ?? 0) / Math.max(d.clientsServed, 1))}
             icon={CurrencyDollar}
             delay={0.3}
           />
-          <KpiCard
-            label="Note moyenne"
-            value={4.8}
-            decimals={1}
-            suffix=" ★"
-            trend={4}
-            trendLabel="pts de plus"
-            color="#f7c400"
-            bg="#fffde0"
-            border="#fde68a"
-            icon={Star}
-            delay={0.4}
-          />
         </div>
+
+        {/* Heures de pointe */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          className="bg-white rounded-[24px] border border-line shadow-1 p-5"
+        >
+          <div className="mb-4">
+            <p className="section-eyebrow mb-0.5">AFFLUENCE</p>
+            <h2 className="font-black text-ink leading-none">Heures de pointe</h2>
+            <p className="text-xs text-ink-3 mt-1">Affluence par tranche horaire</p>
+          </div>
+          <div className="space-y-3">
+            {PEAK_HOURS.map((row) => (
+              <PeakHourRow key={row.label} label={row.label} pct={row.pct} color={row.color} />
+            ))}
+          </div>
+        </motion.div>
 
         {/* Top services */}
         <motion.div
@@ -437,6 +537,62 @@ export default function AnalyticsPage() {
           <div className="space-y-4">
             {SERVICES.map((s, i) => (
               <ServiceBar key={s.name} name={s.name} pct={s.pct} value={s.value} rank={i} />
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Avis récents */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.45 }}
+          className="bg-white rounded-[24px] border border-line shadow-1 p-5"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <p className="section-eyebrow mb-0.5">SATISFACTION</p>
+              <h2 className="font-black text-ink leading-none">Avis récents</h2>
+            </div>
+            <Link
+              href="/pro/reviews"
+              className="text-sm font-bold text-tornoo-green flex items-center gap-1"
+            >
+              Voir tous <ArrowRight weight="bold" size={12} />
+            </Link>
+          </div>
+          <div className="space-y-4">
+            {REVIEWS.map((review, i) => (
+              <motion.div
+                key={review.name}
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5 + i * 0.07 }}
+                className="space-y-2"
+              >
+                <div className="flex items-center gap-2.5">
+                  <ReviewAvatar name={review.name} bg={review.bg} />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-black text-ink">{review.name}</span>
+                      <span className="text-xs text-ink-3">{review.date}</span>
+                    </div>
+                    <div className="flex items-center gap-0.5 mt-0.5">
+                      {Array.from({ length: review.stars }).map((_, si) => (
+                        <Star key={si} weight="fill" size={12} color="#f7c400" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <p className="text-sm text-ink-2 leading-relaxed pl-[52px]">{review.body}</p>
+                <div className="pl-[52px]">
+                  <button className="h-7 px-3 rounded-full border border-tornoo-green text-tornoo-green text-xs font-bold transition-colors hover:bg-low-bg">
+                    Répondre
+                  </button>
+                </div>
+                {i < REVIEWS.length - 1 && (
+                  <div className="border-t border-line pt-1" />
+                )}
+              </motion.div>
             ))}
           </div>
         </motion.div>
@@ -495,6 +651,24 @@ export default function AnalyticsPage() {
               </div>
             ))}
           </div>
+        </motion.div>
+
+        {/* Export button */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.65 }}
+        >
+          <button
+            onClick={handleExport}
+            disabled={isExporting}
+            className="w-full h-14 rounded-[15px] bg-tornoo-green text-white font-extrabold text-base flex items-center justify-center gap-2 disabled:opacity-60 transition-opacity active:scale-[0.98]"
+          >
+            {isExporting
+              ? <span className="w-5 h-5 rounded-full border-2 border-white/40 border-t-white animate-spin" />
+              : <DownloadSimple size={20} weight="bold" />}
+            Exporter le rapport
+          </button>
         </motion.div>
       </div>
     </div>
