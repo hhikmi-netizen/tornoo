@@ -25,7 +25,7 @@ export function TornooMark({ size = 64, className, href, onClick, dark = false }
       <path d="M48 135C31 116 27 88 38 64C51 36 80 22 110 28C119 30 127 33 135 38" stroke="url(#tornooGradient)" strokeWidth="24" strokeLinecap="round" fill="none" />
       <path d="M143 45C157 56 166 71 169 88" stroke="#FF9800" strokeWidth="24" strokeLinecap="round" fill="none" />
       <path d="M170 104C168 121 160 137 148 149" stroke="#EF2B24" strokeWidth="24" strokeLinecap="round" fill="none" />
-      <path d="M70 93L90 113L132 67" stroke={dark ? "white" : "#22A447"} strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <path d="M70 93L90 113L132 67" stroke={dark ? "white" : "#0B1B2B"} strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" fill="none" />
       <circle cx="66"  cy="154" r="11" fill="#39B54A" />
       <circle cx="100" cy="154" r="11" fill="#FFB000" />
       <circle cx="134" cy="154" r="11" fill="#EF2B24" />
@@ -90,7 +90,9 @@ export function TornooLogo({ compact = false, dark = false, className, showTagli
             ) : (
               <>
                 <span className="text-[#009B5A]">L'attente</span>{" "}
-                <span className="text-[#FF8A00]">en temps réel</span>
+                <span className="text-[#8BC53F]">en</span>{" "}
+                <span className="text-[#FF8A00]">temps</span>{" "}
+                <span className="text-[#EF2B24]">réel</span>
               </>
             )}
           </div>
