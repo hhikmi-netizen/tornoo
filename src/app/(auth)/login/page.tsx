@@ -106,7 +106,8 @@ export default function LoginPage() {
               {tab === val && (
                 <motion.span
                   layoutId="auth-tab"
-                  className="absolute inset-0 rounded-[12px] bg-white border border-line shadow-1"
+                  className="absolute inset-0 rounded-[12px] bg-white border border-[#d0d5dd]"
+                  style={{ boxShadow: "0 1px 6px rgba(0,0,0,0.14), 0 0 0 0.5px rgba(0,0,0,0.06)" }}
                   transition={{ type: "spring", stiffness: 420, damping: 30 }}
                 />
               )}

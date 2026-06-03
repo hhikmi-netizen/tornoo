@@ -3,6 +3,7 @@
 import { useEffect, useRef, Suspense } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
+import { haptic } from "@/lib/haptic";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { motion } from "framer-motion";
 import { CaretLeft, ShareNetwork, Bell, Phone, CheckCircle, NavigationArrow, X, ClockCounterClockwise } from "@phosphor-icons/react";
@@ -287,7 +288,10 @@ function MyTurnContent() {
           ].map(({ label, Icon, color, bg, rim, danger }) => (
             <button
               key={label}
-              onClick={danger ? () => cancelMutation.mutate() : () => toast(label, "success")}
+              onClick={danger
+                ? () => { haptic("heavy"); cancelMutation.mutate(); }
+                : () => { haptic("light"); toast(label, "success"); }
+              }
               className="min-h-[76px] rounded-[18px] p-3 flex flex-col items-center justify-center gap-1.5 text-xs font-bold text-center leading-tight border transition-all active:scale-95"
               style={{ background: bg, borderColor: rim, color }}
             >

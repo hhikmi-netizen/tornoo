@@ -26,7 +26,7 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
         className={cn(
           "flex flex-col items-center bg-white rounded-[22px] p-4 w-36 shrink-0 text-center",
           "shadow-[0_2px_6px_rgba(20,24,33,.06),0_18px_40px_-16px_rgba(20,24,33,.20)]",
-          "border border-[#eaedf0] active:scale-[0.97] transition-transform",
+          "border border-[#eaedf0] active:scale-[0.97] hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgba(20,24,33,.13)] transition-all duration-200",
           className
         )}
       >
@@ -63,7 +63,7 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
       className={cn(
         "flex gap-4 bg-white rounded-[22px] p-3",
         "shadow-[0_2px_6px_rgba(20,24,33,.06),0_18px_40px_-16px_rgba(20,24,33,.20)]",
-        "border border-[#eaedf0] active:scale-[0.98] transition-transform",
+        "border border-[#eaedf0] active:scale-[0.98] hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgba(20,24,33,.13)] transition-all duration-200",
         className
       )}
     >

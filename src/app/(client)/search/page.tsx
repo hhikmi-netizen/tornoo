@@ -7,6 +7,7 @@ import { MagnifyingGlass, X, Faders } from "@phosphor-icons/react";
 import { EstablishmentCard } from "@/components/tornoo/EstablishmentCard";
 import { WaitDot } from "@/components/tornoo/WaitBadge";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { CardSkeleton } from "@/components/ui/Skeleton";
 import { api } from "@/services/api";
 import { useI18n } from "@/i18n/context";
 import { gsap } from "@/lib/gsap";
@@ -276,8 +277,8 @@ export default function SearchPage() {
 
         {isLoading ? (
           <div className="space-y-3">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-32 rounded-[22px] bg-surface-2 animate-pulse" />
+            {[1, 2, 3].map((i) => (
+              <CardSkeleton key={i} />
             ))}
           </div>
         ) : filtered.length === 0 ? (

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { haptic } from "@/lib/haptic";
 import { motion, AnimatePresence } from "framer-motion";
 import { CaretLeft, SkipForward, Pause, Play, X, CheckCircle } from "@phosphor-icons/react";
 import { MOCK_QUEUES } from "@/lib/mock-data";
@@ -30,6 +31,7 @@ export default function QueueDetailPage() {
 
   const callNext = async () => {
     if (isCalling || waitingCount === 0 || isPaused) return;
+    haptic("medium");
     setIsCalling(true);
     await new Promise((r) => setTimeout(r, 500));
     setCurrentNum((n) => n + 1);

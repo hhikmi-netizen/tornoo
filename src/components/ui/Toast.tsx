@@ -42,16 +42,16 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={{ toast }}>
       {children}
-      <div className="fixed top-4 left-0 right-0 z-[100] flex flex-col items-center gap-2 pointer-events-none px-4">
+      <div className="fixed bottom-24 left-0 right-0 z-[100] flex flex-col items-end gap-2 pointer-events-none px-4">
         <AnimatePresence mode="popLayout">
           {toasts.map((t) => {
             const Icon = iconMap[t.type];
             return (
               <motion.div
                 key={t.id}
-                initial={{ opacity: 0, y: -20, scale: 0.95 }}
+                initial={{ opacity: 0, y: 16, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                exit={{ opacity: 0, y: 8, scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 28 }}
                 className={cn(
                   "pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-[16px] border shadow-pop max-w-sm w-full",

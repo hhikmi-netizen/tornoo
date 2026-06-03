@@ -3,6 +3,7 @@
 import { useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { haptic } from "@/lib/haptic";
 import { motion } from "framer-motion";
 import { Ticket, Bell, CaretRight } from "@phosphor-icons/react";
 import { MOCK_ESTABLISHMENTS, MOCK_TICKET } from "@/lib/mock-data";
@@ -122,6 +123,7 @@ function ConfirmContent() {
       >
         <Link
           href={`/my-turn${slug ? `?from=${slug}` : ""}`}
+          onClick={() => haptic("medium")}
           className="flex items-center justify-center h-14 rounded-[15px] bg-tornoo-green text-white font-extrabold w-full shadow-[0_4px_20px_rgba(7,152,74,.3)] active:scale-[0.98] transition-transform"
         >
           {t.viewTicket}
