@@ -7,7 +7,7 @@ import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import {
-  CaretLeft, ShareNetwork, Heart, MapPin, Star, Clock, Phone, Globe, CheckCircle
+  CaretLeft, ShareNetwork, Heart, MapPin, Star, Clock, Phone, Globe, CheckCircle, NavigationArrow
 } from "@phosphor-icons/react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { useToast } from "@/components/ui/Toast";
@@ -182,6 +182,12 @@ export default function EstablishmentPage() {
                 <MapPin weight="duotone" size={13} className="shrink-0" />
                 <span className="truncate">{e.city}</span>
               </span>
+              {e.distance != null && (
+                <span className="flex items-center gap-1 text-sm text-white/80">
+                  <span>·</span>
+                  <span className="font-semibold">{e.distance} km</span>
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -304,8 +310,20 @@ export default function EstablishmentPage() {
             )}
             <div className="flex items-start gap-3 bg-surface-2 rounded-[16px] px-4 py-3 border border-line">
               <MapPin weight="duotone" size={16} className="text-tornoo-green mt-0.5 shrink-0" />
-              <span className="font-medium text-ink">{e.address}, {e.city}</span>
+              <span className="font-medium text-ink flex-1">{e.address}, {e.city}</span>
+              {e.distance != null && (
+                <span className="text-xs font-bold text-ink-3 shrink-0">{e.distance} km</span>
+              )}
             </div>
+            <a
+              href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${e.address}, ${e.city}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 h-12 rounded-[16px] font-bold text-sm border-2 border-[#07984a] text-[#07984a] bg-[#f0faf4] active:scale-[0.98] transition-transform"
+            >
+              <NavigationArrow weight="fill" size={16} />
+              Itinéraire Google Maps
+            </a>
           </div>
         </section>
       </div>

@@ -26,66 +26,48 @@ import { useToast } from "@/components/ui/Toast";
 import { useI18n } from "@/i18n/context";
 import { scheduleLocalNotification } from "@/lib/notifications";
 
-// ─── Horseshoe Arc ──────────────────────────────────────────────────────────
+// ─── Position Ring (exact from blueprint) ────────────────────────────────────
 
-const ARC_PATH = "M 61 167.5 A 78 78 0 1 1 139 167.5";
-
-interface HorseshoeArcProps {
+interface PositionRingProps {
   position: number;
   total: number;
 }
 
-function HorseshoeArc({ position, total }: HorseshoeArcProps) {
+function PositionRing({ position, total }: PositionRingProps) {
+  // Compute indicator dot angle dynamically
+  // The ring starts at upper-left (~320° from 3 o'clock) and the dot moves clockwise
   const fraction = total <= 1 ? 0 : (position - 1) / (total - 1);
-  // angle: 120° at start (bottom-left), 120 + 300 = 420° = 60° at end (bottom-right)
-  // going clockwise through top
-  const angleDeg = 120 + fraction * 300;
+  const startAngleDeg = -130; // upper-left in SVG coords
+  const sweepDeg = 260;
+  const angleDeg = startAngleDeg + fraction * sweepDeg;
   const angleRad = (angleDeg * Math.PI) / 180;
-  const cx = 100;
-  const cy = 100;
-  const r = 78;
+  const cx = 150, cy = 150, r = 118;
   const dotX = cx + r * Math.cos(angleRad);
   const dotY = cy + r * Math.sin(angleRad);
 
   return (
-    <svg viewBox="0 0 200 200" className="w-full h-full" aria-hidden>
+    <svg viewBox="0 0 300 300" className="w-full h-full" aria-hidden>
       <defs>
-        <linearGradient
-          id="arcGrad"
-          gradientUnits="userSpaceOnUse"
-          x1="10"
-          y1="0"
-          x2="190"
-          y2="0"
-        >
-          <stop offset="0%" stopColor="#07984a" />
-          <stop offset="40%" stopColor="#f7c400" />
-          <stop offset="70%" stopColor="#ff9300" />
-          <stop offset="100%" stopColor="#ef2b24" />
+        <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%"   stopColor="#009B5A" />
+          <stop offset="50%"  stopColor="#F5C400" />
+          <stop offset="75%"  stopColor="#FF8A00" />
+          <stop offset="100%" stopColor="#EF2B24" />
         </linearGradient>
       </defs>
-
-      {/* Gray track */}
-      <path
-        d={ARC_PATH}
-        fill="none"
-        stroke="#eaedf0"
-        strokeWidth="16"
-        strokeLinecap="round"
-      />
-
-      {/* Colored gradient arc */}
-      <path
-        d={ARC_PATH}
-        fill="none"
-        stroke="url(#arcGrad)"
-        strokeWidth="16"
-        strokeLinecap="round"
-      />
-
-      {/* Indicator dot — white circle + green stroke + small green center */}
-      <circle cx={dotX} cy={dotY} r="11" fill="white" stroke="#07984a" strokeWidth="3" />
-      <circle cx={dotX} cy={dotY} r="4" fill="#07984a" />
+      {/* Background track */}
+      <circle cx="150" cy="150" r="118" stroke="#E8ECF1" strokeWidth="20" fill="none" strokeLinecap="round" />
+      {/* Green segment */}
+      <path d="M58 220A118 118 0 0 1 105 42" stroke="#009B5A" strokeWidth="22" strokeLinecap="round" fill="none" />
+      {/* Gradient segment */}
+      <path d="M118 37A118 118 0 0 1 230 72" stroke="url(#ringGrad)" strokeWidth="22" strokeLinecap="round" fill="none" />
+      {/* Orange segment */}
+      <path d="M240 85A118 118 0 0 1 260 132" stroke="#FF8A00" strokeWidth="22" strokeLinecap="round" fill="none" />
+      {/* Red segment */}
+      <path d="M260 154A118 118 0 0 1 245 207" stroke="#EF2B24" strokeWidth="22" strokeLinecap="round" fill="none" />
+      {/* Dynamic indicator dot */}
+      <circle cx={dotX} cy={dotY} r="16" fill="#009B5A" />
+      <circle cx={dotX} cy={dotY} r="8"  fill="white" />
     </svg>
   );
 }
@@ -199,22 +181,28 @@ function MyTurnContent() {
 
       <div className="px-4 pb-8 max-w-lg mx-auto space-y-4 pt-4">
 
-        {/* ── Horseshoe arc + center text ── */}
-        <div className="flex justify-center py-2">
-          <div className="relative w-52 h-52">
-            <HorseshoeArc position={position} total={total} />
-            {/* Center label */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center pb-6">
-              <p className="text-xs text-ink-3 font-semibold mb-0.5">Votre position</p>
-              <motion.span
-                className="text-6xl font-black text-ink leading-none"
-                initial={{ scale: 0.5, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.4, delay: 0.3, type: "spring" }}
-              >
-                #{position}
-              </motion.span>
-              <span className="text-lg mt-1">👥</span>
+        {/* ── Position Ring + center text ── */}
+        <div className="relative w-72 h-72 mx-auto">
+          <PositionRing position={position} total={total} />
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <p className="text-slate-500 font-bold text-sm">Votre position</p>
+            <motion.div
+              className="text-7xl font-black tracking-[-0.06em] text-[#071A2A] leading-none"
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.3, type: "spring" }}
+            >
+              #{position}
+            </motion.div>
+            <div className="mt-2 text-tornoo-green">
+              <svg width="38" height="26" viewBox="0 0 38 26" fill="none">
+                <circle cx="10" cy="8" r="5" fill="currentColor" />
+                <circle cx="28" cy="8" r="5" fill="currentColor" />
+                <circle cx="19" cy="6" r="6" fill="currentColor" />
+                <path d="M2 25C3 17 6 13 10 13C14 13 17 17 18 25H2Z"   fill="currentColor" />
+                <path d="M20 25C21 17 24 13 28 13C32 13 35 17 36 25H20Z" fill="currentColor" />
+                <path d="M9 25C10 16 14 12 19 12C24 12 28 16 29 25H9Z"  fill="currentColor" />
+              </svg>
             </div>
           </div>
         </div>

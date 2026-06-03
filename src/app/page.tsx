@@ -4,6 +4,45 @@ import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { TornooMark } from "@/components/tornoo/TornooLogo";
 
+function CitySilhouette() {
+  return (
+    <div className="absolute left-0 right-0 bottom-44 h-44 pointer-events-none opacity-50">
+      <svg viewBox="0 0 430 160" className="w-full h-full" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="cityFade" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"   stopColor="#D8F3E8" />
+            <stop offset="50%"  stopColor="#E9EEF5" />
+            <stop offset="100%" stopColor="#FFF0E1" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M0 150H430V105C415 105 414 78 400 78C387 78 384 110 371 110C358 110 358 82 344 82H332V60H318V110H300V76H286V110H270V50H250V110H232V82H218V110H202V40H180V110H162V70H148V110H130V92H116V110H95V80H82V110H65V90H52V110H35V75H22V110H0V150Z"
+          fill="url(#cityFade)"
+        />
+        <circle cx="84"  cy="40" r="13" fill="#EEF5F1" />
+        <rect   x="62"  y="45" width="44" height="14" rx="7" fill="#EEF5F1" />
+        <circle cx="340" cy="42" r="13" fill="#EEF5F1" />
+        <rect   x="318" y="47" width="44" height="14" rx="7" fill="#EEF5F1" />
+      </svg>
+    </div>
+  );
+}
+
+function AnimatedProgressBar({ progress }: { progress: number }) {
+  return (
+    <div className="w-[250px] h-2 rounded-full overflow-hidden" style={{ background: "#e2e8f0" }}>
+      <div
+        className="h-full rounded-full"
+        style={{
+          width: `${progress * 100}%`,
+          background: "linear-gradient(90deg, #009B5A 0%, #F5C400 45%, #FF8A00 78%, #EF2B24 100%)",
+          transition: "width 60ms linear",
+        }}
+      />
+    </div>
+  );
+}
+
 export default function SplashPage() {
   const router = useRouter();
   const [progress, setProgress] = useState(0);
@@ -23,10 +62,9 @@ export default function SplashPage() {
   }, [done, router]);
 
   useEffect(() => {
-    const duration = 2000;
+    const duration = 2200;
     const start = Date.now();
     let raf: number;
-
     const tick = () => {
       const elapsed = Date.now() - start;
       const pct = Math.min(elapsed / duration, 1);
@@ -43,80 +81,43 @@ export default function SplashPage() {
 
   return (
     <div
-      className="fixed inset-0 bg-white flex flex-col items-center justify-between overflow-hidden select-none"
+      className="fixed inset-0 bg-white flex flex-col items-center select-none overflow-hidden"
       onClick={navigate}
       role="button"
       aria-label="Passer l'introduction"
     >
-      {/* Spacer */}
-      <div />
+      {/* Subtle radial glow */}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(circle at center, rgba(0,155,90,0.04), transparent 52%)" }} />
 
-      {/* Logo area */}
-      <div className="flex flex-col items-center">
-        <TornooMark size={148} />
+      {/* Main content — centered */}
+      <div className="relative z-10 flex flex-col items-center justify-center flex-1 -mt-10">
+        <TornooMark size={190} />
 
-        <div
-          className="font-black mt-5 leading-none tracking-[-0.04em]"
-          style={{ fontSize: 52, color: "#0b1220" }}
+        <h1
+          className="mt-8 leading-none font-black tracking-[-0.06em] text-[#071A2A]"
+          style={{ fontSize: 78 }}
         >
           Tornoo
-        </div>
+        </h1>
 
-        <div className="mt-2 text-[16px] font-bold">
-          <span style={{ color: "#07984A" }}>L'attente</span>{" "}
-          <span style={{ color: "#FF9300" }}>en temps réel</span>
-        </div>
-
-        {/* City skyline illustration */}
-        <div className="mt-14 w-80 h-28 opacity-[0.12]">
-          <svg viewBox="0 0 320 112" className="w-full h-full">
-            {/* Buildings */}
-            <rect x="0"   y="62" width="32" height="50" rx="2" fill="#07984A"/>
-            <rect x="6"   y="38" width="20" height="74" rx="2" fill="#07984A"/>
-            <rect x="36"  y="72" width="26" height="40" rx="2" fill="#13B45B"/>
-            <rect x="66"  y="44" width="36" height="68" rx="2" fill="#07984A"/>
-            <rect x="75"  y="20" width="20" height="92" rx="2" fill="#07984A"/>
-            <rect x="106" y="60" width="28" height="52" rx="2" fill="#13B45B"/>
-            <rect x="138" y="30" width="34" height="82" rx="2" fill="#07984A"/>
-            <rect x="146" y="8"  width="20" height="104" rx="2" fill="#07984A"/>
-            <rect x="178" y="52" width="26" height="60" rx="2" fill="#13B45B"/>
-            <rect x="208" y="28" width="32" height="84" rx="2" fill="#07984A"/>
-            <rect x="216" y="6"  width="18" height="106" rx="2" fill="#07984A"/>
-            <rect x="245" y="54" width="28" height="58" rx="2" fill="#13B45B"/>
-            <rect x="277" y="36" width="30" height="76" rx="2" fill="#07984A"/>
-            <rect x="285" y="16" width="18" height="96" rx="2" fill="#07984A"/>
-            {/* Trees */}
-            <circle cx="50"  cy="66" r="13" fill="#07984A" opacity="0.6"/>
-            <rect   x="47"  y="78" width="6" height="14" rx="2" fill="#07984A"/>
-            <circle cx="125" cy="68" r="11" fill="#07984A" opacity="0.6"/>
-            <rect   x="122" y="78" width="6" height="14" rx="2" fill="#07984A"/>
-            <circle cx="200" cy="64" r="12" fill="#07984A" opacity="0.6"/>
-            <rect   x="197" y="75" width="6" height="14" rx="2" fill="#07984A"/>
-            <circle cx="270" cy="66" r="11" fill="#07984A" opacity="0.6"/>
-            <rect   x="267" y="76" width="6" height="14" rx="2" fill="#07984A"/>
-          </svg>
-        </div>
+        <p className="mt-4 leading-none font-extrabold tracking-[-0.035em]" style={{ fontSize: 26 }}>
+          <span style={{ color: "#009B5A" }}>L'attente</span>{" "}
+          <span style={{ color: "#8BC53F" }}>en</span>{" "}
+          <span style={{ color: "#FF8A00" }}>temps</span>{" "}
+          <span style={{ color: "#EF2B24" }}>réel</span>
+        </p>
       </div>
 
-      {/* Bottom: progress + label */}
-      <div className="flex flex-col items-center gap-3 mb-16">
-        {/* Interactive progress bar — tap anywhere to skip */}
-        <div className="w-52 h-[4px] rounded-full overflow-hidden" style={{ background: "#eaedf0" }}>
-          <div
-            className="h-full rounded-full"
-            style={{
-              width: `${progress * 100}%`,
-              background: "linear-gradient(90deg,#07984a 0%,#13b45b 25%,#f7c400 55%,#ff9300 78%,#ef2b24 100%)",
-              transition: "width 60ms linear",
-            }}
-          />
-        </div>
-        <p className="text-xs font-medium" style={{ color: "#8a9ab5" }}>
-          {progress < 1 ? "Chargement en cours…" : "Prêt !"}
+      {/* City silhouette */}
+      <CitySilhouette />
+
+      {/* Progress bar */}
+      <div className="absolute bottom-24 left-0 right-0 flex flex-col items-center gap-5 z-10">
+        <AnimatedProgressBar progress={progress} />
+        <p className="text-[22px] font-semibold text-slate-500">
+          {progress < 1 ? "Chargement en cours..." : "Prêt !"}
         </p>
-        <p className="text-[10px] font-medium" style={{ color: "#c4cdd6" }}>
-          Appuyez pour passer
-        </p>
+        <p className="text-xs font-medium text-slate-400">Appuyez pour passer</p>
       </div>
     </div>
   );

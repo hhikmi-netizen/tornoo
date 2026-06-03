@@ -8,43 +8,35 @@ interface TornooMarkProps {
   className?: string;
   href?: string;
   onClick?: () => void;
+  dark?: boolean;
 }
 
-export function TornooMark({ size = 64, className, href, onClick }: TornooMarkProps) {
+export function TornooMark({ size = 64, className, href, onClick, dark = false }: TornooMarkProps) {
   const svg = (
-    <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-sm" aria-label="Tornoo">
+    <svg viewBox="0 0 200 200" className="w-full h-full" aria-label="Tornoo">
       <defs>
-        <linearGradient id="tornooGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%"  stopColor="#00A75A" />
-          <stop offset="48%" stopColor="#F7C400" />
-          <stop offset="70%" stopColor="#FF9300" />
+        <linearGradient id="tornooGradient" x1="25" y1="30" x2="175" y2="170">
+          <stop offset="0%"  stopColor="#009B5A" />
+          <stop offset="45%" stopColor="#F5C400" />
+          <stop offset="68%" stopColor="#FF8A00" />
           <stop offset="100%" stopColor="#EF2B24" />
         </linearGradient>
       </defs>
-      {/* Main arc — gradient (green → yellow → orange) */}
-      <path d="M21 72a36 36 0 1 1 58-40" stroke="url(#tornooGrad)" strokeWidth="13" fill="none" strokeLinecap="round" />
-      {/* Small orange segment */}
-      <path d="M80 38a35 35 0 0 1 6 14" stroke="#FF9300" strokeWidth="13" fill="none" strokeLinecap="round" />
-      {/* Small red segment */}
-      <path d="M84 62a35 35 0 0 1-7 16" stroke="#EF2B24" strokeWidth="13" fill="none" strokeLinecap="round" />
-      {/* Checkmark */}
-      <path d="M35 51l10 10 22-24" stroke="#07984A" strokeWidth="8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-      {/* People circles */}
-      <circle cx="34" cy="82" r="5" fill="#07984A"/>
-      <circle cx="50" cy="82" r="5" fill="#FFB000"/>
-      <circle cx="66" cy="82" r="5" fill="#EF2B24"/>
-      {/* People bodies */}
-      <path d="M27 94c1-8 5-11 9-11s8 3 9 11" fill="#07984A"/>
-      <path d="M43 94c1-8 5-11 9-11s8 3 9 11" fill="#FFB000"/>
-      <path d="M59 94c1-8 5-11 9-11s8 3 9 11" fill="#EF2B24"/>
+      <path d="M48 135C31 116 27 88 38 64C51 36 80 22 110 28C119 30 127 33 135 38" stroke="url(#tornooGradient)" strokeWidth="24" strokeLinecap="round" fill="none" />
+      <path d="M143 45C157 56 166 71 169 88" stroke="#FF9800" strokeWidth="24" strokeLinecap="round" fill="none" />
+      <path d="M170 104C168 121 160 137 148 149" stroke="#EF2B24" strokeWidth="24" strokeLinecap="round" fill="none" />
+      <path d="M70 93L90 113L132 67" stroke={dark ? "white" : "#22A447"} strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <circle cx="66"  cy="154" r="11" fill="#39B54A" />
+      <circle cx="100" cy="154" r="11" fill="#FFB000" />
+      <circle cx="134" cy="154" r="11" fill="#EF2B24" />
+      <path d="M47 189C49 171 56 160 66 160C76 160 83 171 85 189H47Z"   fill="#39B54A" />
+      <path d="M81 189C83 171 90 160 100 160C110 160 117 171 119 189H81Z" fill="#FFB000" />
+      <path d="M115 189C117 171 124 160 134 160C144 160 151 171 153 189H115Z" fill="#EF2B24" />
     </svg>
   );
 
   const wrapper = (
-    <div
-      className={cn("relative shrink-0", className)}
-      style={{ width: size, height: size }}
-    >
+    <div className={cn("relative shrink-0", className)} style={{ width: size, height: size }}>
       {svg}
     </div>
   );
@@ -79,21 +71,28 @@ interface TornooLogoProps {
 export function TornooLogo({ compact = false, dark = false, className, showTagline = true, href }: TornooLogoProps) {
   const content = (
     <div className={cn("flex items-center gap-3", className)}>
-      <TornooMark size={compact ? 40 : 56} />
+      <TornooMark size={compact ? 40 : 56} dark={dark} />
       <div>
-        <div
-          className={cn(
-            "font-black tracking-[-0.04em] leading-none",
-            compact ? "text-2xl" : "text-4xl",
-            dark ? "text-white" : "text-[#0b1220]"
-          )}
-        >
+        <div className={cn(
+          "font-black tracking-[-0.05em] leading-none",
+          compact ? "text-2xl" : "text-4xl",
+          dark ? "text-white" : "text-[#071A2A]",
+        )}>
           Tornoo
         </div>
         {showTagline && (
           <div className={cn("font-bold leading-tight", compact ? "text-xs mt-0.5" : "text-sm mt-1")}>
-            <span className="text-[#07984A]">L'attente</span>{" "}
-            <span className="text-[#FF9300]">en temps réel</span>
+            {dark ? (
+              <>
+                <span className="text-emerald-400">L'attente</span>{" "}
+                <span className="text-orange-400">en temps réel</span>
+              </>
+            ) : (
+              <>
+                <span className="text-[#009B5A]">L'attente</span>{" "}
+                <span className="text-[#FF8A00]">en temps réel</span>
+              </>
+            )}
           </div>
         )}
       </div>
