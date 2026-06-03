@@ -103,13 +103,13 @@ export default function ConfirmPage() {
       >
         <Link
           href={`/my-turn${slug ? `?from=${slug}` : ""}`}
-          className="flex items-center justify-center h-14 rounded-[15px] bg-tornoo-green text-white font-extrabold w-full shadow-[0_4px_20px_rgba(7,152,74,.3)]"
+          className="flex items-center justify-center h-14 rounded-[15px] bg-tornoo-green text-white font-extrabold w-full shadow-[0_4px_20px_rgba(7,152,74,.3)] active:scale-[0.98] transition-transform"
         >
           {t.viewTicket}
         </Link>
         <Link
           href="/home"
-          className="flex items-center justify-center h-12 rounded-[15px] bg-surface-2 text-ink-2 font-bold border border-line w-full text-sm"
+          className="flex items-center justify-center h-12 rounded-[15px] bg-surface-2 text-ink-2 font-bold border border-line w-full text-sm active:scale-[0.98] transition-transform"
         >
           {t.backHome}
         </Link>

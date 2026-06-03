@@ -261,7 +261,7 @@ export default function EstablishmentPage() {
         <div className="fixed bottom-20 left-0 right-0 px-4 max-w-lg mx-auto">
           <Link
             href={`/confirm?from=${e.slug}`}
-            className="flex items-center justify-center gap-2 h-14 rounded-[15px] font-extrabold text-white w-full"
+            className="flex items-center justify-center gap-2 h-14 rounded-[15px] font-extrabold text-white w-full active:scale-[0.98] transition-transform"
             style={{ background: e.waitLevel === "low" ? "#07984a" : "#ff9300", boxShadow: "0 4px 20px rgba(7,152,74,.3)" }}
           >
             {t.takeTurn}
