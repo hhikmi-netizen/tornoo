@@ -25,7 +25,7 @@ const LANGUAGES: { code: Lang; label: string }[] = [
 ];
 
 export default function ProfilePage() {
-  const { lang, setLang } = useI18n();
+  const { lang, setLang, t } = useI18n();
 
   return (
     <div className="bg-surface-2 min-h-svh">
@@ -69,7 +69,7 @@ export default function ProfilePage() {
               <Link
                 key={item.label}
                 href={item.href}
-                className={`flex items-center gap-3 px-4 py-4 hover:bg-surface-2 transition-colors ${i < MENU_ITEMS.length - 1 ? "border-b border-line" : ""}`}
+                className={`flex items-center gap-3 px-4 py-4 active:bg-surface-2 transition-colors ${i < MENU_ITEMS.length - 1 ? "border-b border-line" : ""}`}
               >
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: item.bg }}>
                   <Icon size={17} weight="duotone" style={{ color: item.color }} />
@@ -85,7 +85,7 @@ export default function ProfilePage() {
         <div className="bg-white rounded-[22px] border border-line shadow-1 p-4">
           <div className="flex items-center gap-2 mb-3">
             <Globe weight="duotone" size={17} className="text-ink-3" />
-            <h2 className="font-bold text-sm text-ink">Langue</h2>
+            <h2 className="font-bold text-sm text-ink">{t.language}</h2>
           </div>
           <div className="flex gap-2">
             {LANGUAGES.map(({ code, label }) => (
@@ -117,9 +117,9 @@ export default function ProfilePage() {
         </Link>
 
         {/* Logout */}
-        <button className="w-full flex items-center justify-center gap-2 h-12 rounded-[15px] bg-[#fde7e6] text-[#ef2b24] font-bold border border-[#f6c2bf]">
+        <button className="w-full flex items-center justify-center gap-2 h-12 rounded-[15px] bg-[#fde7e6] text-[#ef2b24] font-bold border border-[#f6c2bf] active:scale-[0.98] transition-transform">
           <SignOut weight="bold" size={17} />
-          Déconnexion
+          {t.logout}
         </button>
       </div>
     </div>

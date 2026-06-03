@@ -55,7 +55,7 @@ const LANGS: { code: Lang; label: string }[] = [
 ];
 
 export default function LoginPage() {
-  const { lang, setLang } = useI18n();
+  const { lang, setLang, t } = useI18n();
   const [tab, setTab] = useState<"login" | "signup">("login");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -76,32 +76,32 @@ export default function LoginPage() {
           <div className="text-center mt-4">
             <div className="font-black text-[46px] leading-none tracking-[-0.045em] text-ink">Tornoo</div>
             <div className="mt-1 font-bold text-[16px]">
-              <span className="text-tornoo-green">L'attente</span>{" "}
-              <span className="text-tornoo-orange">en temps réel</span>
+              <span className="text-tornoo-green">{t.taglineGreen}</span>{" "}
+              <span className="text-tornoo-orange">{t.taglineOrange}</span>
             </div>
           </div>
         </div>
 
         {/* Welcome */}
         <div className="text-center mt-10">
-          <h1 className="text-[30px] font-black text-ink">Bienvenue&nbsp;! 👋</h1>
+          <h1 className="text-[30px] font-black text-ink">{t.welcome}</h1>
           <p className="mt-2 text-ink-3 font-semibold text-sm max-w-[280px] mx-auto leading-relaxed whitespace-pre-line">
-            {"Suivez votre attente et\nprenez votre tour à distance."}
+            {t.authSub}
           </p>
         </div>
 
         {/* Form */}
         <div className="mt-8 space-y-3">
           {isSignup && (
-            <InputField icon={User} value={name} onChange={setName} placeholder="Nom complet" />
+            <InputField icon={User} value={name} onChange={setName} placeholder={t.fullName} />
           )}
-          <InputField icon={Envelope} type="email" value={email} onChange={setEmail} placeholder="Adresse e-mail" />
+          <InputField icon={Envelope} type="email" value={email} onChange={setEmail} placeholder={t.emailAddr} />
           <InputField
             icon={Lock}
             type={show ? "text" : "password"}
             value={pw}
             onChange={setPw}
-            placeholder="Mot de passe"
+            placeholder={t.passwordL}
             right={
               <button
                 type="button"
@@ -122,14 +122,14 @@ export default function LoginPage() {
         {!isSignup && (
           <div className="flex justify-end mt-3">
             <Link href="/forgot-password" className="text-sm font-bold text-tornoo-green">
-              Mot de passe oublié ?
+              {t.forgot}
             </Link>
           </div>
         )}
 
         {/* Primary CTA */}
         <button
-          className="mt-5 w-full h-14 rounded-[15px] font-extrabold text-white transition-opacity disabled:opacity-50"
+          className="mt-5 w-full h-14 rounded-[15px] font-extrabold text-white transition-all disabled:opacity-50 active:scale-[0.98]"
           style={{ background: "linear-gradient(135deg,#07984a,#13b45b)" }}
           disabled={!isValid}
           onClick={() => {
@@ -140,7 +140,7 @@ export default function LoginPage() {
             }
           }}
         >
-          {isSignup ? "Créer mon compte" : "Se connecter"}
+          {isSignup ? t.signupBtn : t.loginBtn}
         </button>
 
         {/* Separator */}
@@ -151,31 +151,31 @@ export default function LoginPage() {
         </div>
 
         {/* Google */}
-        <button type="button" className="w-full h-14 rounded-[15px] font-bold bg-white border border-line flex items-center justify-center gap-3 shadow-1">
+        <button type="button" className="w-full h-14 rounded-[15px] font-bold bg-white border border-line flex items-center justify-center gap-3 shadow-1 active:scale-[0.98] transition-transform">
           <GoogleG />
-          <span className="text-sm">Continuer avec Google</span>
+          <span className="text-sm">{t.continueGoogle}</span>
         </button>
 
         {/* Toggle signup/login */}
         <div className="flex flex-col items-center mt-6 gap-1.5">
           <span className="text-xs font-semibold text-ink-3">
-            {isSignup ? "Déjà un compte ?" : "Pas encore de compte ?"}
+            {isSignup ? t.noAccount : t.noAccount}
           </span>
           <button
             type="button"
             onClick={() => setTab(isSignup ? "login" : "signup")}
             className="font-extrabold text-[15px] text-tornoo-green"
           >
-            {isSignup ? "Se connecter" : "Créer mon compte"}
+            {isSignup ? t.loginTab : t.createAccount}
           </button>
         </div>
 
         {/* Pro link */}
         <Link
           href="/pro"
-          className="mt-4 w-full flex items-center justify-center h-11 rounded-[15px] bg-surface-2 border border-line text-sm font-bold text-ink-2"
+          className="mt-4 w-full flex items-center justify-center h-11 rounded-[15px] bg-surface-2 border border-line text-sm font-bold text-ink-2 active:scale-[0.98] transition-transform"
         >
-          Espace Pro · Inscription professionnelle
+          {t.proSpace} · {t.proRegister}
         </Link>
 
         {/* Language */}
