@@ -1,10 +1,13 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { motion } from "framer-motion";
 import { CaretLeft, ShareNetwork, Bell, Phone, CheckCircle } from "@phosphor-icons/react";
+import { gsap } from "@/lib/gsap";
+import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 import { api } from "@/services/api";
 import { MOCK_ESTABLISHMENTS } from "@/lib/mock-data";
 import { WaitDot } from "@/components/tornoo/WaitBadge";
@@ -49,6 +52,21 @@ export default function MyTurnPage() {
     }
     return rows;
   })();
+
+  const currentDotRef = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const dot = currentDotRef.current;
+    if (!dot) return;
+    gsap.to(dot, {
+      scale: 1.5,
+      opacity: 0.4,
+      duration: 0.9,
+      ease: "power1.inOut",
+      repeat: -1,
+      yoyo: true,
+    });
+    return () => { gsap.killTweensOf(dot); };
+  }, []);
 
   const handleAlert = (label: string) => {
     toast(`Alerte programmée : ${label}`, "success");
@@ -140,7 +158,7 @@ export default function MyTurnPage() {
         >
           <div className="p-4">
             <p className="text-xs text-ink-3 font-medium">{t.estimatedWait}</p>
-            <p className="text-3xl font-black text-tornoo-green mt-1">{waitMins} min</p>
+            <AnimatedNumber value={waitMins} duration={1.0} delay={0.4} suffix=" min" className="text-3xl font-black text-tornoo-green mt-1 block" />
             <p className="text-xs text-ink-3 mt-0.5">{t.mins}</p>
           </div>
           <div className="p-4">
@@ -208,10 +226,12 @@ export default function MyTurnPage() {
                 className={`flex items-center gap-3 p-3 rounded-2xl ${row.current ? "bg-low-bg" : ""}`}
               >
                 <span
+                  ref={row.current ? currentDotRef : undefined}
                   className="w-4 h-4 rounded-full shrink-0"
                   style={{
                     background: row.done || row.current ? "#07984a" : "transparent",
                     border: row.done || row.current ? "none" : "1.5px solid #c7cdd6",
+                    transformOrigin: "center",
                   }}
                 />
                 <div className="flex-1">

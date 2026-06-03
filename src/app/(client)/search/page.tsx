@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { MagnifyingGlass, X, Faders } from "@phosphor-icons/react";
 import { EstablishmentCard } from "@/components/tornoo/EstablishmentCard";
@@ -8,6 +8,7 @@ import { WaitDot } from "@/components/tornoo/WaitBadge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { api } from "@/services/api";
 import { useI18n } from "@/i18n/context";
+import { gsap } from "@/lib/gsap";
 
 const CATEGORIES = [
   { code: "Tout",           label: { fr: "Tout",           ar: "الكل",              en: "All"      } },
@@ -37,6 +38,20 @@ export default function SearchPage() {
   const filtered = activeCategory === "Tout"
     ? establishments
     : establishments.filter((e) => e.category.toLowerCase().includes(activeCategory.toLowerCase()));
+
+  const resultsRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (isLoading || !resultsRef.current) return;
+    const cards = resultsRef.current.querySelectorAll<HTMLElement>(".est-card");
+    gsap.from(cards, {
+      opacity: 0,
+      y: 16,
+      duration: 0.4,
+      stagger: 0.06,
+      ease: "power3.out",
+      clearProps: "all",
+    });
+  }, [isLoading, filtered.length, activeCategory]);
 
   return (
     <div className="bg-white min-h-svh">
@@ -113,9 +128,11 @@ export default function SearchPage() {
             subtitle={t.tryOther}
           />
         ) : (
-          <div className="space-y-3">
+          <div ref={resultsRef} className="space-y-3">
             {filtered.map((e) => (
-              <EstablishmentCard key={e.id} establishment={e} />
+              <div key={e.id} className="est-card">
+                <EstablishmentCard establishment={e} />
+              </div>
             ))}
           </div>
         )}

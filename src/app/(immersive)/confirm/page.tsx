@@ -1,16 +1,34 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Ticket, Bell, CaretRight } from "@phosphor-icons/react";
 import { MOCK_ESTABLISHMENTS, MOCK_TICKET } from "@/lib/mock-data";
 import { useI18n } from "@/i18n/context";
+import { gsap } from "@/lib/gsap";
+import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 
 export default function ConfirmPage() {
   const searchParams = useSearchParams();
   const { t } = useI18n();
+  const ringRef = useRef<HTMLDivElement>(null);
   const slug = searchParams.get("from");
+
+  useEffect(() => {
+    const ring = ringRef.current;
+    if (!ring) return;
+    gsap.to(ring, {
+      boxShadow: "0 0 60px rgba(7,152,74,.45), 0 0 120px rgba(7,152,74,.18)",
+      duration: 1.2,
+      ease: "power1.inOut",
+      repeat: -1,
+      yoyo: true,
+      delay: 0.5,
+    });
+    return () => { gsap.killTweensOf(ring); };
+  }, []);
   const establishment = slug
     ? MOCK_ESTABLISHMENTS.find((e) => e.slug === slug) ?? MOCK_ESTABLISHMENTS[0]
     : MOCK_ESTABLISHMENTS[0];
@@ -27,6 +45,7 @@ export default function ConfirmPage() {
           initial={{ scale: 0, rotate: -20 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.1 }}
+          ref={ringRef}
           className="w-36 h-36 rounded-full border-[14px] border-tornoo-green flex items-center justify-center bg-white shadow-[0_0_40px_rgba(7,152,74,.25)]"
         >
           <motion.div
@@ -65,11 +84,11 @@ export default function ConfirmPage() {
       >
         <div className="p-4 text-center">
           <p className="text-xs font-semibold text-ink-2">{t.yourPosition}</p>
-          <p className="text-3xl font-black text-ink mt-1">{MOCK_TICKET.position}</p>
+          <AnimatedNumber value={MOCK_TICKET.position} delay={0.5} duration={0.8} className="text-3xl font-black text-ink mt-1 block" />
         </div>
         <div className="p-4 text-center">
           <p className="text-xs font-semibold text-ink-2">{t.min}</p>
-          <p className="text-xl font-black text-ink mt-1">{MOCK_TICKET.estimatedWaitMinutes} min</p>
+          <AnimatedNumber value={MOCK_TICKET.estimatedWaitMinutes} delay={0.6} duration={1.0} suffix=" min" className="text-xl font-black text-ink mt-1 block" />
         </div>
         <div className="p-4 text-center">
           <p className="text-xs font-semibold text-ink-2">{t.arrival}</p>

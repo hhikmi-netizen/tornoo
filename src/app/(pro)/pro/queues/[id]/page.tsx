@@ -7,6 +7,7 @@ import { CaretLeft, SkipForward, Pause, Play, X, CheckCircle } from "@phosphor-i
 import { MOCK_QUEUES } from "@/lib/mock-data";
 import { useToast } from "@/components/ui/Toast";
 import { useI18n } from "@/i18n/context";
+import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 
 export default function QueueDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -100,24 +101,26 @@ export default function QueueDetailPage() {
       <div className="px-4 pt-4 pb-28 max-w-lg mx-auto space-y-4">
         {/* Stats row */}
         <div className="grid grid-cols-3 gap-2">
-          {[
-            { value: currentTicket, label: t.inProgress },
-            { value: String(waitingCount), label: t.waiting },
-            { value: String(servedCount), label: t.served },
-          ].map(({ value, label }) => (
-            <div key={label} className="bg-white rounded-[18px] border border-line shadow-1 p-3 text-center">
-              <motion.p
-                key={value}
-                initial={{ opacity: 0, y: -6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.25 }}
-                className="text-base font-black text-ink leading-tight"
-              >
-                {value}
-              </motion.p>
-              <p className="text-[11px] text-ink-3 mt-0.5">{label}</p>
-            </div>
-          ))}
+          <div className="bg-white rounded-[18px] border border-line shadow-1 p-3 text-center">
+            <motion.p
+              key={currentTicket}
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25 }}
+              className="text-base font-black text-ink leading-tight"
+            >
+              {currentTicket}
+            </motion.p>
+            <p className="text-[11px] text-ink-3 mt-0.5">{t.inProgress}</p>
+          </div>
+          <div className="bg-white rounded-[18px] border border-line shadow-1 p-3 text-center">
+            <AnimatedNumber value={waitingCount} duration={0.5} className="text-base font-black text-ink leading-tight block" />
+            <p className="text-[11px] text-ink-3 mt-0.5">{t.waiting}</p>
+          </div>
+          <div className="bg-white rounded-[18px] border border-line shadow-1 p-3 text-center">
+            <AnimatedNumber value={servedCount} duration={0.5} className="text-base font-black text-tornoo-green leading-tight block" />
+            <p className="text-[11px] text-ink-3 mt-0.5">{t.served}</p>
+          </div>
         </div>
 
         {/* Current ticket hero */}

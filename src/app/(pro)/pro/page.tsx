@@ -8,6 +8,7 @@ import { WaitBadge, WaitDot } from "@/components/tornoo/WaitBadge";
 import { MOCK_ESTABLISHMENTS, MOCK_QUEUES, MOCK_DAILY_STATS } from "@/lib/mock-data";
 import { api } from "@/services/api";
 import { useI18n } from "@/i18n/context";
+import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 
 export default function ProDashboardPage() {
   const { t } = useI18n();
@@ -85,16 +86,18 @@ export default function ProDashboardPage() {
         <div className="bg-white rounded-[22px] border border-line shadow-1 p-5">
           <h3 className="font-black text-ink mb-3">{t.todayStats}</h3>
           <div className="grid grid-cols-3 gap-3">
-            {[
-              { value: String(today?.clientsServed ?? "—"), label: t.served },
-              { value: String(totalWaiting), label: t.waiting },
-              { value: `${Math.round(today?.avgWaitMinutes ?? 0)} min`, label: t.avgWait },
-            ].map(({ value, label }) => (
-              <div key={label} className="bg-surface-2 rounded-[16px] p-3 text-center border border-line">
-                <p className="text-2xl font-black text-ink">{value}</p>
-                <p className="text-xs text-ink-3 mt-0.5">{label}</p>
-              </div>
-            ))}
+            <div className="bg-surface-2 rounded-[16px] p-3 text-center border border-line">
+              <AnimatedNumber value={today?.clientsServed ?? 0} duration={1.2} delay={0.1} className="text-2xl font-black text-ink block" />
+              <p className="text-xs text-ink-3 mt-0.5">{t.served}</p>
+            </div>
+            <div className="bg-surface-2 rounded-[16px] p-3 text-center border border-line">
+              <AnimatedNumber value={totalWaiting} duration={0.9} delay={0.2} className="text-2xl font-black text-ink block" />
+              <p className="text-xs text-ink-3 mt-0.5">{t.waiting}</p>
+            </div>
+            <div className="bg-surface-2 rounded-[16px] p-3 text-center border border-line">
+              <AnimatedNumber value={Math.round(today?.avgWaitMinutes ?? 0)} duration={1.0} delay={0.3} suffix=" min" className="text-2xl font-black text-ink block" />
+              <p className="text-xs text-ink-3 mt-0.5">{t.avgWait}</p>
+            </div>
           </div>
         </div>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { useQuery } from "@tanstack/react-query";
@@ -11,6 +11,7 @@ import { EstablishmentCard } from "@/components/tornoo/EstablishmentCard";
 import { CardSkeleton } from "@/components/ui/Skeleton";
 import { useI18n } from "@/i18n/context";
 import { api } from "@/services/api";
+import { gsap } from "@/lib/gsap";
 import { MOCK_USER } from "@/lib/mock-data";
 import { WaitDot } from "@/components/tornoo/WaitBadge";
 
@@ -41,6 +42,20 @@ export default function HomePage() {
     queryKey: ["ticket", "active"],
     queryFn: () => api.tickets.active(),
   });
+
+  const cardsRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (isLoading || !cardsRef.current) return;
+    const cards = cardsRef.current.querySelectorAll<HTMLElement>(".est-card");
+    gsap.from(cards, {
+      opacity: 0,
+      y: 20,
+      duration: 0.45,
+      stagger: 0.07,
+      ease: "power3.out",
+      clearProps: "all",
+    });
+  }, [isLoading, activeCategory]);
 
   const favorites = establishments.filter((e) => MOCK_USER.favorites.includes(e.id));
 
@@ -208,17 +223,11 @@ export default function HomePage() {
               <p className="text-sm font-medium text-ink-3">Aucun établissement dans cette catégorie</p>
             </div>
           ) : (
-            <div className="space-y-3">
-              {filtered.map((e, i) => (
-                <motion.div
-                  key={e.id}
-                  custom={5 + i}
-                  variants={fadeUp}
-                  initial="hidden"
-                  animate="show"
-                >
+            <div ref={cardsRef} className="space-y-3">
+              {filtered.map((e) => (
+                <div key={e.id} className="est-card">
                   <EstablishmentCard establishment={e} />
-                </motion.div>
+                </div>
               ))}
             </div>
           )}
