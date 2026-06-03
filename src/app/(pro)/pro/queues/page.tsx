@@ -66,11 +66,11 @@ export default function ProQueuesPage() {
         {queues.length === 0 ? (
           <EmptyState
             type="queue-pro"
-            title="Aucune file active"
-            subtitle="Ouvrez une file pour commencer à accueillir vos clients"
+            title={t.noActiveQueue}
+            subtitle={t.openQueueSub}
             action={
               <Link href="/pro/queues/new" className="inline-flex h-12 px-6 rounded-[13px] bg-tornoo-green text-white font-extrabold items-center text-sm">
-                + Ouvrir une file
+                {t.openQueue}
               </Link>
             }
           />

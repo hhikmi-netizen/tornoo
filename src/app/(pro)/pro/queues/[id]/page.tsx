@@ -46,7 +46,7 @@ export default function QueueDetailPage() {
   const togglePause = () => {
     const next = !isPaused;
     setIsPaused(next);
-    toast(next ? "File mise en pause" : "File reprise", "info");
+    toast(next ? t.queuePaused : t.resumeQueue, "info");
   };
 
   // Build a visible client list
@@ -88,7 +88,7 @@ export default function QueueDetailPage() {
               ? "bg-[#fff1de] border border-[#ffd9a6]"
               : "bg-surface-2 border border-line"
           }`}
-          aria-label={isPaused ? "Reprendre la file" : "Mettre en pause"}
+          aria-label={isPaused ? t.resumeQueue : t.pauseQueue}
         >
           {isPaused
             ? <Play size={16} weight="fill" className="text-[#ff9300]" />
@@ -101,9 +101,9 @@ export default function QueueDetailPage() {
         {/* Stats row */}
         <div className="grid grid-cols-3 gap-2">
           {[
-            { value: currentTicket, label: "En cours" },
-            { value: String(waitingCount), label: "En attente" },
-            { value: String(servedCount), label: "Servis" },
+            { value: currentTicket, label: t.inProgress },
+            { value: String(waitingCount), label: t.waiting },
+            { value: String(servedCount), label: t.served },
           ].map(({ value, label }) => (
             <div key={label} className="bg-white rounded-[18px] border border-line shadow-1 p-3 text-center">
               <motion.p
@@ -137,7 +137,7 @@ export default function QueueDetailPage() {
               transition={{ type: "spring", stiffness: 400, damping: 26 }}
             >
               <p className={`text-xs font-bold tracking-widest uppercase ${isPaused ? "text-ink-3" : "text-white/70"}`}>
-                {isPaused ? "File en pause" : "Numéro en cours"}
+                {isPaused ? t.queuePaused : t.currentTicketLabel}
               </p>
               <p className={`text-6xl font-black mt-1 ${isPaused ? "text-ink-3" : "text-white"}`}>
                 {currentTicket}
@@ -160,10 +160,10 @@ export default function QueueDetailPage() {
               <SkipForward size={16} weight="bold" />
             )}
             {waitingCount === 0
-              ? "File vide"
+              ? t.queueEmpty
               : isCalling
-              ? "Appel en cours…"
-              : `Appeler ${nextTicket}`}
+              ? t.calling
+              : `${t.callNext} ${nextTicket}`}
           </button>
         </motion.div>
 
@@ -199,7 +199,7 @@ export default function QueueDetailPage() {
                     {c.ticket}
                   </p>
                   <p className="text-xs text-ink-3">
-                    {c.status === "served" ? "Servi" : c.status === "current" ? "En cours de service" : "En attente"}
+                    {c.status === "served" ? t.served : c.status === "current" ? t.statusInService : t.waiting}
                   </p>
                 </div>
                 {c.status === "waiting" && (
@@ -221,10 +221,10 @@ export default function QueueDetailPage() {
 
         {/* Close queue */}
         <button
-          onClick={() => { toast("File fermée", "info"); router.replace("/pro/queues"); }}
-          className="w-full h-12 rounded-[15px] bg-[#fde7e6] text-[#ef2b24] font-bold border border-[#f6c2bf] text-sm"
+          onClick={() => { toast(t.closeQueue, "info"); router.replace("/pro/queues"); }}
+          className="w-full h-12 rounded-[15px] bg-[#fde7e6] text-[#ef2b24] font-bold border border-[#f6c2bf] text-sm active:scale-[0.98] transition-transform"
         >
-          Fermer la file
+          {t.closeQueue}
         </button>
       </div>
     </div>
