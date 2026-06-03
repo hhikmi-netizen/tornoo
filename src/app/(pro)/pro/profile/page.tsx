@@ -4,16 +4,18 @@ import { useRouter } from "next/navigation";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { CaretLeft, QrCode, Users, Plus, ChartBar, MapPin, Phone, Envelope, Globe, Star } from "@phosphor-icons/react";
 import { MOCK_ESTABLISHMENTS } from "@/lib/mock-data";
+import { useI18n } from "@/i18n/context";
 
 export default function ProProfilePage() {
   const router = useRouter();
+  const { t } = useI18n();
   const e = MOCK_ESTABLISHMENTS[0];
 
   const QUICK_ACTIONS = [
-    { icon: QrCode, label: "Scanner" },
-    { icon: Users, label: "File" },
-    { icon: Plus, label: "Ajouter" },
-    { icon: ChartBar, label: "Stats" },
+    { icon: QrCode, label: t.scan },
+    { icon: Users, label: t.queuePro },
+    { icon: Plus, label: t.services },
+    { icon: ChartBar, label: t.statistics },
   ];
 
   const INFO = [
@@ -65,14 +67,14 @@ export default function ProProfilePage() {
             />
           <h1 className="text-3xl font-black text-white mt-2 leading-tight">{e.name}</h1>
           <p className="text-white/80 text-sm">{e.category} · {e.city}</p>
-          <p className="text-white/70 text-sm mt-0.5 flex items-center gap-1.5"><Star size={13} weight="fill" className="text-[#F7C400]" />{e.rating} ({e.reviewCount} avis) · Ouvert {e.openHours}</p>
+          <p className="text-white/70 text-sm mt-0.5 flex items-center gap-1.5"><Star size={13} weight="fill" className="text-[#F7C400]" />{e.rating} ({e.reviewCount} {t.reviews}) · {t.openToday} {e.openHours}</p>
         </div>
       </div>
 
       <div className="px-4 pb-8 max-w-lg mx-auto space-y-4">
         {/* Stats strip */}
         <div className="grid grid-cols-3 text-center rounded-[22px] bg-tornoo-green p-5 text-white -mt-2 relative z-10">
-          {[["27", "Clients servis"], ["12", "En attente"], ["18 min", "Moy. attente"]].map(([v, l]) => (
+          {[["27", t.clientsServed], ["12", t.waiting], ["18 min", t.avgWait]].map(([v, l]) => (
             <div key={l}>
               <p className="text-2xl font-black">{v}</p>
               <p className="text-xs text-white/70 mt-0.5">{l}</p>
@@ -92,7 +94,7 @@ export default function ProProfilePage() {
 
         {/* Info */}
         <div>
-          <h2 className="text-xl font-black text-ink mb-3">Informations</h2>
+          <h2 className="text-xl font-black text-ink mb-3">{t.usefulInfo}</h2>
           <div className="bg-white rounded-[22px] border border-line shadow-1 overflow-hidden">
             {INFO.filter((i) => i.value).map((item, idx) => (
               <div key={item.label} className={`px-4 py-3.5 ${idx < INFO.filter(i => i.value).length - 1 ? "border-b border-line" : ""}`}>
@@ -130,7 +132,7 @@ export default function ProProfilePage() {
 
         {/* Services */}
         <div>
-          <h2 className="text-xl font-black text-ink mb-3">Services</h2>
+          <h2 className="text-xl font-black text-ink mb-3">{t.services}</h2>
           <div className="bg-white rounded-[22px] border border-line shadow-1 overflow-hidden">
             {e.services.map((s, idx) => (
               <div key={s.id} className={`px-4 py-3.5 flex items-center justify-between ${idx < e.services.length - 1 ? "border-b border-line" : ""}`}>
