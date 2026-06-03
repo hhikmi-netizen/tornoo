@@ -33,9 +33,16 @@ function Confetti() {
 interface Props {
   establishmentId?: string;
   subtitle?: string;
+  instructionTitle?: string;
+  instructionBody?: string;
 }
 
-export function QRCodeDisplayPage({ establishmentId, subtitle = "Présentez ce code à l'établissement" }: Props) {
+export function QRCodeDisplayPage({
+  establishmentId,
+  subtitle = "Présentez ce code à l'établissement",
+  instructionTitle,
+  instructionBody,
+}: Props) {
   const router = useRouter();
   const { toast } = useToast();
   const { qrCode, isLoading, shareQrCode, printQrCode } = useEstablishmentQRCode(establishmentId);
@@ -93,6 +100,8 @@ export function QRCodeDisplayPage({ establishmentId, subtitle = "Présentez ce c
               qrCode={qrCode}
               onShare={handleShare}
               onPrint={handlePrint}
+              instructionTitle={instructionTitle}
+              instructionBody={instructionBody}
             />
           </motion.div>
         ) : (

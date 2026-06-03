@@ -155,6 +155,19 @@ export function LeafletMap({ establishments, selected, onSelect }: LeafletMapPro
   }, [selected, establishments]);
 
   return (
-    <div ref={mapRef} className="w-full h-full" style={{ background: "#e8f0e9" }} />
+    <div
+      ref={mapRef}
+      className="w-full h-full"
+      style={{
+        background: "#e8ede9",
+        backgroundImage: [
+          "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)",
+          "linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
+          "linear-gradient(rgba(255,255,255,0.18) 1px, transparent 1px)",
+          "linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px)",
+        ].join(","),
+        backgroundSize: "80px 80px, 80px 80px, 20px 20px, 20px 20px",
+      }}
+    />
   );
 }

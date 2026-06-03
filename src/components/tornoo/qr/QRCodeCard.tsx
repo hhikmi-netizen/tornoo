@@ -7,13 +7,15 @@ interface Props {
   qrCode: EstablishmentQRCode;
   onShare: () => void;
   onPrint: () => void;
+  instructionTitle?: string;
+  instructionBody?: string;
 }
 
-export function QRCodeCard({ qrCode, onShare, onPrint }: Props) {
+export function QRCodeCard({ qrCode, onShare, onPrint, instructionTitle, instructionBody }: Props) {
   return (
     <div className="space-y-4">
       <QRCodePreview establishmentName={qrCode.establishmentName} />
-      <QRInstructionCard />
+      <QRInstructionCard title={instructionTitle} body={instructionBody} />
       <QRCodeActions onShare={onShare} onPrint={onPrint} />
     </div>
   );

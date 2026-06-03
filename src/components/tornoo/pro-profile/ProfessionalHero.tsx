@@ -24,7 +24,22 @@ export function ProfessionalHero({
 }: ProfessionalHeroProps) {
   return (
     <div className="relative">
-      <div className="relative h-56 w-full overflow-hidden bg-gradient-to-br from-emerald-800 to-emerald-600">
+      <div className="relative h-56 w-full overflow-hidden bg-gradient-to-br from-[#062E24] to-[#009B5A]">
+        {/* Decorative background — always rendered, covered by photo when it loads */}
+        <svg className="absolute inset-0 w-full h-full opacity-[0.12]" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="hero-dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="1.5" fill="white" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#hero-dots)" />
+        </svg>
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <span className="text-[120px] font-black text-white/[0.08] leading-none select-none">
+            {name.charAt(0)}
+          </span>
+        </div>
+
         {coverUrl && (
           <ImageWithFallback
             src={coverUrl}
@@ -33,12 +48,10 @@ export function ProfessionalHero({
             sizes="(max-width: 768px) 100vw, 768px"
             className="object-cover"
             priority
-            fallback={
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-800 to-emerald-600" />
-            }
+            fallback={<></>}
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
 
         {isOwner && (
           <button
