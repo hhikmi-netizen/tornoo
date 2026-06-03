@@ -14,10 +14,12 @@ import { useToast } from "@/components/ui/Toast";
 import { api } from "@/services/api";
 import { formatWaitTime } from "@/lib/utils";
 import { MOCK_USER } from "@/lib/mock-data";
+import { useI18n } from "@/i18n/context";
 
 export default function EstablishmentPage() {
   const { slug } = useParams<{ slug: string }>();
   const router = useRouter();
+  const { t } = useI18n();
   const { toast } = useToast();
 
   const [isFav, setIsFav] = useState(false);
@@ -137,19 +139,22 @@ export default function EstablishmentPage() {
               }
             />
           </div>
-          <div className="text-white">
+          <div className="text-white min-w-0 flex-1">
             <div className="flex items-center gap-1.5">
-              <h1 className="text-2xl font-black leading-tight">{e.name}</h1>
-              {e.verified && <CheckCircle weight="fill" size={18} className="text-tornoo-green" />}
+              <h1 className="text-2xl font-black leading-tight truncate">{e.name}</h1>
+              {e.verified && <CheckCircle weight="fill" size={18} className="text-tornoo-green shrink-0" />}
             </div>
             <p className="text-sm text-white/80">{e.category}</p>
-            <div className="flex items-center gap-2 mt-1 text-sm text-white/80">
-              <Star weight="fill" size={13} className="text-[#F7C400]" />
-              <span className="font-bold">{e.rating}</span>
-              <span>({e.reviewCount} avis)</span>
-              <span>·</span>
-              <MapPin weight="duotone" size={13} />
-              <span>{e.city}</span>
+            <div className="flex items-center gap-3 mt-1">
+              <span className="flex items-center gap-1 text-sm text-white/90">
+                <Star weight="fill" size={13} className="text-[#F7C400]" />
+                <span className="font-bold">{e.rating}</span>
+                <span className="text-white/70">({e.reviewCount})</span>
+              </span>
+              <span className="flex items-center gap-1 text-sm text-white/80 min-w-0">
+                <MapPin weight="duotone" size={13} className="shrink-0" />
+                <span className="truncate">{e.city}</span>
+              </span>
             </div>
           </div>
         </div>
@@ -159,7 +164,7 @@ export default function EstablishmentPage() {
         {/* Wait card */}
         <div className="bg-white rounded-[22px] p-5 border border-line shadow-1 flex items-center justify-between">
           <div>
-            <p className="text-sm text-ink-3 font-medium">Attente actuelle</p>
+            <p className="text-sm text-ink-3 font-medium">{t.currentWait}</p>
             <div className="text-4xl font-black mt-1" style={{ color: e.waitLevel === "low" ? "#07984a" : e.waitLevel === "mod" ? "#ff9300" : "#ef2b24" }}>
               {formatWaitTime(e.waitMinutes)}
             </div>
@@ -181,7 +186,7 @@ export default function EstablishmentPage() {
         <div className="bg-surface-2 rounded-[16px] px-4 py-3 flex items-center justify-between border border-line">
           <div className="flex items-center gap-2 text-sm font-medium">
             <Clock weight="duotone" size={15} className="text-ink-3" />
-            <span className="text-ink-2">Ouvert aujourd'hui</span>
+            <span className="text-ink-2">{t.openToday}</span>
           </div>
           <span className="text-sm font-bold text-ink">{e.openHours}</span>
         </div>
@@ -189,7 +194,7 @@ export default function EstablishmentPage() {
         {/* Services */}
         {e.services.length > 0 && (
           <section>
-            <h2 className="text-xl font-black text-ink mb-3">Services</h2>
+            <h2 className="text-xl font-black text-ink mb-3">{t.services}</h2>
             <div className="space-y-2">
               {e.services.map((s) => (
                 <div key={s.id} className="bg-white rounded-[18px] px-4 py-3 flex items-center justify-between border border-line">
@@ -207,7 +212,7 @@ export default function EstablishmentPage() {
         {/* Queues */}
         {queues.length > 0 && (
           <section>
-            <h2 className="text-xl font-black text-ink mb-3">Files d'attente</h2>
+            <h2 className="text-xl font-black text-ink mb-3">{t.queues}</h2>
             <div className="space-y-2">
               {queues.map((q) => (
                 <div key={q.id} className="bg-white rounded-[18px] px-4 py-3 flex items-center justify-between border border-line">
@@ -229,7 +234,7 @@ export default function EstablishmentPage() {
 
         {/* Contact */}
         <section>
-          <h2 className="text-xl font-black text-ink mb-3">Contact</h2>
+          <h2 className="text-xl font-black text-ink mb-3">{t.contact}</h2>
           <div className="space-y-2">
             {e.phone && (
               <a href={`tel:${e.phone}`} className="flex items-center gap-3 bg-surface-2 rounded-[16px] px-4 py-3 border border-line">
@@ -259,9 +264,9 @@ export default function EstablishmentPage() {
             className="flex items-center justify-center gap-2 h-14 rounded-[15px] font-extrabold text-white w-full"
             style={{ background: e.waitLevel === "low" ? "#07984a" : "#ff9300", boxShadow: "0 4px 20px rgba(7,152,74,.3)" }}
           >
-            Prendre mon tour
+            {t.takeTurn}
           </Link>
-          <p className="text-center text-xs text-ink-3 mt-2">Annulation gratuite à tout moment</p>
+          <p className="text-center text-xs text-ink-3 mt-2">{t.freeCancel}</p>
         </div>
       )}
     </div>
