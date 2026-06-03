@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { DotsThree } from "@phosphor-icons/react";
 import { TornooMark } from "@/components/tornoo/TornooLogo";
@@ -12,6 +13,7 @@ import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 
 export default function ProQueuesPage() {
   const { t } = useI18n();
+  const router = useRouter();
   const e = MOCK_ESTABLISHMENTS[0];
   const { data: queues = [] } = useQuery({
     queryKey: ["queues", e.id],
@@ -42,7 +44,11 @@ export default function ProQueuesPage() {
               <p className="text-xs text-white/60">{e.city}</p>
             </div>
           </div>
-          <button className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center" aria-label="Options">
+          <button
+            onClick={() => router.push("/pro/settings")}
+            className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center"
+            aria-label="Options"
+          >
             <DotsThree weight="bold" size={20} className="text-white" />
           </button>
         </div>

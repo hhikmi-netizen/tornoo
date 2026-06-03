@@ -132,10 +132,10 @@ export default function ProProfilePage() {
       <div className="flex items-center justify-between px-4 pt-safe-top py-3 bg-white border-b border-line">
         <h1 className="text-base font-extrabold text-ink">Mon Profil</h1>
         <div className="flex items-center gap-2">
-          <button className="relative w-9 h-9 rounded-full bg-surface-2 flex items-center justify-center">
+          <Link href="/notifications" className="relative w-9 h-9 rounded-full bg-surface-2 flex items-center justify-center">
             <Bell weight="duotone" size={18} className="text-ink-2" />
             <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#ef2b24] ring-2 ring-white" />
-          </button>
+          </Link>
           <Link
             href="/pro/settings"
             className="w-9 h-9 rounded-full bg-surface-2 flex items-center justify-center"
@@ -181,7 +181,11 @@ export default function ProProfilePage() {
                 />
               </div>
               {/* Camera button */}
-              <button className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-tornoo-green flex items-center justify-center shadow border-2 border-white">
+              <button
+                onClick={() => router.push("/pro/establishment")}
+                className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-tornoo-green flex items-center justify-center shadow border-2 border-white"
+                aria-label="Changer la photo"
+              >
                 <Camera weight="fill" size={14} className="text-white" />
               </button>
             </div>
@@ -225,7 +229,7 @@ export default function ProProfilePage() {
               { icon: PencilSimple, label: "Modifier profil", href: "/pro/establishment", color: "#07984a", bg: "#e4f6ec" },
               { icon: Clock, label: "Horaires", href: "/pro/schedule", color: "#2563eb", bg: "#eff6ff" },
               { icon: Wrench, label: "Services", href: "/pro/services", color: "#7c3aed", bg: "#f5f3ff" },
-              { icon: Users, label: "Équipe", href: "/pro/queues", color: "#ff9300", bg: "#fff1de" },
+              { icon: Users, label: "Équipe", href: "/pro/team", color: "#ff9300", bg: "#fff1de" },
             ].map(({ icon: Icon, label, href, color, bg }) => (
               <Link
                 key={label}

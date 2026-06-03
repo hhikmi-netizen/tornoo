@@ -2,6 +2,7 @@
 
 import { DownloadSimple, FileText, ChartBar, Users, TrendUp } from "@phosphor-icons/react";
 import { MOCK_DAILY_STATS } from "@/lib/mock-data";
+import { useToast } from "@/components/ui/Toast";
 
 const REPORT_TYPES = [
   { id: "usage", icon: ChartBar, label: "Rapport d'utilisation", desc: "Tickets, files, temps d'attente", color: "#07984a" },
@@ -11,6 +12,7 @@ const REPORT_TYPES = [
 ];
 
 export default function AdminReportsPage() {
+  const { toast } = useToast();
   const totals = MOCK_DAILY_STATS.reduce(
     (acc, d) => ({ clients: acc.clients + d.clientsServed, revenue: acc.revenue + (d.revenue ?? 0) }),
     { clients: 0, revenue: 0 }
@@ -50,6 +52,7 @@ export default function AdminReportsPage() {
               <p className="text-xs text-ink-3 mt-0.5">{desc}</p>
             </div>
             <button
+              onClick={() => toast(`${label} en cours de génération…`, "success")}
               className="w-10 h-10 rounded-xl flex items-center justify-center border border-line hover:bg-surface-2 transition-colors shrink-0"
               aria-label={`Télécharger ${label}`}
             >
@@ -63,7 +66,10 @@ export default function AdminReportsPage() {
       <div className="bg-white rounded-[22px] border border-line shadow-1 p-5">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-black text-ink">Activité des 7 derniers jours</h2>
-          <button className="flex items-center gap-2 h-9 px-4 rounded-xl bg-tornoo-green text-white text-sm font-bold">
+          <button
+            onClick={() => toast("Rapport exporté avec succès", "success")}
+            className="flex items-center gap-2 h-9 px-4 rounded-xl bg-tornoo-green text-white text-sm font-bold"
+          >
             <DownloadSimple weight="bold" size={14} />
             Exporter
           </button>

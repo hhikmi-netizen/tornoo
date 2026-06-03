@@ -60,7 +60,20 @@ export default function RegisterPage() {
 
   const isValid = name.trim().length > 1 && email.includes("@") && pw.length >= 6;
 
+  const saveSession = (userName: string, userEmail: string) => {
+    localStorage.setItem("tornoo_auth", "1");
+    localStorage.setItem("tornoo_role", "client");
+    localStorage.setItem("tornoo_user", JSON.stringify({ name: userName, email: userEmail }));
+  };
+
   const handleSubmit = () => {
+    saveSession(name.trim(), email);
+    toast(t.welcome, "success");
+    setTimeout(() => router.replace("/home"), 800);
+  };
+
+  const handleGoogle = () => {
+    saveSession("Amine Benali", "amine@gmail.com");
     toast(t.welcome, "success");
     setTimeout(() => router.replace("/home"), 800);
   };
@@ -135,7 +148,10 @@ export default function RegisterPage() {
             <div className="flex-1 h-px bg-line" />
           </div>
 
-          <button className="w-full h-14 rounded-[15px] font-bold bg-white border border-line flex items-center justify-center gap-3 shadow-1 text-sm active:scale-[0.98] transition-transform">
+          <button
+            onClick={handleGoogle}
+            className="w-full h-14 rounded-[15px] font-bold bg-white border border-line flex items-center justify-center gap-3 shadow-1 text-sm active:scale-[0.98] transition-transform"
+          >
             <GoogleG />
             {t.continueGoogle}
           </button>

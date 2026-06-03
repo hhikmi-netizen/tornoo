@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { CaretLeft, User, Envelope, Lock, Phone, Eye, EyeSlash, Buildings, MapPin, Globe, CheckCircle } from "@phosphor-icons/react";
 import { TornooMark } from "@/components/tornoo/TornooLogo";
+import { useToast } from "@/components/ui/Toast";
 
 const STEPS = ["Informations", "Établissement", "Vérification", "Finalisation"] as const;
 
@@ -144,6 +145,7 @@ function StepEtab({ data, setData }: { data: Record<string, string>; setData: (d
 // Step 3 — Verification
 function StepVerif({ data, setData }: { data: Record<string, string>; setData: (d: Record<string, string>) => void }) {
   const set = (k: string) => (v: string) => setData({ ...data, [k]: v });
+  const { toast } = useToast();
 
   return (
     <div className="space-y-6">
@@ -165,7 +167,10 @@ function StepVerif({ data, setData }: { data: Record<string, string>; setData: (
           className="w-full h-[54px] text-center text-2xl font-black tracking-[0.5em] bg-[#f7f9fc] rounded-[14px] border border-[#e0e5ed] focus:border-[#07984a] focus:outline-none transition-all text-[#0b1220]"
         />
       </div>
-      <button className="text-sm font-bold text-[#07984a] text-center w-full">
+      <button
+        onClick={() => toast("Nouveau code envoyé", "success")}
+        className="text-sm font-bold text-[#07984a] text-center w-full"
+      >
         Renvoyer le code
       </button>
     </div>
@@ -260,7 +265,12 @@ export default function ProFormPage() {
           >
             <CaretLeft weight="bold" size={18} className="text-[#0b1220]" />
           </button>
-          <button className="text-sm font-bold text-[#07984a]">Besoin d'aide ?</button>
+          <button
+            onClick={() => window.open("mailto:support@tornoo.ma?subject=Aide inscription Tornoo Pro", "_blank")}
+            className="text-sm font-bold text-[#07984a]"
+          >
+            Besoin d&apos;aide ?
+          </button>
         </div>
 
         {/* Icon + Title */}
@@ -323,7 +333,15 @@ export default function ProFormPage() {
                 <div className="flex-1 h-px bg-[#e0e5ed]" />
               </div>
 
-              <button className="w-full h-14 rounded-[16px] font-bold bg-white border border-[#e0e5ed] flex items-center justify-center gap-3 shadow-sm active:scale-[0.98] transition-transform">
+              <button
+                onClick={() => {
+                  localStorage.setItem("tornoo_auth", "1");
+                  localStorage.setItem("tornoo_role", "pro");
+                  localStorage.setItem("tornoo_user", JSON.stringify({ name: "Ahmed Benali Pro", email: "ahmed@barberclub.ma" }));
+                  router.replace("/pro");
+                }}
+                className="w-full h-14 rounded-[16px] font-bold bg-white border border-[#e0e5ed] flex items-center justify-center gap-3 shadow-sm active:scale-[0.98] transition-transform"
+              >
                 <GoogleG />
                 <span className="text-sm text-[#0b1220]">Continuer avec Google</span>
               </button>

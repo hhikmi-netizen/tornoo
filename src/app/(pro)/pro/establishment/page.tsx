@@ -81,7 +81,10 @@ export default function EstablishmentPage() {
             fallback={<div className="w-full h-full bg-surface-2 flex items-center justify-center"><span className="text-4xl text-ink-3">🏢</span></div>}
           />
           <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-            <button className="flex items-center gap-2 bg-white/90 text-ink font-bold text-sm rounded-full h-10 px-4">
+            <button
+              onClick={() => toast("Sélection de photo disponible prochainement", "info")}
+              className="flex items-center gap-2 bg-white/90 text-ink font-bold text-sm rounded-full h-10 px-4"
+            >
               <Camera size={16} weight="bold" /> Changer la photo
             </button>
           </div>
@@ -135,7 +138,10 @@ export default function EstablishmentPage() {
                 fallback={<div className="w-20 h-20 rounded-[14px] bg-surface-2 border border-line" />}
               />
             ))}
-            <button className="w-20 h-20 rounded-[14px] border-2 border-dashed border-line flex flex-col items-center justify-center gap-1 text-ink-3">
+            <button
+              onClick={() => toast("Ajout de photo disponible prochainement", "info")}
+              className="w-20 h-20 rounded-[14px] border-2 border-dashed border-line flex flex-col items-center justify-center gap-1 text-ink-3"
+            >
               <Plus size={18} weight="bold" />
               <span className="text-[10px] font-bold">Ajouter</span>
             </button>

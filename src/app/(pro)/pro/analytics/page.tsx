@@ -585,7 +585,10 @@ export default function AnalyticsPage() {
                 </div>
                 <p className="text-sm text-ink-2 leading-relaxed pl-[52px]">{review.body}</p>
                 <div className="pl-[52px]">
-                  <button className="h-7 px-3 rounded-full border border-tornoo-green text-tornoo-green text-xs font-bold transition-colors hover:bg-low-bg">
+                  <button
+                    onClick={() => router.push("/pro/reviews")}
+                    className="h-7 px-3 rounded-full border border-tornoo-green text-tornoo-green text-xs font-bold transition-colors hover:bg-low-bg"
+                  >
                     Répondre
                   </button>
                 </div>

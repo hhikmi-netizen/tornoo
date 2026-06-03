@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { MagnifyingGlass, CheckCircle, Clock, XCircle, DotsThree } from "@phosphor-icons/react";
 import { MOCK_ESTABLISHMENTS } from "@/lib/mock-data";
+import { useToast } from "@/components/ui/Toast";
 
 const PROFESSIONALS = MOCK_ESTABLISHMENTS.map((e, i) => ({
   ...e,
@@ -18,6 +19,7 @@ const statusConfig = {
 };
 
 export default function AdminProfessionalsPage() {
+  const { toast } = useToast();
   const [query, setQuery] = useState("");
 
   const filtered = PROFESSIONALS.filter(
@@ -79,7 +81,11 @@ export default function AdminProfessionalsPage() {
                       </span>
                     </td>
                     <td className="px-4 py-3.5">
-                      <button className="w-8 h-8 rounded-lg hover:bg-surface-2 flex items-center justify-center" aria-label="Options">
+                      <button
+                        onClick={() => toast(`Actions pour ${pro.name} disponibles prochainement`, "info")}
+                        className="w-8 h-8 rounded-lg hover:bg-surface-2 flex items-center justify-center"
+                        aria-label="Options"
+                      >
                         <DotsThree weight="bold" size={16} className="text-ink-3" />
                       </button>
                     </td>

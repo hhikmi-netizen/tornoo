@@ -7,6 +7,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { CaretLeft, MagnifyingGlass, NavigationArrow } from "@phosphor-icons/react";
 import { api } from "@/services/api";
+import { useToast } from "@/components/ui/Toast";
 import { useI18n } from "@/i18n/context";
 import type { Establishment } from "@/types";
 import { LeafletMap } from "@/components/map/LeafletMapDynamic";
@@ -39,8 +40,23 @@ function SheetRow({ e, onTap }: { e: Establishment; onTap: () => void }) {
 export default function MapPage() {
   const router = useRouter();
   const { t } = useI18n();
+  const { toast } = useToast();
   const [selected, setSelected] = useState<string | null>(null);
   const [sheetOpen, setSheetOpen] = useState(true);
+  const [locating, setLocating] = useState(false);
+
+  const locateMe = () => {
+    if (!("geolocation" in navigator)) {
+      toast("Géolocalisation non disponible", "error");
+      return;
+    }
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      () => { setLocating(false); toast("Position trouvée", "success"); },
+      () => { setLocating(false); toast("Impossible d'obtenir votre position", "error"); },
+      { timeout: 8000 }
+    );
+  };
 
   const { data: establishments = [] } = useQuery({
     queryKey: ["establishments"],
@@ -79,10 +95,14 @@ export default function MapPage() {
           <span className="text-sm font-medium text-ink-3">{t.searchPlaceholder.split(",")[0]}…</span>
         </Link>
         <button
-          className="w-11 h-11 rounded-2xl bg-white/95 backdrop-blur-sm shadow-1 flex items-center justify-center border border-line shrink-0"
+          onClick={locateMe}
+          disabled={locating}
+          className="w-11 h-11 rounded-2xl bg-white/95 backdrop-blur-sm shadow-1 flex items-center justify-center border border-line shrink-0 disabled:opacity-60"
           aria-label="Ma position"
         >
-          <NavigationArrow weight="fill" size={18} className="text-tornoo-green" />
+          {locating
+            ? <span className="w-4 h-4 rounded-full border-2 border-tornoo-green border-t-transparent animate-spin" />
+            : <NavigationArrow weight="fill" size={18} className="text-tornoo-green" />}
         </button>
       </div>
 

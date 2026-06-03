@@ -135,7 +135,10 @@ export default function StatisticsPage() {
 
       <div className="px-4 pb-28 max-w-lg mx-auto space-y-4 pt-4">
         {/* Period selector */}
-        <button className="mx-auto flex items-center gap-2 px-5 h-10 rounded-full bg-white border border-line shadow-1 text-sm font-bold text-ink active:scale-[0.97] transition-transform">
+        <button
+          onClick={() => toast("Sélection de période disponible prochainement", "info")}
+          className="mx-auto flex items-center gap-2 px-5 h-10 rounded-full bg-white border border-line shadow-1 text-sm font-bold text-ink active:scale-[0.97] transition-transform"
+        >
           {t.last7Days} <CaretDown weight="bold" size={16} className="text-ink-3" />
         </button>
 
