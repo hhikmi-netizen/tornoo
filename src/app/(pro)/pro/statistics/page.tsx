@@ -204,35 +204,52 @@ export default function StatisticsPage() {
           </div>
         </div>
 
-        {/* Line chart */}
-        <div className="bg-white rounded-[22px] border border-line shadow-1 p-5">
-          <h2 className="font-black text-ink mb-4">Tendance hebdomadaire</h2>
-          <svg viewBox="0 0 320 100" className="w-full h-24">
-            <defs>
-              <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#07984a" stopOpacity="0.18" />
-                <stop offset="100%" stopColor="#07984a" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            <path
-              ref={areaPathRef}
-              d="M20 80 L65 48 L105 60 L150 30 L190 65 L235 20 L280 40 L310 15 L310 95 L20 95Z"
-              fill="url(#areaGrad)"
-            />
-            <path
-              ref={linePathRef}
-              d="M20 80 L65 48 L105 60 L150 30 L190 65 L235 20 L280 40 L310 15"
-              fill="none"
-              stroke="#07984a"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            {/* Dot on last point */}
-            <circle cx="310" cy="15" r="4" fill="#07984a" />
-            <circle cx="310" cy="15" r="7" fill="#07984a" opacity="0.2" />
-          </svg>
-        </div>
+        {/* Line chart — connected to real data */}
+        {stats.length >= 2 && (() => {
+          const W = 320, H = 100, padX = 20, padY = 12;
+          const maxVal = Math.max(...stats.map(d => d.clientsServed), 1);
+          const pts = stats.map((d, i) => {
+            const x = padX + (i / (stats.length - 1)) * (W - padX * 2);
+            const y = padY + (1 - d.clientsServed / maxVal) * (H - padY * 2 - 8);
+            return { x, y };
+          });
+          const linePath = pts.map((p, i) => `${i === 0 ? "M" : "L"}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ");
+          const areaPath = linePath + ` L${pts[pts.length-1].x.toFixed(1)} ${H-4} L${pts[0].x.toFixed(1)} ${H-4}Z`;
+          const last = pts[pts.length - 1];
+          return (
+            <div className="bg-white rounded-[22px] border border-line shadow-1 p-5">
+              <div className="mb-4">
+                <p className="section-eyebrow mb-0.5">{t.last7Days}</p>
+                <h2 className="font-black text-ink leading-none">{t.weeklyTrend}</h2>
+              </div>
+              <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-24">
+                <defs>
+                  <linearGradient id="areaGrad2" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#07984a" stopOpacity="0.2" />
+                    <stop offset="100%" stopColor="#07984a" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                <path ref={areaPathRef} d={areaPath} fill="url(#areaGrad2)" />
+                <path
+                  ref={linePathRef}
+                  d={linePath}
+                  fill="none"
+                  stroke="#07984a"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {/* Dots on each data point */}
+                {pts.map((p, i) => (
+                  <circle key={i} cx={p.x} cy={p.y} r="3" fill={i === pts.length - 1 ? "#07984a" : "#b6e6c9"} />
+                ))}
+                {/* Last point emphasis */}
+                <circle cx={last.x} cy={last.y} r="6" fill="#07984a" opacity="0.18" />
+                <circle cx={last.x} cy={last.y} r="3.5" fill="#07984a" />
+              </svg>
+            </div>
+          );
+        })()}
 
         {/* Peak hours */}
         <div ref={peakRef} className="bg-white rounded-[22px] border border-line shadow-1 p-5">

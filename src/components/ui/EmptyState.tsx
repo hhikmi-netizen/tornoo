@@ -85,10 +85,12 @@ export function EmptyState({ type, title, subtitle, action }: EmptyStateProps) {
       animate={{ opacity: 1, y: 0 }}
       className="flex flex-col items-center justify-center py-14 px-6 text-center"
     >
-      <Illustration />
-      <p className="mt-5 font-bold text-ink-2 text-base">{title}</p>
-      {subtitle && <p className="mt-1.5 text-sm text-ink-3 leading-relaxed max-w-[240px]">{subtitle}</p>}
-      {action && <div className="mt-5">{action}</div>}
+      <div className="animate-float">
+        <Illustration />
+      </div>
+      <p className="mt-6 font-black text-ink text-lg leading-snug">{title}</p>
+      {subtitle && <p className="mt-2 text-sm text-ink-3 leading-relaxed max-w-[240px]">{subtitle}</p>}
+      {action && <div className="mt-6">{action}</div>}
     </motion.div>
   );
 }
