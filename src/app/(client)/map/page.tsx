@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -8,70 +8,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CaretLeft, MagnifyingGlass, NavigationArrow } from "@phosphor-icons/react";
 import { api } from "@/services/api";
 import { useI18n } from "@/i18n/context";
-import type { Establishment, WaitLevel } from "@/types";
-
-/* ── Map pin ── */
-function MapPin({ level, selected = false }: { level: WaitLevel; selected?: boolean }) {
-  const colors = { low: "#07984a", mod: "#ff9300", high: "#ef2b24" };
-  const c = colors[level];
-  return (
-    <svg width={selected ? 52 : 40} height={selected ? 58 : 46} viewBox="0 0 74 82" className="drop-shadow-md transition-all">
-      <filter id={`pin-shadow-${level}`} x="-30%" y="-20%" width="160%" height="160%">
-        <feDropShadow dx="0" dy="3" stdDeviation="4" floodColor={c} floodOpacity="0.35"/>
-      </filter>
-      <path
-        d="M37 4a25 25 0 00-25 25c0 17 25 40 25 40s25-23 25-40A25 25 0 0037 4z"
-        fill={c}
-        filter={selected ? `url(#pin-shadow-${level})` : undefined}
-      />
-      <circle cx="37" cy="28" r="14" fill="#fff" fillOpacity="0.95"/>
-      {level === "low" ? (
-        <path d="M30 28l5 5 9-10" stroke={c} strokeWidth="3.2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-      ) : level === "mod" ? (
-        <text x="37" y="33" textAnchor="middle" fontSize="12" fontWeight="900" fill={c}>~</text>
-      ) : (
-        <text x="37" y="33" textAnchor="middle" fontSize="13" fontWeight="900" fill={c}>!</text>
-      )}
-    </svg>
-  );
-}
-
-/* ── Map backdrop ── */
-function MapBackdrop() {
-  return (
-    <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice" viewBox="0 0 390 600">
-      <rect width="390" height="600" fill="#e8f0e9"/>
-      {/* parks */}
-      <rect x="-10" y="80"  width="160" height="130" rx="28" fill="#d8eadb"/>
-      <rect x="260" y="320" width="180" height="160" rx="30" fill="#d8eadb"/>
-      <rect x="120" y="440" width="130" height="100" rx="24" fill="#d8eadb"/>
-      {/* water */}
-      <path d="M0 520 Q100 500 200 526 T390 518 V600 H0Z" fill="#c5dce8" opacity="0.85"/>
-      {/* blocks */}
-      <rect x="40"  y="130" width="50" height="40"  rx="6" fill="#dfe8e0" opacity="0.6"/>
-      <rect x="100" y="120" width="70" height="50"  rx="6" fill="#dfe8e0" opacity="0.5"/>
-      <rect x="240" y="160" width="60" height="45"  rx="6" fill="#dfe8e0" opacity="0.6"/>
-      <rect x="310" y="200" width="55" height="60"  rx="6" fill="#dfe8e0" opacity="0.5"/>
-      <rect x="60"  y="310" width="80" height="55"  rx="6" fill="#dfe8e0" opacity="0.55"/>
-      {/* major roads */}
-      <g stroke="#fff" strokeWidth="14" fill="none" strokeLinecap="round">
-        <path d="M-10 260 H410"/>
-        <path d="M195 -10 V620"/>
-      </g>
-      <g stroke="#fff" strokeWidth="10" fill="none" strokeLinecap="round">
-        <path d="M50 -10 L130 300 L90 620"/>
-        <path d="M390 160 L195 260 L300 620"/>
-      </g>
-      {/* minor roads */}
-      <g stroke="#edf2ee" strokeWidth="5" fill="none" strokeLinecap="round">
-        <path d="M-10 140 H410"/>
-        <path d="M290 -10 V400"/>
-        <path d="M-10 380 Q120 360 200 386 T410 378"/>
-        <path d="M-10 460 H410"/>
-      </g>
-    </svg>
-  );
-}
+import type { Establishment } from "@/types";
+import { LeafletMap } from "@/components/map/LeafletMapDynamic";
 
 /* ── Sheet row ── */
 function SheetRow({ e, onTap }: { e: Establishment; onTap: () => void }) {
@@ -98,14 +36,6 @@ function SheetRow({ e, onTap }: { e: Establishment; onTap: () => void }) {
   );
 }
 
-const PIN_POSITIONS: Record<string, { x: number; y: number }> = {
-  "1": { x: 125, y: 160 },
-  "2": { x: 230, y: 100 },
-  "3": { x: 60,  y: 280 },
-  "4": { x: 270, y: 210 },
-  "5": { x: 155, y: 330 },
-};
-
 export default function MapPage() {
   const router = useRouter();
   const { t } = useI18n();
@@ -121,9 +51,15 @@ export default function MapPage() {
 
   return (
     <div className="fixed inset-0 bg-white overflow-hidden">
-      {/* Map */}
-      <div className="absolute inset-0" onClick={() => setSelected(null)}>
-        <MapBackdrop />
+      {/* CARTE — remplace MapBackdrop + pins */}
+      <div className="absolute inset-0">
+        <Suspense fallback={<div className="w-full h-full bg-[#e8f0e9] animate-pulse" />}>
+          <LeafletMap
+            establishments={establishments}
+            selected={selected}
+            onSelect={(id) => { setSelected(id); if (id) setSheetOpen(true); }}
+          />
+        </Suspense>
       </div>
 
       {/* Top controls */}
@@ -148,49 +84,6 @@ export default function MapPage() {
         >
           <NavigationArrow weight="fill" size={18} className="text-tornoo-green" />
         </button>
-      </div>
-
-      {/* Pins */}
-      <div className="absolute inset-0 z-10 pointer-events-none">
-        {establishments.map((e) => {
-          const pos = PIN_POSITIONS[e.id];
-          if (!pos) return null;
-          const isSelected = selected === e.id;
-          return (
-            <motion.div
-              key={e.id}
-              className="absolute pointer-events-auto"
-              style={{ left: pos.x - (isSelected ? 26 : 20), top: pos.y - (isSelected ? 58 : 46) }}
-              animate={{ y: isSelected ? -8 : 0, scale: isSelected ? 1.08 : 1 }}
-              transition={{ type: "spring", stiffness: 460, damping: 22 }}
-              onClick={(ev) => { ev.stopPropagation(); setSelected(isSelected ? null : e.id); setSheetOpen(true); }}
-            >
-              <MapPin level={e.waitLevel} selected={isSelected} />
-              {/* Wait label on selection */}
-              <AnimatePresence>
-                {isSelected && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.7, y: 4 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.7 }}
-                    transition={{ duration: 0.18 }}
-                    className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap"
-                  >
-                    <span
-                      className="inline-flex items-center gap-1 h-6 px-2.5 rounded-full text-xs font-black shadow-1"
-                      style={{
-                        background: e.waitLevel === "low" ? "#e4f6ec" : e.waitLevel === "mod" ? "#fff1de" : "#fde7e6",
-                        color: e.waitLevel === "low" ? "#07984a" : e.waitLevel === "mod" ? "#ff9300" : "#ef2b24",
-                      }}
-                    >
-                      {e.waitMinutes} min
-                    </span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          );
-        })}
       </div>
 
       {/* Bottom sheet */}

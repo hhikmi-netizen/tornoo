@@ -14,6 +14,7 @@ import { MOCK_ESTABLISHMENTS } from "@/lib/mock-data";
 import { WaitDot } from "@/components/tornoo/WaitBadge";
 import { useToast } from "@/components/ui/Toast";
 import { useI18n } from "@/i18n/context";
+import { scheduleLocalNotification } from "@/lib/notifications";
 
 function MyTurnContent() {
   const router = useRouter();
@@ -70,7 +71,19 @@ function MyTurnContent() {
   }, []);
 
   const handleAlert = (label: string) => {
+    const delays: Record<string, number> = {
+      "15 min": 15 * 60 * 1000,
+      "10 min": 10 * 60 * 1000,
+      "5 min":  5 * 60 * 1000,
+      "Mon tour": 60 * 1000,
+    };
     toast(`Alerte programmée : ${label}`, "success");
+    scheduleLocalNotification(
+      delays[label] ?? 5 * 60 * 1000,
+      "C'est bientôt votre tour !",
+      `Rappel ${label} chez ${establishment.name}`,
+      `/my-turn?from=${establishment.slug}`
+    );
   };
 
   return (

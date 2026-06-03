@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Providers } from "@/lib/providers";
+import { ServiceWorkerRegistrar } from "@/components/layout/ServiceWorkerRegistrar";
 
 export const metadata: Metadata = {
   title: "Tornoo — L'attente en temps réel",
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr" dir="ltr">
       <body>
         <Providers>{children}</Providers>
+        <ServiceWorkerRegistrar />
       </body>
     </html>
   );

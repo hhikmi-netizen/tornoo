@@ -101,7 +101,7 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
           <span className="text-xs font-bold text-ink-2">{e.rating}</span>
           <span className="text-xs text-ink-3">({e.reviewCount} {t.reviews})</span>
         </div>
-        <div className="mt-3 flex items-center justify-between gap-2">
+        <div className="mt-3 flex items-center gap-2 flex-wrap">
           <span
             className="inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-sm font-black shrink-0"
             style={{ background: bgColor, color: fgColor }}

@@ -10,6 +10,7 @@ import { MOCK_ESTABLISHMENTS, MOCK_TICKET } from "@/lib/mock-data";
 import { useI18n } from "@/i18n/context";
 import { gsap } from "@/lib/gsap";
 import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
+import { scheduleLocalNotification } from "@/lib/notifications";
 
 const CONFETTI_COLORS = ["#07984a", "#13b45b", "#f7c400", "#ff9300", "#ef2b24", "#3b82f6", "#a855f7"];
 
@@ -49,6 +50,10 @@ function ConfirmContent() {
   const containerRef = useRef<HTMLDivElement>(null);
   const slug = searchParams.get("from");
 
+  const establishment = slug
+    ? MOCK_ESTABLISHMENTS.find((e) => e.slug === slug) ?? MOCK_ESTABLISHMENTS[0]
+    : MOCK_ESTABLISHMENTS[0];
+
   useEffect(() => {
     const ring = ringRef.current;
     const container = containerRef.current;
@@ -64,11 +69,16 @@ function ConfirmContent() {
     if (container) {
       gsap.delayedCall(0.5, () => burst(container));
     }
+    // Schedule a demo notification 5 s after confirmation (prod: ~5 min before turn)
+    scheduleLocalNotification(
+      5000,
+      "C'est bientôt votre tour ! 🎉",
+      `Plus que 2 personnes avant vous chez ${establishment.name}`,
+      slug ? `/my-turn?from=${slug}` : "/my-turn"
+    );
     return () => { gsap.killTweensOf(ring); };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const establishment = slug
-    ? MOCK_ESTABLISHMENTS.find((e) => e.slug === slug) ?? MOCK_ESTABLISHMENTS[0]
-    : MOCK_ESTABLISHMENTS[0];
 
   return (
     <div ref={containerRef} className="relative min-h-svh bg-gradient-to-b from-low-bg to-white flex flex-col px-6 overflow-hidden">

@@ -21,5 +21,22 @@
       "purpose": "maskable any"
     }
   ],
-  "screenshots": []
+  "categories": ["productivity", "lifestyle", "utilities"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Mes files d'attente",
+      "short_name": "Files",
+      "description": "Voir mes tickets actifs",
+      "url": "/my-turn",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Rechercher",
+      "short_name": "Rechercher",
+      "description": "Trouver un établissement",
+      "url": "/search",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
 }
