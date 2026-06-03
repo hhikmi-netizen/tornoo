@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Eye, EyeSlash, Envelope, Lock, User } from "@phosphor-icons/react";
 import { TornooMark } from "@/components/tornoo/TornooLogo";
@@ -57,14 +58,38 @@ const LANGS: { code: Lang; label: string }[] = [
 
 export default function LoginPage() {
   const { lang, setLang, t } = useI18n();
+  const router = useRouter();
   const [tab, setTab] = useState<"login" | "signup">("login");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const isSignup = tab === "signup";
   const isValid = email.includes("@") && pw.length >= 4 && (!isSignup || name.trim().length > 1);
+
+  const handleSubmit = async () => {
+    if (!isValid || loading) return;
+    setError("");
+    setLoading(true);
+    await new Promise((r) => setTimeout(r, 900));
+    if (isSignup) {
+      localStorage.setItem("tornoo_user", JSON.stringify({ name, email }));
+    }
+    localStorage.setItem("tornoo_auth", "1");
+    router.replace("/home");
+  };
+
+  const handleGoogle = async () => {
+    setGoogleLoading(true);
+    await new Promise((r) => setTimeout(r, 1400));
+    localStorage.setItem("tornoo_auth", "1");
+    localStorage.setItem("tornoo_user", JSON.stringify({ name: "Amine Benali", email: "amine@gmail.com" }));
+    router.replace("/home");
+  };
 
   return (
     <div className="relative bg-white overflow-y-auto min-h-svh">
@@ -155,20 +180,21 @@ export default function LoginPage() {
           </div>
         )}
 
+        {/* Error */}
+        {error && (
+          <p className="mt-2 text-sm text-[#ef2b24] font-medium text-center">{error}</p>
+        )}
+
         {/* Primary CTA */}
         <button
-          className="mt-5 w-full h-14 rounded-[15px] font-extrabold text-white transition-all disabled:opacity-50 active:scale-[0.98]"
+          className="mt-5 w-full h-14 rounded-[15px] font-extrabold text-white transition-all disabled:opacity-50 active:scale-[0.98] flex items-center justify-center gap-2"
           style={{ background: "linear-gradient(135deg,#07984a,#13b45b)" }}
-          disabled={!isValid}
-          onClick={() => {
-            if (isSignup) {
-              window.location.href = "/register";
-            } else {
-              window.location.href = "/home";
-            }
-          }}
+          disabled={!isValid || loading}
+          onClick={handleSubmit}
         >
-          {isSignup ? t.signupBtn : t.loginBtn}
+          {loading ? (
+            <span className="w-5 h-5 rounded-full border-2 border-white border-t-transparent animate-spin" />
+          ) : (isSignup ? t.signupBtn : t.loginBtn)}
         </button>
 
         {/* Separator */}
@@ -179,9 +205,17 @@ export default function LoginPage() {
         </div>
 
         {/* Google */}
-        <button type="button" className="w-full h-14 rounded-[15px] font-bold bg-white border border-line flex items-center justify-center gap-3 shadow-1 active:scale-[0.98] transition-transform">
-          <GoogleG />
-          <span className="text-sm">{t.continueGoogle}</span>
+        <button
+          type="button"
+          disabled={googleLoading}
+          onClick={handleGoogle}
+          className="w-full h-14 rounded-[15px] font-bold bg-white border border-line flex items-center justify-center gap-3 shadow-1 active:scale-[0.98] transition-transform disabled:opacity-60"
+        >
+          {googleLoading
+            ? <span className="w-5 h-5 rounded-full border-2 border-ink-3 border-t-transparent animate-spin" />
+            : <GoogleG />
+          }
+          <span className="text-sm">{googleLoading ? "Connexion en cours…" : t.continueGoogle}</span>
         </button>
 
 

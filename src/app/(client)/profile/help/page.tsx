@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { CaretLeft, CaretRight, ChatCircle, Envelope, Phone, FileText, Question } from "@phosphor-icons/react";
+import { useToast } from "@/components/ui/Toast";
 
 const FAQ = [
   {
@@ -27,13 +28,25 @@ const FAQ = [
 ];
 
 const CONTACT = [
-  { icon: ChatCircle, label: "Chat en direct", sub: "Réponse en moins de 5 min", color: "#07984a" },
-  { icon: Envelope, label: "E-mail support", sub: "support@tornoo.ma", color: "#5b6472" },
-  { icon: Phone, label: "Téléphone", sub: "+212 5XX-XXXXXX", color: "#ff9300" },
+  { icon: ChatCircle, label: "Chat en direct", sub: "Réponse en moins de 5 min", color: "#07984a", action: "chat" },
+  { icon: Envelope,   label: "E-mail support", sub: "support@tornoo.ma",         color: "#5b6472", action: "email" },
+  { icon: Phone,      label: "Téléphone",       sub: "+212 522-000-000",          color: "#ff9300", action: "phone" },
 ];
 
 export default function HelpPage() {
   const router = useRouter();
+  const { toast } = useToast();
+
+  const handleContact = (action: string) => {
+    if (action === "chat") {
+      toast("Chat en cours de démarrage…", "info");
+      setTimeout(() => toast("Un agent va vous rejoindre dans quelques instants", "success"), 1800);
+    } else if (action === "email") {
+      window.open("mailto:support@tornoo.ma?subject=Aide Tornoo", "_blank");
+    } else if (action === "phone") {
+      window.open("tel:+212522000000", "_self");
+    }
+  };
 
   return (
     <div className="bg-surface-2 min-h-svh">
@@ -85,10 +98,11 @@ export default function HelpPage() {
             <h2 className="text-sm font-black text-ink-2 uppercase tracking-wide">Nous contacter</h2>
           </div>
           <div className="space-y-2">
-            {CONTACT.map(({ icon: Icon, label, sub, color }) => (
+            {CONTACT.map(({ icon: Icon, label, sub, color, action }) => (
               <button
                 key={label}
-                className="w-full flex items-center gap-3 bg-white rounded-[18px] border border-line shadow-1 px-4 py-3.5 text-left"
+                onClick={() => handleContact(action)}
+                className="w-full flex items-center gap-3 bg-white rounded-[18px] border border-line shadow-1 px-4 py-3.5 text-left active:scale-[0.98] transition-transform"
               >
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${color}18` }}>
                   <Icon size={18} weight="duotone" style={{ color }} />

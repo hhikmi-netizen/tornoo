@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { MagnifyingGlass, UserCheck, UserMinus, DotsThree } from "@phosphor-icons/react";
+import { useState, useRef, useEffect } from "react";
+import { MagnifyingGlass, UserCheck, UserMinus, DotsThree, Prohibit, Envelope, Trash } from "@phosphor-icons/react";
+import { useToast } from "@/components/ui/Toast";
 
 const USERS = [
   { id: "u1", name: "Amine Benali", email: "amine@example.com", role: "client", status: "active", joined: "2024-01-12" },
@@ -11,10 +12,68 @@ const USERS = [
   { id: "u5", name: "Khalid Mansouri", email: "khalid@spa.ma", role: "pro", status: "pending", joined: "2024-04-02" },
 ];
 
-export default function AdminUsersPage() {
-  const [query, setQuery] = useState("");
+function UserMenu({ userId, userName, status, onStatusChange, onDelete }: {
+  userId: string; userName: string; status: string;
+  onStatusChange: (id: string, s: string) => void;
+  onDelete: (id: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const fn = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
+    document.addEventListener("mousedown", fn);
+    return () => document.removeEventListener("mousedown", fn);
+  }, []);
+  return (
+    <div ref={ref} className="relative">
+      <button onClick={() => setOpen((v) => !v)} className="w-8 h-8 rounded-lg hover:bg-surface-2 flex items-center justify-center" aria-label="Options">
+        <DotsThree weight="bold" size={16} className="text-ink-3" />
+      </button>
+      {open && (
+        <div className="absolute right-0 top-9 z-20 bg-white rounded-[14px] border border-line shadow-pop py-1 w-44">
+          <button onClick={() => { window.open(`mailto:${userName}`); setOpen(false); }}
+            className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm font-medium text-ink hover:bg-surface-2">
+            <Envelope size={14} className="text-ink-3" /> Envoyer un e-mail
+          </button>
+          {status !== "active" && (
+            <button onClick={() => { onStatusChange(userId, "active"); setOpen(false); }}
+              className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm font-medium text-tornoo-green hover:bg-low-bg">
+              <UserCheck size={14} /> Activer le compte
+            </button>
+          )}
+          {status === "active" && (
+            <button onClick={() => { onStatusChange(userId, "inactive"); setOpen(false); }}
+              className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm font-medium text-[#ff9300] hover:bg-mod-bg">
+              <Prohibit size={14} /> Suspendre
+            </button>
+          )}
+          <div className="my-1 border-t border-line" />
+          <button onClick={() => { onDelete(userId); setOpen(false); }}
+            className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm font-medium text-[#ef2b24] hover:bg-high-bg">
+            <Trash size={14} /> Supprimer
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
 
-  const filtered = USERS.filter(
+export default function AdminUsersPage() {
+  const { toast } = useToast();
+  const [query, setQuery] = useState("");
+  const [users, setUsers] = useState(USERS);
+
+  const changeStatus = (id: string, status: string) => {
+    setUsers((u) => u.map((x) => x.id === id ? { ...x, status } : x));
+    toast(status === "active" ? "Compte activé" : "Compte suspendu", "success");
+  };
+  const deleteUser = (id: string) => {
+    const u = users.find((x) => x.id === id);
+    setUsers((prev) => prev.filter((x) => x.id !== id));
+    toast(`${u?.name} supprimé`, "info");
+  };
+
+  const filtered = users.filter(
     (u) => u.name.toLowerCase().includes(query.toLowerCase()) || u.email.toLowerCase().includes(query.toLowerCase())
   );
 
@@ -82,9 +141,13 @@ export default function AdminUsersPage() {
                     {new Date(user.joined).toLocaleDateString("fr")}
                   </td>
                   <td className="px-4 py-3.5">
-                    <button className="w-8 h-8 rounded-lg hover:bg-surface-2 flex items-center justify-center" aria-label="Options">
-                      <DotsThree weight="bold" size={16} className="text-ink-3" />
-                    </button>
+                    <UserMenu
+                      userId={user.id}
+                      userName={user.name}
+                      status={user.status}
+                      onStatusChange={changeStatus}
+                      onDelete={deleteUser}
+                    />
                   </td>
                 </tr>
               ))}

@@ -145,7 +145,12 @@ export default function SettingsPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="w-full flex items-center justify-center gap-2 h-12 rounded-[15px] bg-high-bg text-high font-bold border border-high-rim text-sm"
+          onClick={() => {
+            localStorage.removeItem("tornoo_auth");
+            localStorage.removeItem("tornoo_user");
+            router.replace("/login");
+          }}
+          className="w-full flex items-center justify-center gap-2 h-12 rounded-[15px] bg-high-bg text-high font-bold border border-high-rim text-sm active:scale-[0.98] transition-transform"
         >
           <SignOut weight="bold" size={16} />
           Déconnexion

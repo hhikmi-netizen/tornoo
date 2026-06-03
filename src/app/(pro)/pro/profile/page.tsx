@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { CaretLeft, QrCode, Users, Plus, ChartBar, MapPin, Phone, Envelope, Globe, Star } from "@phosphor-icons/react";
 import { MOCK_ESTABLISHMENTS } from "@/lib/mock-data";
@@ -12,10 +13,10 @@ export default function ProProfilePage() {
   const e = MOCK_ESTABLISHMENTS[0];
 
   const QUICK_ACTIONS = [
-    { icon: QrCode, label: t.scan },
-    { icon: Users, label: t.queuePro },
-    { icon: Plus, label: t.services },
-    { icon: ChartBar, label: t.statistics },
+    { icon: QrCode,   label: t.scan,       href: "/scan" },
+    { icon: Users,    label: t.queuePro,   href: "/pro/queues" },
+    { icon: Plus,     label: t.services,   href: "/pro/services" },
+    { icon: ChartBar, label: t.statistics, href: "/pro/analytics" },
   ];
 
   const INFO = [
@@ -84,11 +85,15 @@ export default function ProProfilePage() {
 
         {/* Quick actions */}
         <div className="grid grid-cols-4 gap-3">
-          {QUICK_ACTIONS.map(({ icon: Icon, label }) => (
-            <div key={label} className="bg-white rounded-[18px] p-3 text-center border border-line shadow-1">
+          {QUICK_ACTIONS.map(({ icon: Icon, label, href }) => (
+            <Link
+              key={label}
+              href={href}
+              className="bg-white rounded-[18px] p-3 text-center border border-line shadow-1 active:scale-95 hover:shadow-md transition-all"
+            >
               <Icon size={20} weight="duotone" className="mx-auto text-tornoo-green" />
               <p className="text-xs font-bold text-ink-2 mt-2">{label}</p>
-            </div>
+            </Link>
           ))}
         </div>
 

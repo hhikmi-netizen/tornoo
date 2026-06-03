@@ -7,6 +7,7 @@ import {
 } from "@phosphor-icons/react";
 import { useI18n } from "@/i18n/context";
 import { TornooLogo } from "@/components/tornoo/TornooLogo";
+import { useRouter } from "next/navigation";
 import { MOCK_USER } from "@/lib/mock-data";
 import { USER_AVATAR_URL, IMG_SIZES } from "@/lib/image-config";
 import type { Lang } from "@/types";
@@ -25,8 +26,15 @@ const LANGUAGES: { code: Lang; label: string }[] = [
   { code: "en", label: "English" },
 ];
 
+function doLogout(router: ReturnType<typeof useRouter>) {
+  localStorage.removeItem("tornoo_auth");
+  localStorage.removeItem("tornoo_user");
+  router.replace("/login");
+}
+
 export default function ProfilePage() {
   const { lang, setLang, t } = useI18n();
+  const router = useRouter();
 
   return (
     <div className="bg-surface-2 min-h-svh">
@@ -138,7 +146,10 @@ export default function ProfilePage() {
         </Link>
 
         {/* Logout */}
-        <button className="w-full flex items-center justify-center gap-2 h-12 rounded-[15px] bg-[#fde7e6] text-[#ef2b24] font-bold border border-[#f6c2bf] active:scale-[0.98] transition-transform">
+        <button
+          onClick={() => doLogout(router)}
+          className="w-full flex items-center justify-center gap-2 h-12 rounded-[15px] bg-[#fde7e6] text-[#ef2b24] font-bold border border-[#f6c2bf] active:scale-[0.98] transition-transform"
+        >
           <SignOut weight="bold" size={17} />
           {t.logout}
         </button>

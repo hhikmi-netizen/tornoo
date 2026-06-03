@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CaretLeft, Check, Lightning, Star } from "@phosphor-icons/react";
+import { useToast } from "@/components/ui/Toast";
 
 const PLANS = [
   {
@@ -39,6 +41,16 @@ const PLANS = [
 
 export default function SubscriptionPage() {
   const router = useRouter();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState<string | null>(null);
+
+  const handleSubscribe = async (planId: string, planName: string) => {
+    setLoading(planId);
+    await new Promise((r) => setTimeout(r, 1200));
+    setLoading(null);
+    toast(`Plan ${planName} activé ! Bienvenue dans l'espace Pro.`, "success");
+    setTimeout(() => router.replace("/pro"), 1000);
+  };
 
   return (
     <div className="bg-surface-2 min-h-svh">
@@ -94,10 +106,14 @@ export default function SubscriptionPage() {
             </div>
             {!plan.current && (
               <button
-                className="w-full h-12 rounded-[13px] font-extrabold text-sm text-white"
+                onClick={() => handleSubscribe(plan.id, plan.name)}
+                disabled={loading === plan.id}
+                className="w-full h-12 rounded-[13px] font-extrabold text-sm text-white flex items-center justify-center gap-2 disabled:opacity-70 active:scale-[0.98] transition-all"
                 style={{ background: plan.color }}
               >
-                {plan.cta}
+                {loading === plan.id
+                  ? <span className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                  : plan.cta}
               </button>
             )}
           </div>
