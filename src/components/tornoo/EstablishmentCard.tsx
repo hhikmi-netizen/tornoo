@@ -7,6 +7,7 @@ import { TurnButton } from "./TurnButton";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { cn } from "@/lib/utils";
 import type { Establishment } from "@/types";
+import { useI18n } from "@/i18n/context";
 
 interface EstablishmentCardProps {
   establishment: Establishment;
@@ -15,6 +16,7 @@ interface EstablishmentCardProps {
 }
 
 export function EstablishmentCard({ establishment: e, variant = "row", className }: EstablishmentCardProps) {
+  const { t } = useI18n();
   const bgColor = e.waitLevel === "low" ? "#e4f6ec" : e.waitLevel === "mod" ? "#fff1de" : "#fde7e6";
   const fgColor = e.waitLevel === "low" ? "#07984a" : e.waitLevel === "mod" ? "#ff9300" : "#ef2b24";
 
@@ -95,11 +97,11 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
         <div className="flex items-center gap-1 mt-0.5">
           <Star size={13} weight="fill" className="text-[#F7C400]" />
           <span className="text-xs font-bold text-ink-2">{e.rating}</span>
-          <span className="text-xs text-ink-3">({e.reviewCount} avis)</span>
+          <span className="text-xs text-ink-3">({e.reviewCount} {t.reviews})</span>
         </div>
         <div className="mt-2.5 flex items-center justify-between bg-surface-2 rounded-xl px-3 py-2">
           <div>
-            <p className="text-xs text-ink-3">Attente</p>
+            <p className="text-xs text-ink-3">{t.waitEstimate}</p>
             <p className="text-lg font-black leading-tight" style={{ color: e.waitLevel === "low" ? "#07984a" : e.waitLevel === "mod" ? "#ff9300" : "#ef2b24" }}>
               {e.waitMinutes < 60 ? `${e.waitMinutes} min` : `${Math.floor(e.waitMinutes / 60)}h${e.waitMinutes % 60 || ""}`}
             </p>
