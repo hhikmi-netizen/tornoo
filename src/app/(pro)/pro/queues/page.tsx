@@ -1,127 +1,178 @@
 "use client";
 
-import Link from "next/link";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { DotsThree } from "@phosphor-icons/react";
-import { TornooMark } from "@/components/tornoo/TornooLogo";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { api } from "@/services/api";
-import { MOCK_ESTABLISHMENTS } from "@/lib/mock-data";
-import { useI18n } from "@/i18n/context";
-import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
+import { useToast } from "@/components/ui/Toast";
+import { useQueueManagement } from "@/hooks/useQueueManagement";
+import { MOCK_DAILY_STATS, MOCK_HISTORY } from "@/data/mockQueues";
+
+import { QueueSidebar } from "@/components/tornoo/queue-management/QueueSidebar";
+import { QueueHeader } from "@/components/tornoo/queue-management/QueueHeader";
+import { QueueSummaryCard } from "@/components/tornoo/queue-management/QueueSummaryCard";
+import { CurrentClientCard } from "@/components/tornoo/queue-management/CurrentClientCard";
+import { WaitingClientList } from "@/components/tornoo/queue-management/WaitingClientList";
+import { QuickActionsPanel } from "@/components/tornoo/queue-management/QuickActionsPanel";
+import { QueueStatsPanel } from "@/components/tornoo/queue-management/QueueStatsPanel";
+import { RecentQueueHistory } from "@/components/tornoo/queue-management/RecentQueueHistory";
+import { QueueBottomActionBar } from "@/components/tornoo/queue-management/QueueBottomActionBar";
+import { AddClientModal } from "@/components/tornoo/queue-management/AddClientModal";
+import { FinishClientDialog } from "@/components/tornoo/queue-management/FinishClientDialog";
+import { SuspendQueueDialog } from "@/components/tornoo/queue-management/SuspendQueueDialog";
+import { CancelClientDialog } from "@/components/tornoo/queue-management/CancelClientDialog";
 
 export default function ProQueuesPage() {
-  const { t } = useI18n();
   const router = useRouter();
-  const e = MOCK_ESTABLISHMENTS[0];
-  const { data: queues = [] } = useQuery({
-    queryKey: ["queues", e.id],
-    queryFn: () => api.queues.byEstablishment(e.id),
-  });
+  const { toast } = useToast();
+  const { queue, isLoading, addClient, callNext, finishCurrent, cancelClient, suspendQueue, resumeQueue, closeQueue } = useQueueManagement();
 
-  const ticketsIssued = queues.reduce((a, q) => {
-    const n = parseInt(q.currentTicket.split("-")[1] ?? "0", 10);
-    return a + n;
-  }, 0);
-  const servedTotal = queues.reduce((a, q) => a + q.servedToday, 0);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showFinishDialog, setShowFinishDialog] = useState(false);
+  const [showSuspendDialog, setShowSuspendDialog] = useState(false);
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
+  const [showAll, setShowAll] = useState(false);
 
-  const stats = [
-    { value: String(ticketsIssued), label: t.ticketsIssued },
-    { value: String(servedTotal), label: t.served },
-    { value: String(queues.reduce((a, q) => a + q.waitingCount, 0)), label: t.waiting },
-  ];
+  const handleCallNext = async () => {
+    await callNext();
+    toast("Client suivant appelé", "success");
+  };
+
+  const handleFinish = async () => {
+    await finishCurrent();
+    setShowFinishDialog(false);
+    toast("Service terminé avec succès", "success");
+  };
+
+  const handleSuspend = async () => {
+    await suspendQueue();
+    setShowSuspendDialog(false);
+    toast("File suspendue", "info");
+  };
+
+  const handleResume = async () => {
+    await resumeQueue();
+    setShowSuspendDialog(false);
+    toast("File reprise", "success");
+  };
+
+  const handleCancelClient = async () => {
+    if (queue.currentClient) {
+      await cancelClient(queue.currentClient.id);
+      toast(`${queue.currentClient.name} annulé`, "info");
+    }
+    setShowCancelDialog(false);
+  };
+
+  const handleCloseQueue = async () => {
+    await closeQueue();
+    setShowCancelDialog(false);
+    toast("File fermée", "info");
+  };
+
+  const handleQRCode = () => {
+    router.push(`/pro/queues/${queue.id}/qr`);
+  };
 
   return (
-    <div className="min-h-svh">
-      {/* Dark header */}
-      <div className="bg-[#061819] px-5 pt-safe-top pb-8">
-        <div className="flex items-center justify-between mt-2">
-          <div className="flex items-center gap-3">
-            <TornooMark size={38} />
-            <div>
-              <h1 className="text-xl font-black text-white">{e.name}</h1>
-              <p className="text-xs text-white/60">{e.city}</p>
-            </div>
-          </div>
-          <button
-            onClick={() => router.push("/pro/settings")}
-            className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center"
-            aria-label="Options"
-          >
-            <DotsThree weight="bold" size={20} className="text-white" />
-          </button>
-        </div>
+    <>
+      <div className="flex min-h-svh">
+        <QueueSidebar activeItem="Gestion des files" />
 
-        <div className="mt-6">
-          <p className="text-white font-black text-sm">{t.todayStats}</p>
-          <div className="grid grid-cols-3 gap-3 mt-3">
-            <div className="p-3 rounded-2xl bg-white/10 text-center">
-              <AnimatedNumber value={ticketsIssued} duration={1.1} delay={0.1} className="text-2xl font-black text-white block" />
-              <p className="text-xs text-white/60 mt-0.5">{t.ticketsIssued}</p>
-            </div>
-            <div className="p-3 rounded-2xl bg-white/10 text-center">
-              <AnimatedNumber value={servedTotal} duration={1.0} delay={0.2} className="text-2xl font-black text-white block" />
-              <p className="text-xs text-white/60 mt-0.5">{t.served}</p>
-            </div>
-            <div className="p-3 rounded-2xl bg-white/10 text-center">
-              <AnimatedNumber value={queues.reduce((a, q) => a + q.waitingCount, 0)} duration={0.8} delay={0.3} className="text-2xl font-black text-white block" />
-              <p className="text-xs text-white/60 mt-0.5">{t.waiting}</p>
-            </div>
-          </div>
-        </div>
-      </div>
+        <div className="flex-1 lg:ml-64 flex flex-col min-h-screen">
+          <QueueHeader onQRCode={handleQRCode} />
 
-      {/* White content */}
-      <div className="bg-white rounded-t-[38px] -mt-4 px-5 py-6 min-h-[60vh]">
-        <h2 className="text-2xl font-black text-ink mb-4">{t.activeQueues}</h2>
+          <div className="flex-1 px-4 lg:px-6 py-5 space-y-5">
+            <QueueSummaryCard
+              queue={queue}
+              onSuspend={() => setShowSuspendDialog(true)}
+              onResume={() => setShowSuspendDialog(true)}
+            />
 
-        {queues.length === 0 ? (
-          <EmptyState
-            type="queue-pro"
-            title={t.noActiveQueue}
-            subtitle={t.openQueueSub}
-            action={
-              <Link href="/pro/queues/new" className="inline-flex h-12 px-6 rounded-[13px] bg-tornoo-green text-white font-extrabold items-center text-sm">
-                {t.openQueue}
-              </Link>
-            }
-          />
-        ) : (
-          <div className="space-y-4">
-            {queues.map((q) => (
-              <div key={q.id} className="bg-white rounded-[22px] border border-line shadow-1 p-5">
-                <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-grad-navy flex items-center justify-center shrink-0">
-                    <span className="text-white font-black text-lg">{q.label}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-xl font-black text-ink">{q.serviceName}</h3>
-                    <p className="text-sm text-ink-3">En cours · {q.waitingCount} personnes</p>
-                    <p className="mt-3 text-xs font-bold text-ink-3 uppercase tracking-wide">{t.currentNo}</p>
-                    <div className="flex items-center justify-between mt-1">
-                      <span className="text-2xl font-black text-tornoo-green">{q.currentTicket}</span>
-                      <Link
-                        href={`/pro/queues/${q.id}`}
-                        className="h-11 px-4 rounded-[13px] bg-ink text-white font-bold text-sm flex items-center"
-                      >
-                        {t.manageQueue} ›
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+            <div className="flex gap-5">
+              <div className="flex-1 min-w-0 space-y-5">
+                <CurrentClientCard
+                  client={queue.currentClient}
+                  onCallNext={handleCallNext}
+                  isLoading={isLoading}
+                />
+                <WaitingClientList
+                  clients={queue.clients}
+                  onCall={async (id) => {
+                    await callNext();
+                    toast("Client appelé", "success");
+                  }}
+                  onCancel={async (id) => {
+                    await cancelClient(id);
+                    toast("Client annulé", "info");
+                  }}
+                  showAll={showAll}
+                  onToggleShowAll={() => setShowAll((v) => !v)}
+                />
               </div>
-            ))}
-          </div>
-        )}
 
-        <Link
-          href="/pro/queues/new"
-          className="mt-4 flex items-center justify-center h-14 rounded-[15px] border-2 border-dashed border-tornoo-green text-tornoo-green font-black w-full"
-        >
-          {t.openNewQueue}
-        </Link>
+              <div className="hidden lg:flex flex-col w-80 shrink-0 space-y-5">
+                <QuickActionsPanel
+                  queue={queue}
+                  onAdd={() => setShowAddModal(true)}
+                  onCallNext={handleCallNext}
+                  onFinish={() => setShowFinishDialog(true)}
+                  onSuspend={() => setShowSuspendDialog(true)}
+                  onResume={() => setShowSuspendDialog(true)}
+                  onCancel={() => setShowCancelDialog(true)}
+                  isLoading={isLoading}
+                />
+                <QueueStatsPanel stats={MOCK_DAILY_STATS} />
+                <RecentQueueHistory events={MOCK_HISTORY} />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+
+      <QueueBottomActionBar
+        queue={queue}
+        onAdd={() => setShowAddModal(true)}
+        onCallNext={handleCallNext}
+        onFinish={() => setShowFinishDialog(true)}
+        onSuspend={() => setShowSuspendDialog(true)}
+        onResume={() => setShowSuspendDialog(true)}
+        onCancel={() => setShowCancelDialog(true)}
+        isLoading={isLoading}
+      />
+
+      <AddClientModal
+        open={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onAdd={async (client) => {
+          await addClient(client);
+          toast(`${client.name} ajouté à la file`, "success");
+        }}
+        isLoading={isLoading}
+      />
+
+      <FinishClientDialog
+        open={showFinishDialog}
+        client={queue.currentClient}
+        onClose={() => setShowFinishDialog(false)}
+        onFinish={handleFinish}
+        isLoading={isLoading}
+      />
+
+      <SuspendQueueDialog
+        open={showSuspendDialog}
+        status={queue.status}
+        onClose={() => setShowSuspendDialog(false)}
+        onConfirm={queue.status === "paused" ? handleResume : handleSuspend}
+        isLoading={isLoading}
+      />
+
+      <CancelClientDialog
+        open={showCancelDialog}
+        onClose={() => setShowCancelDialog(false)}
+        onCancelClient={handleCancelClient}
+        onCloseQueue={handleCloseQueue}
+        isLoading={isLoading}
+        clientName={queue.currentClient?.name}
+      />
+    </>
   );
 }

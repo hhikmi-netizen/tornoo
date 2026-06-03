@@ -26,11 +26,13 @@ export default function ProLayout({ children }: { children: React.ReactNode }) {
   if (!ready) return null;
 
   return (
-    <div className="min-h-svh bg-surface-2 max-w-lg mx-auto relative">
-      <main className="pb-20">
+    <div className="min-h-svh bg-[#F8FAFC] max-w-lg mx-auto relative lg:max-w-none">
+      <main className="pb-20 lg:pb-0">
         <PageTransition>{children}</PageTransition>
       </main>
-      <ProBottomNav />
+      <div className="lg:hidden">
+        <ProBottomNav />
+      </div>
     </div>
   );
 }
