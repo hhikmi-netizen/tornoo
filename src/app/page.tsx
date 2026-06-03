@@ -33,14 +33,13 @@ export default function SplashPage() {
         </div>
       </div>
 
-      <div className="absolute bottom-16 left-0 right-0 flex flex-col items-center gap-4 animate-fade-in">
-        <div className="w-64 h-1.5 rounded-full bg-[#eaedf0] overflow-hidden">
+      <div className="absolute bottom-16 left-0 right-0 flex flex-col items-center gap-3 animate-fade-in">
+        <div className="w-48 h-[3px] rounded-full bg-[#eaedf0] overflow-hidden">
           <div
             className="h-full rounded-full animate-progress"
-            style={{ background: "linear-gradient(90deg,#07984a,#f7c400,#ff9300,#ef2b24)" }}
+            style={{ background: "linear-gradient(90deg,#07984a 0%,#13b45b 35%,#f7c400 65%,#ff9300 85%,#ef2b24 100%)" }}
           />
         </div>
-        <p className="text-sm font-semibold text-ink-3">Chargement en cours...</p>
       </div>
     </div>
   );

@@ -35,7 +35,7 @@ function InputField({
   right?: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-3 bg-surface-2 rounded-[14px] px-4 h-14 border border-line">
+    <div className="input-ring flex items-center gap-3 bg-surface-2 rounded-[14px] px-4 h-14 border border-line transition-all">
       <Icon size={19} weight="duotone" className="text-ink-3 shrink-0" />
       <input
         type={type}
@@ -70,22 +70,30 @@ export default function LoginPage() {
       <CityBackdrop />
 
       <div className="relative z-10 px-6 pb-10 pt-safe-top">
-        {/* Logo */}
-        <div className="flex flex-col items-center pt-4 pb-2">
-          <TornooMark size={90} />
-          <div className="text-center mt-4">
-            <div className="font-black text-[46px] leading-none tracking-[-0.045em] text-ink">Tornoo</div>
-            <div className="mt-1 font-bold text-[16px]">
-              <span className="text-tornoo-green">{t.taglineGreen}</span>{" "}
-              <span className="text-tornoo-orange">{t.taglineOrange}</span>
-            </div>
+        {/* Logo — compact, confident */}
+        <div className="flex items-center justify-between pt-4">
+          <TornooMark size={44} />
+          <div className="flex items-center gap-3">
+            {LANGS.map(({ code, label }, i) => (
+              <div key={code} className="flex items-center gap-3">
+                {i > 0 && <span className="w-px h-3 bg-line" />}
+                <button
+                  type="button"
+                  onClick={() => setLang(code)}
+                  className={`text-xs font-bold transition-colors ${lang === code ? "text-ink" : "text-ink-4"}`}
+                >
+                  {label}
+                </button>
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Welcome */}
-        <div className="text-center mt-10">
-          <h1 className="text-[30px] font-black text-ink">{t.welcome}</h1>
-          <p className="mt-2 text-ink-3 font-semibold text-sm max-w-[280px] mx-auto leading-relaxed whitespace-pre-line">
+        <div className="mt-12">
+          <p className="section-eyebrow mb-2">Tornoo</p>
+          <h1 className="text-[32px] font-black text-ink leading-tight tracking-[-0.02em]">{t.welcome}</h1>
+          <p className="mt-2.5 text-ink-3 font-medium text-[15px] leading-relaxed max-w-[300px]">
             {t.authSub}
           </p>
         </div>
@@ -144,9 +152,9 @@ export default function LoginPage() {
         </button>
 
         {/* Separator */}
-        <div className="flex items-center gap-4 my-5">
+        <div className="flex items-center gap-3 my-5">
           <div className="flex-1 h-px bg-line" />
-          <span className="text-xs font-bold text-ink-3">ou</span>
+          <span className="text-[11px] font-extrabold text-ink-4 tracking-widest uppercase">ou</span>
           <div className="flex-1 h-px bg-line" />
         </div>
 
@@ -178,23 +186,7 @@ export default function LoginPage() {
           {t.proSpace} · {t.proRegister}
         </Link>
 
-        {/* Language */}
-        <div className="flex justify-center items-center gap-4 mt-5 pb-2">
-          {LANGS.map(({ code, label }, i) => (
-            <div key={code} className="flex items-center gap-4">
-              {i > 0 && <span className="w-px h-4 bg-line" />}
-              <button
-                type="button"
-                onClick={() => setLang(code)}
-                className={`text-sm font-bold transition-colors ${
-                  lang === code ? "text-ink" : "text-ink-3"
-                }`}
-              >
-                {label}
-              </button>
-            </div>
-          ))}
-        </div>
+        <div className="pb-2" />
       </div>
     </div>
   );

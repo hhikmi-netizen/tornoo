@@ -40,7 +40,7 @@ export default function ForgotPasswordPage() {
 
         {!sent ? (
           <>
-            <div className="mt-8 flex items-center gap-3 bg-white rounded-[14px] px-4 h-14 border border-line">
+            <div className="input-ring mt-8 flex items-center gap-3 bg-white rounded-[14px] px-4 h-14 border border-line transition-all">
               <Envelope weight="duotone" size={19} className="text-ink-3 shrink-0" />
               <input
                 type="email"

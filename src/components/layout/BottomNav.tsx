@@ -49,19 +49,21 @@ export function BottomNav() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex flex-col items-center gap-0.5 min-w-[56px] py-1",
-                "text-xs font-bold transition-colors",
+                "flex flex-col items-center gap-0.5 min-w-[56px] py-1 transition-colors",
+                "text-xs font-bold",
                 isActive ? "text-tornoo-green" : "text-ink-3"
               )}
               aria-current={isActive ? "page" : undefined}
             >
               <div className={cn(
-                "w-11 h-7 rounded-full flex items-center justify-center transition-colors",
-                isActive && "bg-tornoo-green/12"
+                "w-12 h-7 rounded-full flex items-center justify-center transition-all duration-200",
+                isActive
+                  ? "bg-tornoo-green/[0.14] shadow-[0_0_0_1px_rgba(7,152,74,0.18)]"
+                  : ""
               )}>
                 <Icon size={22} weight={isActive ? "fill" : "regular"} />
               </div>
-              <span>{item.label}</span>
+              <span className={isActive ? "font-extrabold" : ""}>{item.label}</span>
             </Link>
           );
         })}

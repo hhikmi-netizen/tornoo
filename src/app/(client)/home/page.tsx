@@ -146,23 +146,24 @@ export default function HomePage() {
 
         {/* Quick links */}
         <motion.div custom={activeTicket ? 3 : 2} variants={fadeUp} initial="hidden" animate="show"
-          className="grid grid-cols-4 gap-3"
+          className="grid grid-cols-4 gap-2.5"
         >
           {[
-            { label: t.history,       icon: ClockCounterClockwise, href: "/profile/history",   color: "#2563eb", bg: "#eff6ff" },
-            { label: t.myTickets,     icon: Ticket,                href: "/ticket/current",    color: "#07984a", bg: "#e4f6ec" },
-            { label: t.notifications, icon: Bell,                  href: "/notifications",     color: "#ff9300", bg: "#fff1de" },
-            { label: "Carte",         icon: MapTrifold,            href: "/map",               color: "#0891b2", bg: "#e0f7fa" },
-          ].map(({ label, icon: Icon, href, color, bg }) => (
+            { label: t.history,       icon: ClockCounterClockwise, href: "/profile/history",   color: "#2563eb", bg: "#eff6ff", ring: "#dbeafe" },
+            { label: t.myTickets,     icon: Ticket,                href: "/ticket/current",    color: "#07984a", bg: "#e4f6ec", ring: "#b6e6c9" },
+            { label: t.notifications, icon: Bell,                  href: "/notifications",     color: "#ff9300", bg: "#fff1de", ring: "#ffd9a6" },
+            { label: t.map,           icon: MapTrifold,            href: "/map",               color: "#0891b2", bg: "#e0f7fa", ring: "#a5f3fc" },
+          ].map(({ label, icon: Icon, href, color, bg, ring }) => (
             <Link
               key={label}
               href={href}
-              className="flex flex-col items-center gap-2 bg-white rounded-[18px] p-3 border border-line shadow-1"
+              className="flex flex-col items-center gap-1.5 bg-white rounded-[18px] py-3.5 px-2 border active:scale-[0.95] transition-transform"
+              style={{ borderColor: ring }}
             >
-              <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: bg }}>
-                <Icon size={18} weight="duotone" style={{ color }} />
+              <div className="w-9 h-9 rounded-2xl flex items-center justify-center" style={{ background: bg }}>
+                <Icon size={17} weight="duotone" style={{ color }} />
               </div>
-              <span className="text-[10px] font-bold text-ink-2 text-center leading-tight">{label}</span>
+              <span className="text-[10px] font-extrabold text-ink-2 text-center leading-tight">{label}</span>
             </Link>
           ))}
         </motion.div>
@@ -171,7 +172,10 @@ export default function HomePage() {
         {favorites.length > 0 && (
           <motion.section custom={activeTicket ? 4 : 3} variants={fadeUp} initial="hidden" animate="show">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-xl font-black text-ink">{t.myFavorites}</h2>
+              <div>
+                <p className="section-eyebrow mb-0.5">{t.saved}</p>
+                <h2 className="text-xl font-black text-ink leading-none">{t.myFavorites}</h2>
+              </div>
               <Link href="/favorites" className="text-sm font-bold text-tornoo-green flex items-center gap-0.5">
                 {t.seeAll} <CaretRight weight="bold" size={14} />
               </Link>
@@ -187,31 +191,40 @@ export default function HomePage() {
         {/* Populaires */}
         <motion.section custom={activeTicket ? 5 : 4} variants={fadeUp} initial="hidden" animate="show">
           <div className="flex items-center justify-between mb-3 gap-3">
-            <h2 className="text-xl font-black text-ink">{t.popular}</h2>
+            <div>
+              <p className="section-eyebrow mb-0.5">{t.aroundMe}</p>
+              <h2 className="text-xl font-black text-ink leading-none">{t.popular}</h2>
+            </div>
             <Link href="/search" className="text-sm font-bold text-tornoo-green flex items-center gap-0.5 shrink-0">
               {t.seeAll} <CaretRight weight="bold" size={14} />
             </Link>
           </div>
 
-          {/* Category chips */}
+          {/* Category chips — sliding pill indicator */}
           <div className="relative -mx-4">
-            <div className="flex gap-2 overflow-x-auto scrollbar-none px-4 pb-3">
+            <div className="flex gap-1.5 overflow-x-auto scrollbar-none px-4 pb-3">
               {CATEGORIES.map(({ label, emoji }) => (
                 <button
                   key={label}
                   onClick={() => setActiveCategory(label)}
-                  className={`shrink-0 h-9 px-4 rounded-full text-sm font-bold flex items-center gap-1.5 transition-colors ${
-                    activeCategory === label
-                      ? "bg-tornoo-green text-white shadow-[0_2px_12px_rgba(7,152,74,.3)]"
-                      : "bg-surface-2 text-ink-2 border border-line"
-                  }`}
+                  className="shrink-0 relative h-9 px-4 rounded-full text-sm font-bold flex items-center gap-1.5 transition-colors"
                 >
-                  <span className="text-[13px]">{emoji}</span>
-                  {label}
+                  {activeCategory === label && (
+                    <motion.span
+                      layoutId="cat-pill"
+                      className="absolute inset-0 rounded-full bg-tornoo-green"
+                      style={{ boxShadow: "0 2px 14px rgba(7,152,74,.32)" }}
+                      transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                    />
+                  )}
+                  <span className={`relative z-10 flex items-center gap-1.5 transition-colors ${activeCategory === label ? "text-white" : "text-ink-2"}`}>
+                    <span className="text-[13px]">{emoji}</span>
+                    {label}
+                  </span>
                 </button>
               ))}
             </div>
-            <div className="pointer-events-none absolute right-0 top-0 bottom-3 w-8 bg-gradient-to-l from-white to-transparent" />
+            <div className="pointer-events-none absolute right-0 top-0 bottom-3 w-10 bg-gradient-to-l from-white to-transparent" />
           </div>
 
           {isLoading ? (

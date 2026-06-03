@@ -71,7 +71,7 @@ export default function EstablishmentPage() {
   return (
     <div className="bg-white min-h-svh">
       {/* Hero */}
-      <div className="relative h-64">
+      <div className="relative h-[300px]">
         <ImageWithFallback
           src={e.imageUrl}
           alt={e.name}
@@ -194,14 +194,31 @@ export default function EstablishmentPage() {
         {/* Services */}
         {e.services.length > 0 && (
           <section>
-            <h2 className="text-xl font-black text-ink mb-3">{t.services}</h2>
-            <div className="space-y-2">
-              {e.services.map((s) => (
-                <div key={s.id} className="bg-white rounded-[18px] px-4 py-3 flex items-center justify-between border border-line">
-                  <span className="font-bold text-ink">{s.name}</span>
-                  <div className="flex items-center gap-3 text-sm text-ink-3">
-                    <span className="flex items-center gap-1"><Clock weight="duotone" size={13} />{s.durationMinutes} min</span>
-                    {s.price && <span className="font-bold text-ink">{s.price} {s.currency}</span>}
+            <div className="mb-3">
+              <p className="section-eyebrow mb-0.5">{t.offered}</p>
+              <h2 className="text-xl font-black text-ink leading-none">{t.services}</h2>
+            </div>
+            <div className="bg-white rounded-[22px] border border-line overflow-hidden shadow-1">
+              {e.services.map((s, i) => (
+                <div
+                  key={s.id}
+                  className={`px-4 py-4 flex items-center justify-between ${i < e.services.length - 1 ? "border-b border-line" : ""}`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-low-bg flex items-center justify-center shrink-0">
+                      <span className="text-xs font-black text-tornoo-green">{i + 1}</span>
+                    </div>
+                    <span className="font-bold text-ink">{s.name}</span>
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <span className="flex items-center gap-1 text-xs font-medium text-ink-3">
+                      <Clock weight="duotone" size={12} />{s.durationMinutes} min
+                    </span>
+                    {s.price && (
+                      <span className="text-sm font-black text-ink bg-surface-2 px-2.5 py-1 rounded-full">
+                        {s.price} {s.currency}
+                      </span>
+                    )}
                   </div>
                 </div>
               ))}
@@ -258,15 +275,22 @@ export default function EstablishmentPage() {
 
       {/* CTA bottom */}
       {e.waitLevel !== "high" && (
-        <div className="fixed bottom-20 left-0 right-0 px-4 max-w-lg mx-auto">
+        <div className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-line/50 px-4 pt-3 pb-safe-bottom max-w-lg mx-auto">
           <Link
             href={`/confirm?from=${e.slug}`}
             className="flex items-center justify-center gap-2 h-14 rounded-[15px] font-extrabold text-white w-full active:scale-[0.98] transition-transform"
-            style={{ background: e.waitLevel === "low" ? "#07984a" : "#ff9300", boxShadow: "0 4px 20px rgba(7,152,74,.3)" }}
+            style={{
+              background: e.waitLevel === "low"
+                ? "linear-gradient(135deg,#07984a,#13b45b)"
+                : "linear-gradient(135deg,#ff9300,#ffb000)",
+              boxShadow: e.waitLevel === "low"
+                ? "0 4px 20px rgba(7,152,74,.35)"
+                : "0 4px 20px rgba(255,147,0,.35)"
+            }}
           >
             {t.takeTurn}
           </Link>
-          <p className="text-center text-xs text-ink-3 mt-2">{t.freeCancel}</p>
+          <p className="text-center text-xs text-ink-3 mt-2 mb-1">{t.freeCancel}</p>
         </div>
       )}
     </div>

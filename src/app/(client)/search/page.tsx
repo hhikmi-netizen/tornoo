@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 import { MagnifyingGlass, X, Faders } from "@phosphor-icons/react";
 import { EstablishmentCard } from "@/components/tornoo/EstablishmentCard";
 import { WaitDot } from "@/components/tornoo/WaitBadge";
@@ -61,7 +62,7 @@ export default function SearchPage() {
 
         {/* Search input */}
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2 flex-1 bg-surface-2 rounded-[14px] px-4 h-12 border border-line">
+          <div className="input-ring flex items-center gap-2 flex-1 bg-surface-2 rounded-[14px] px-4 h-12 border border-line transition-all">
             <MagnifyingGlass weight="bold" size={17} className="text-ink-3 shrink-0" />
             <input
               type="search"
@@ -83,22 +84,28 @@ export default function SearchPage() {
           </button>
         </div>
 
-        {/* Category chips */}
+        {/* Category chips — sliding pill indicator */}
         <div className="relative -mx-4">
-          <div className="flex gap-2 overflow-x-auto scrollbar-none px-4 pb-1">
+          <div className="flex gap-1.5 overflow-x-auto scrollbar-none px-4 pb-1">
             {CATEGORIES.map((cat) => {
               const label = cat.label[lang as keyof typeof cat.label] ?? cat.label.fr;
               return (
                 <button
                   key={cat.code}
                   onClick={() => setActiveCategory(cat.code)}
-                  className={`shrink-0 h-8 px-4 rounded-full text-sm font-bold transition-colors ${
-                    activeCategory === cat.code
-                      ? "bg-tornoo-green text-white"
-                      : "bg-surface-2 text-ink-2 border border-line"
-                  }`}
+                  className="shrink-0 relative h-8 px-4 rounded-full text-sm font-bold flex items-center transition-colors"
                 >
-                  {label}
+                  {activeCategory === cat.code && (
+                    <motion.span
+                      layoutId="search-cat-pill"
+                      className="absolute inset-0 rounded-full bg-tornoo-green"
+                      style={{ boxShadow: "0 2px 14px rgba(7,152,74,.32)" }}
+                      transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                    />
+                  )}
+                  <span className={`relative z-10 transition-colors ${activeCategory === cat.code ? "text-white" : "text-ink-2"}`}>
+                    {label}
+                  </span>
                 </button>
               );
             })}

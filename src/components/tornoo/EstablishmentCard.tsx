@@ -47,7 +47,13 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
         </div>
         <h3 className="mt-2 font-extrabold text-sm text-ink leading-tight line-clamp-1">{e.name}</h3>
         <p className="text-xs text-ink-3 mt-0.5 line-clamp-1">{e.city}</p>
-        <WaitBadge minutes={e.waitMinutes} level={e.waitLevel} size="sm" className="mt-2" />
+        <span
+          className="mt-2 inline-flex items-center gap-1 h-6 px-2.5 rounded-full text-xs font-black"
+          style={{ background: bgColor, color: fgColor }}
+        >
+          <span className="w-1 h-1 rounded-full" style={{ background: fgColor }} />
+          {e.waitMinutes < 60 ? `${e.waitMinutes} min` : `${Math.floor(e.waitMinutes / 60)}h`}
+        </span>
       </Link>
     );
   }
@@ -99,13 +105,14 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
           <span className="text-xs font-bold text-ink-2">{e.rating}</span>
           <span className="text-xs text-ink-3">({e.reviewCount} {t.reviews})</span>
         </div>
-        <div className="mt-2.5 flex items-center justify-between bg-surface-2 rounded-xl px-3 py-2">
-          <div>
-            <p className="text-xs text-ink-3">{t.waitEstimate}</p>
-            <p className="text-lg font-black leading-tight" style={{ color: e.waitLevel === "low" ? "#07984a" : e.waitLevel === "mod" ? "#ff9300" : "#ef2b24" }}>
-              {e.waitMinutes < 60 ? `${e.waitMinutes} min` : `${Math.floor(e.waitMinutes / 60)}h${e.waitMinutes % 60 || ""}`}
-            </p>
-          </div>
+        <div className="mt-3 flex items-center justify-between gap-2">
+          <span
+            className="inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-sm font-black shrink-0"
+            style={{ background: bgColor, color: fgColor }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: fgColor }} />
+            {e.waitMinutes < 60 ? `${e.waitMinutes} min` : `${Math.floor(e.waitMinutes / 60)}h${e.waitMinutes % 60 || ""}`}
+          </span>
           <TurnButton establishment={e} />
         </div>
       </div>

@@ -54,6 +54,8 @@
   --animate-slide-up: slideUp 0.4s ease-out;
   --animate-shimmer: shimmer 1.5s infinite;
   --animate-progress: progress 2s ease-out;
+  --animate-float: float 3.2s ease-in-out infinite;
+  --animate-breathe: breathe 2.4s ease-in-out infinite;
 
   @keyframes fadeIn {
     from { opacity: 0; }
@@ -70,6 +72,14 @@
   @keyframes progress {
     from { width: 0%; }
     to { width: 100%; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.85; }
   }
 }
 
@@ -138,4 +148,24 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  /* Premium focus ring — apply to any input wrapper */
+  .input-ring:focus-within {
+    border-color: rgba(7,152,74,0.45) !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(7,152,74,0.12), 0 1px 3px rgba(20,24,33,0.08) !important;
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  }
+
+  /* Eyebrow label for section headers */
+  .section-eyebrow {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-tornoo-green);
+  }
+
+  .animate-float { animation: var(--animate-float); }
+  .animate-breathe { animation: var(--animate-breathe); }
 }
