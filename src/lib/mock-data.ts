@@ -15,7 +15,7 @@ export const MOCK_ESTABLISHMENTS: Establishment[] = [
     waitLevel: "low",
     isOpen: true,
     openHours: "09:00 - 21:00",
-    imageUrl: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?q=80&w=900&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=82&w=900&auto=format&fit=crop",
     phone: "+212 6 12 34 56 78",
     email: "contact@barberclub.ma",
     website: "barberclub.ma",
@@ -88,7 +88,7 @@ export const MOCK_ESTABLISHMENTS: Establishment[] = [
     waitLevel: "mod",
     isOpen: true,
     openHours: "08:30 - 16:30",
-    imageUrl: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=900&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1486325212027-8081e485255e?q=82&w=900&auto=format&fit=crop",
     phone: "+212 5 22 27 00 00",
     verified: true,
     services: [
@@ -112,7 +112,7 @@ export const MOCK_ESTABLISHMENTS: Establishment[] = [
     waitLevel: "low",
     isOpen: true,
     openHours: "08:00 - 23:00",
-    imageUrl: "https://images.unsplash.com/photo-1563213126-a4273aed2016?q=80&w=900&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?q=82&w=900&auto=format&fit=crop",
     phone: "+212 5 22 98 10 20",
     verified: true,
     services: [

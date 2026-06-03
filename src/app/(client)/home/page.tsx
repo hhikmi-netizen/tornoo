@@ -13,6 +13,7 @@ import { useI18n } from "@/i18n/context";
 import { api } from "@/services/api";
 import { gsap } from "@/lib/gsap";
 import { MOCK_USER } from "@/lib/mock-data";
+import { USER_AVATAR_URL, IMG_SIZES } from "@/lib/image-config";
 import { WaitDot } from "@/components/tornoo/WaitBadge";
 
 const fadeUp = {
@@ -80,10 +81,12 @@ export default function HomePage() {
             </Link>
             <Link href="/profile" className="w-10 h-10 rounded-full bg-surface-2 overflow-hidden border border-line" aria-label={t.profile}>
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
-                alt="Avatar"
+                src={USER_AVATAR_URL}
+                alt={MOCK_USER.name}
                 width={40}
                 height={40}
+                sizes={IMG_SIZES.avatar}
+                priority
                 className="w-full h-full object-cover"
                 fallback={
                   <div className="w-full h-full flex items-center justify-center bg-low-bg">
@@ -97,8 +100,36 @@ export default function HomePage() {
       </div>
 
       <div className="px-4 max-w-lg mx-auto pb-6 pt-4 space-y-5">
-        {/* MagnifyingGlass bar */}
+        {/* Hero Banner */}
         <motion.div custom={0} variants={fadeUp} initial="hidden" animate="show">
+          <div className="relative overflow-hidden rounded-[22px] bg-grad-navy px-5 py-5">
+            <div className="pointer-events-none absolute inset-0"
+                 style={{ background: "radial-gradient(ellipse 70% 90% at 100% 0%, rgba(7,152,74,.25) 0%, transparent 65%)" }} />
+            <div className="pointer-events-none absolute inset-0"
+                 style={{ background: "radial-gradient(ellipse 50% 70% at 0% 100%, rgba(247,196,0,.1) 0%, transparent 70%)" }} />
+            <p className="section-eyebrow text-tornoo-green relative z-10">Casablanca · maintenant</p>
+            <h2 className="text-[22px] font-black text-white mt-1 leading-tight relative z-10">
+              Fini l&apos;attente<br />inutile
+            </h2>
+            <div className="flex gap-2 mt-4 relative z-10">
+              {[
+                { label: "5 min",  sub: "Barber Club",  color: "#07984a" },
+                { label: "25 min", sub: "Spa Marina",   color: "#ff9300" },
+                { label: "3 min",  sub: "Pharmacie",    color: "#07984a" },
+              ].map(({ label, sub, color }) => (
+                <div key={sub}
+                     className="flex-1 rounded-xl px-2.5 py-2"
+                     style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.1)" }}>
+                  <p className="text-sm font-black" style={{ color }}>{label}</p>
+                  <p className="text-[10px] text-white/50 truncate">{sub}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* MagnifyingGlass bar */}
+        <motion.div custom={1} variants={fadeUp} initial="hidden" animate="show">
           <Link
             href="/search"
             className="flex items-center gap-3 bg-surface-2 rounded-[14px] px-4 h-14 border border-line shadow-1"
@@ -110,7 +141,7 @@ export default function HomePage() {
         </motion.div>
 
         {/* Location */}
-        <motion.div custom={1} variants={fadeUp} initial="hidden" animate="show"
+        <motion.div custom={2} variants={fadeUp} initial="hidden" animate="show"
           className="flex items-center gap-3 bg-surface-2 rounded-[14px] px-4 h-12 border border-line"
         >
           <MapPin weight="duotone" size={16} className="text-tornoo-green shrink-0" />
@@ -122,7 +153,7 @@ export default function HomePage() {
 
         {/* Active ticket banner */}
         {activeTicket && (
-          <motion.div custom={2} variants={fadeUp} initial="hidden" animate="show">
+          <motion.div custom={3} variants={fadeUp} initial="hidden" animate="show">
             <Link
               href={`/my-turn?from=${activeTicket.establishmentSlug}`}
               className="flex items-center gap-3 bg-grad-navy rounded-[18px] px-4 py-3.5 text-white shadow-[0_4px_20px_rgba(6,24,25,.3)]"
@@ -148,7 +179,7 @@ export default function HomePage() {
         )}
 
         {/* Quick links */}
-        <motion.div custom={activeTicket ? 3 : 2} variants={fadeUp} initial="hidden" animate="show"
+        <motion.div custom={activeTicket ? 4 : 3} variants={fadeUp} initial="hidden" animate="show"
           className="grid grid-cols-4 gap-2.5"
         >
           {[
@@ -173,7 +204,7 @@ export default function HomePage() {
 
         {/* Favoris */}
         {favorites.length > 0 && (
-          <motion.section custom={activeTicket ? 4 : 3} variants={fadeUp} initial="hidden" animate="show">
+          <motion.section custom={activeTicket ? 5 : 4} variants={fadeUp} initial="hidden" animate="show">
             <div className="flex items-center justify-between mb-3">
               <div>
                 <p className="section-eyebrow mb-0.5">{t.saved}</p>
@@ -192,7 +223,7 @@ export default function HomePage() {
         )}
 
         {/* Populaires */}
-        <motion.section custom={activeTicket ? 5 : 4} variants={fadeUp} initial="hidden" animate="show">
+        <motion.section custom={activeTicket ? 6 : 5} variants={fadeUp} initial="hidden" animate="show">
           <div className="flex items-center justify-between mb-3 gap-3">
             <div>
               <p className="section-eyebrow mb-0.5">{t.aroundMe}</p>

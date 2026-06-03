@@ -5,6 +5,7 @@ import { MapPin, Star, CheckCircle } from "@phosphor-icons/react";
 import { TurnButton } from "./TurnButton";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { cn } from "@/lib/utils";
+import { IMG_SIZES } from "@/lib/image-config";
 import type { Establishment } from "@/types";
 import { useI18n } from "@/i18n/context";
 
@@ -36,6 +37,7 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
             alt={e.name}
             width={64}
             height={64}
+            sizes={IMG_SIZES.cardCompact}
             className="w-full h-full object-cover"
             fallback={
               <div className="w-full h-full flex items-center justify-center" style={{ background: bgColor }}>
@@ -73,6 +75,7 @@ export function EstablishmentCard({ establishment: e, variant = "row", className
           alt={e.name}
           width={96}
           height={96}
+          sizes={IMG_SIZES.cardRow}
           className="w-full h-full object-cover"
           fallback={
             <div className="w-full h-full flex items-center justify-center" style={{ background: bgColor }}>

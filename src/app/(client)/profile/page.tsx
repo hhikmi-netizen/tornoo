@@ -8,6 +8,7 @@ import {
 import { useI18n } from "@/i18n/context";
 import { TornooLogo } from "@/components/tornoo/TornooLogo";
 import { MOCK_USER } from "@/lib/mock-data";
+import { USER_AVATAR_URL, IMG_SIZES } from "@/lib/image-config";
 import type { Lang } from "@/types";
 
 const MENU_ITEMS = [
@@ -45,10 +46,12 @@ export default function ProfilePage() {
           >
             <div className="w-full h-full rounded-full overflow-hidden bg-surface-2 border-2 border-white">
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
-                alt="Avatar"
+                src={USER_AVATAR_URL}
+                alt={MOCK_USER.name}
                 width={66}
                 height={66}
+                sizes={IMG_SIZES.avatarLg}
+                priority
                 className="w-full h-full object-cover"
                 fallback={
                   <div className="w-full h-full flex items-center justify-center bg-low-bg">

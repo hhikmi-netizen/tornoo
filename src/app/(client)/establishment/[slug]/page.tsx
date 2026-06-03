@@ -14,6 +14,7 @@ import { useToast } from "@/components/ui/Toast";
 import { api } from "@/services/api";
 import { formatWaitTime } from "@/lib/utils";
 import { MOCK_USER } from "@/lib/mock-data";
+import { IMG_SIZES } from "@/lib/image-config";
 import { useI18n } from "@/i18n/context";
 
 export default function EstablishmentPage() {
@@ -99,6 +100,7 @@ export default function EstablishmentPage() {
             src={e.imageUrl}
             alt={e.name}
             fill
+            sizes={IMG_SIZES.heroFull}
             className="object-cover"
             priority
             fallback={
@@ -155,6 +157,7 @@ export default function EstablishmentPage() {
               alt=""
               width={80}
               height={80}
+              sizes={IMG_SIZES.heroThumb}
               className="w-full h-full object-cover"
               fallback={
                 <div className="w-full h-full flex items-center justify-center" style={{ background: heroBg }}>
