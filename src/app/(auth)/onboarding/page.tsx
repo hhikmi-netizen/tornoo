@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { gsap } from "@/lib/gsap";
+import { TornooMark } from "@/components/tornoo/TornooLogo";
 
 /* ── Animated Illustrations ── */
 
@@ -245,9 +246,7 @@ export default function OnboardingPage() {
     <div className="bg-white min-h-svh flex flex-col overflow-hidden">
       {/* Skip */}
       <div className="flex items-center justify-between pt-safe-top px-6 pb-2">
-        <div className="w-8 h-8 rounded-full flex items-center justify-center">
-          <span className="font-black text-ink text-base">T</span>
-        </div>
+        <TornooMark size={32} />
         <button
           onClick={() => { localStorage.setItem("tornoo_onboarded", "1"); router.replace("/login"); }}
           className="h-8 px-4 rounded-full bg-surface-2 border border-line text-xs font-extrabold text-ink-2 active:opacity-60 transition-opacity"
