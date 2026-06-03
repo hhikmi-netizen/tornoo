@@ -8,6 +8,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { api } from "@/services/api";
 import { MOCK_ESTABLISHMENTS } from "@/lib/mock-data";
 import { useI18n } from "@/i18n/context";
+import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 
 export default function ProQueuesPage() {
   const { t } = useI18n();
@@ -49,12 +50,18 @@ export default function ProQueuesPage() {
         <div className="mt-6">
           <p className="text-white font-black text-sm">{t.todayStats}</p>
           <div className="grid grid-cols-3 gap-3 mt-3">
-            {stats.map(({ value, label }) => (
-              <div key={label} className="p-3 rounded-2xl bg-white/10 text-center">
-                <p className="text-2xl font-black text-white">{value}</p>
-                <p className="text-xs text-white/60 mt-0.5">{label}</p>
-              </div>
-            ))}
+            <div className="p-3 rounded-2xl bg-white/10 text-center">
+              <AnimatedNumber value={ticketsIssued} duration={1.1} delay={0.1} className="text-2xl font-black text-white block" />
+              <p className="text-xs text-white/60 mt-0.5">{t.ticketsIssued}</p>
+            </div>
+            <div className="p-3 rounded-2xl bg-white/10 text-center">
+              <AnimatedNumber value={servedTotal} duration={1.0} delay={0.2} className="text-2xl font-black text-white block" />
+              <p className="text-xs text-white/60 mt-0.5">{t.served}</p>
+            </div>
+            <div className="p-3 rounded-2xl bg-white/10 text-center">
+              <AnimatedNumber value={queues.reduce((a, q) => a + q.waitingCount, 0)} duration={0.8} delay={0.3} className="text-2xl font-black text-white block" />
+              <p className="text-xs text-white/60 mt-0.5">{t.waiting}</p>
+            </div>
           </div>
         </div>
       </div>
