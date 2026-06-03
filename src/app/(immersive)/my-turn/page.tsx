@@ -71,7 +71,7 @@ export default function MyTurnPage() {
           <h1 className="font-black text-base text-ink">Tornoo</h1>
           <div className="flex items-center justify-center gap-1.5 text-xs text-ink-3">
             <WaitDot level="low" size={7} />
-            <span>Position en temps réel</span>
+            <span>{t.position} · {t.realtimeQueue}</span>
           </div>
         </div>
         <div className="flex gap-2">

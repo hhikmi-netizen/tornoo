@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { CaretLeft, User, Envelope, Lock, Eye, EyeSlash, Phone } from "@phosphor-icons/react";
 import { TornooMark } from "@/components/tornoo/TornooLogo";
 import { useToast } from "@/components/ui/Toast";
+import { useI18n } from "@/i18n/context";
 
 function Field({
   icon: Icon,
@@ -39,6 +40,7 @@ function Field({
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { t } = useI18n();
   const { toast } = useToast();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -58,7 +60,7 @@ export default function RegisterPage() {
       <div className="px-5 pt-safe-top pb-10">
         <button onClick={() => router.back()} className="flex items-center gap-1.5 mt-2 text-ink-2 font-bold">
           <CaretLeft weight="bold" size={20} />
-          <span>Retour</span>
+          <span>{t.back}</span>
         </button>
 
         <motion.div
