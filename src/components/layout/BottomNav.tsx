@@ -2,19 +2,21 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { House, MagnifyingGlass, MapTrifold, Heart, User, QrCode } from "@phosphor-icons/react";
+import { House, MagnifyingGlass, MapTrifold, User, QrCode } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
-
-const NAV_ITEMS = [
-  { label: "Accueil", icon: House, href: "/home" },
-  { label: "Recherche", icon: MagnifyingGlass, href: "/search" },
-  { label: "", icon: QrCode, href: "/scan", isScan: true },
-  { label: "Carte", icon: MapTrifold, href: "/map" },
-  { label: "Compte", icon: User, href: "/profile" },
-];
+import { useI18n } from "@/i18n/context";
 
 export function BottomNav() {
   const pathname = usePathname();
+  const { t } = useI18n();
+
+  const NAV_ITEMS = [
+    { label: t.home,    icon: House,           href: "/home" },
+    { label: t.search,  icon: MagnifyingGlass, href: "/search" },
+    { label: "",        icon: QrCode,          href: "/scan", isScan: true },
+    { label: t.map,     icon: MapTrifold,      href: "/map" },
+    { label: t.account, icon: User,            href: "/profile" },
+  ];
 
   return (
     <nav

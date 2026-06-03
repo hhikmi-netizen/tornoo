@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { CaretLeft, Bell, Ticket, Tag, Info } from "@phosphor-icons/react";
+import { useI18n } from "@/i18n/context";
 import { motion, AnimatePresence } from "framer-motion";
 import { api } from "@/services/api";
 import type { Notification } from "@/types";
@@ -30,6 +31,7 @@ const typeColor: Record<Notification["type"], string> = {
 
 export default function NotificationsPage() {
   const router = useRouter();
+  const { t } = useI18n();
   const { data: notifications = [], isLoading } = useQuery({
     queryKey: ["notifications"],
     queryFn: () => api.notifications.list(),
@@ -61,7 +63,7 @@ export default function NotificationsPage() {
         >
           <CaretLeft weight="bold" size={20} />
         </button>
-        <h1 className="flex-1 text-xl font-black text-ink">Notifications</h1>
+        <h1 className="flex-1 text-xl font-black text-ink">{t.notifications}</h1>
         <AnimatePresence>
           {unreadCount > 0 && (
             <motion.button
@@ -71,7 +73,7 @@ export default function NotificationsPage() {
               onClick={markAllRead}
               className="text-sm font-bold text-tornoo-green"
             >
-              Tout marquer
+              {t.markAll}
             </motion.button>
           )}
         </AnimatePresence>
