@@ -28,6 +28,11 @@ const CATEGORIES = [
   { label: "Admin", emoji: "🏛️" },
   { label: "Bien-être", emoji: "🌿" },
   { label: "Pharmacie", emoji: "💊" },
+  { label: "Cliniques", emoji: "🏨" },
+  { label: "Dentistes", emoji: "🦷" },
+  { label: "Laboratoires", emoji: "🔬" },
+  { label: "Garages", emoji: "🔧" },
+  { label: "Lavage auto", emoji: "🚗" },
 ];
 
 export default function HomePage() {

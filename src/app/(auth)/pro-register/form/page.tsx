@@ -126,8 +126,10 @@ function StepEtab({ data, setData }: { data: Record<string, string>; setData: (d
   const set = (k: string) => (v: string) => setData({ ...data, [k]: v });
 
   const categories = [
-    "Coiffure & Barbier", "Bien-être & Spa", "Santé & Médecine", "Restauration",
-    "Banque & Finances", "Administration", "Sport & Fitness", "Autre",
+    "Coiffure & Barbier", "Bien-être & Spa", "Santé & Médecine", "Cliniques",
+    "Dentistes", "Laboratoires", "Pharmacie", "Restauration",
+    "Banque & Finances", "Administration", "Sport & Fitness",
+    "Garages", "Lavage auto", "Autre",
   ];
 
   return (

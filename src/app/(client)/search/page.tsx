@@ -13,12 +13,17 @@ import { useI18n } from "@/i18n/context";
 import { gsap } from "@/lib/gsap";
 
 const CATEGORIES = [
-  { code: "Tout",           label: { fr: "Tout",           ar: "الكل",              en: "All"      } },
-  { code: "Coiffure",       label: { fr: "Coiffure",       ar: "تصفيف الشعر",       en: "Hair"     } },
-  { code: "Santé",          label: { fr: "Santé",          ar: "صحة",               en: "Health"   } },
-  { code: "Administration", label: { fr: "Admin",          ar: "إدارة",             en: "Admin"    } },
-  { code: "Bien-être",      label: { fr: "Bien-être",      ar: "عافية",             en: "Wellness" } },
-  { code: "Pharmacie",      label: { fr: "Pharmacie",      ar: "صيدلية",            en: "Pharmacy" } },
+  { code: "Tout",           label: { fr: "Tout",           ar: "الكل",              en: "All"         } },
+  { code: "Coiffure",       label: { fr: "Coiffure",       ar: "تصفيف الشعر",       en: "Hair"        } },
+  { code: "Santé",          label: { fr: "Santé",          ar: "صحة",               en: "Health"      } },
+  { code: "Administration", label: { fr: "Admin",          ar: "إدارة",             en: "Admin"       } },
+  { code: "Bien-être",      label: { fr: "Bien-être",      ar: "عافية",             en: "Wellness"    } },
+  { code: "Pharmacie",      label: { fr: "Pharmacie",      ar: "صيدلية",            en: "Pharmacy"    } },
+  { code: "Cliniques",      label: { fr: "Cliniques",      ar: "عيادات",            en: "Clinics"     } },
+  { code: "Dentistes",      label: { fr: "Dentistes",      ar: "أطباء الأسنان",     en: "Dentists"    } },
+  { code: "Laboratoires",   label: { fr: "Laboratoires",   ar: "مختبرات",           en: "Labs"        } },
+  { code: "Garages",        label: { fr: "Garages",        ar: "كراجات",            en: "Garages"     } },
+  { code: "Lavage auto",    label: { fr: "Lavage auto",    ar: "غسيل السيارات",     en: "Car wash"    } },
 ];
 
 function FilterSheet({
